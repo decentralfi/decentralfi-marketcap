@@ -1,0 +1,327 @@
+<div class="operations-wrapper send" fxFlex="100" fxLayout="column">
+  <!-- Main -->
+  <div fxLayout="column" *ngIf="!showConfirm && !swapConfirmed">
+    <!-- SEND -->
+    <div
+      class="send-usd-value"
+      fxLayout="row"
+      fxLayoutAlign="space-between end"
+    >
+      <div fxLayout="row" fxLayoutAlign="start end">
+        <div class="title_modal">{{ "operations.swap.send" | translate }}</div>
+        <div class="text_currency">
+          {{ inputUsdValueIn | currency }}
+        </div>
+      </div>
+      <div class="title_modal">{{ assetUnitInHint }}</div>
+      <div>
+        <div fxLayout="column" fxLayoutAlign="end end">
+          <span class="title_modal"
+            >{{ "operations.swap.balance" | translate }}: {{ balanceIn | number: "0.0-4" }}</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="select-amount-wrapper">
+      <div class="select-field" fxLayout="column">
+        <button mat-raised-button class="asset-button" (click)="setAsset('in')">
+          <img
+            src="{{ assetIn.iconPath }}"
+            alt="TOKEN IN"
+            width="32px"
+            onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+          />
+          <mat-icon class="expand-icon">expand_more</mat-icon>
+        </button>
+      </div>
+
+      <div class="amount-field" fxFlex fxLayout="column wrap">
+        <!-- SEND FORM -->
+        <form
+          class="content_input-amount"
+          fxLayoutAlign="center center"
+          [formGroup]="assetUnitInForm"
+        >
+          <input
+            class="input_assets-amount"
+            type="text"
+            name="send"
+            fxFlex="100"
+            maxlength="14"
+            [(ngModel)]="assetUnitInLabel"
+            (ngModelChange)="updateAssetUnits($event)"
+            currencyMask
+            formControlName="amount"
+            [options]="amountOptions"
+          />
+          <button mat-raised-button class="max-button" (click)="setMax()">
+            MAX
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!--SLIDER -->
+
+    <div
+      class="switch-slider"
+      fxFlex="100"
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between center"
+    >
+      <div fxFlex fxLayout="column">
+        <!-- <mat-slider
+            max="100"
+            min="0"
+            step="1"
+            thumbLabel="true"
+            [displayWith]="formatLabel"
+            aria-label="unit(s)"
+            [(ngModel)]="assetUnitInPerc"
+            (click)="calculateAssetUnits(assetUnitInPerc)"
+          ></mat-slider> -->
+        <app-slider
+          [valueToBind]="assetUnitInPerc"
+          (sliderValueChanged)="calculateAssetUnits($event)"
+        ></app-slider>
+        <div class="switch-percent" fxLayoutAlign="space-between center">
+          <div>0%</div>
+          <div>100%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECIPIENT -->
+    <div
+      class="send-usd-value"
+      fxLayout="row"
+      fxLayoutAlign="space-between end"
+    >
+      <div fxLayout="row" fxLayoutAlign="start end">
+        <div class="title_modal" fxLayout="row" fxLayoutAlign="start end">
+          {{ "operations.swap.send_modal.recipient" | translate }}
+          <div class="invalidRecipent" *ngIf="isValidRecipentValue == false">
+            &nbsp;{{ "operations.swap.send_modal.invalid_address" | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="select-amount-wrapper" fxLayout="row">
+      <div class="amount-field only-input" fxLayout="column">
+        <form class="content_input-amount">
+          <input
+            class="input_assets-amount only-input send"
+            name="recipient"
+            [(ngModel)]="recipientInput"
+            (ngModelChange)="isValidRecipent($event)"
+          />
+        </form>
+      </div>
+    </div>
+
+    <!-- MEMO -->
+    <div
+      class="send-usd-value"
+      fxLayout="row"
+      fxLayoutAlign="space-between end"
+    >
+      <div fxLayout="row" fxLayoutAlign="start end">
+        <div class="title_modal">{{ "operations.swap.send_modal.memo" | translate }}</div>
+      </div>
+    </div>
+    <div class="select-amount-wrapper" fxLayout="row">
+      <div class="amount-field only-input" fxLayout="column">
+        <form class="content_input-amount">
+          <input
+            class="input_assets-amount only-input"
+            name="recipient"
+            [(ngModel)]="memoInput"
+          />
+        </form>
+      </div>
+    </div>
+
+    <!-- TRANSACTION DETAILS -->
+
+    <div class="fees" fxLayout="row wrap" fxLayoutAlign="center center">
+      <div fxLayout="row" fxLayoutAlign="end center" fxFlex="100">
+        <div fxLayout="row" (click)="toogleFeeDetails()">
+          <a
+            >{{ this.showFeeDetails == false ? ("operations.swap.fee_toggle.view" | translate) : ("operations.swap.fee_toggle.hide" |
+            translate) }}</a
+          >
+          <mat-icon class="expand-icon">expand_more</mat-icon>
+        </div>
+      </div>
+
+      <div
+        class="details"
+        fxLayout="column"
+        *ngIf="showFeeDetails === true"
+        fxFlex="80"
+      >
+        <div
+          class="fee-item"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+        >
+          <div>{{ "operations.swap.fee_resume.fee" | translate:assetIn }}:</div>
+          <div>
+            {{ networkFeeIn | number: "0.0-6" }}
+            {{ assetIn.ticker === "RUNE" ? assetIn.ticker : assetIn.chain }} ({{
+              totalFeeUSD | currency: "USD":"symbol":"0.0-2"
+            }})
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SWAP BUTTON -->
+
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start">
+      <button
+        mat-raised-button
+        class="swap-button"
+        [class]="getSwapBtnClass()"
+        (click)="confirmSend()"
+      >
+        <span class="swap-label">{{ "operations.swap.buttons.send" | translate }}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="64 64 896 896"
+          focusable="false"
+          data-icon="swap"
+          width="1.5rem"
+          height="1.5rem"
+          aria-hidden="true"
+        >
+          <path
+            d="M847.9 592H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h605.2L612.9 851c-4.1 5.2-.4 13 6.3 13h72.5c4.9 0 9.5-2.2 12.6-6.1l168.8-214.1c16.5-21 1.6-51.8-25.2-51.8zM872 356H266.8l144.3-183c4.1-5.2.4-13-6.3-13h-72.5c-4.9 0-9.5 2.2-12.6 6.1L150.9 380.2c-16.5 21-1.6 51.8 25.1 51.8h696c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 2 STEP -->
+
+  <div fxLayout="column" *ngIf="showConfirm && !swapConfirmed">
+    <div class="send-usd-value" fxLayout="row" fxLayoutAlign="start end">
+      <div class="title_modal">{{ "operations.swap.send" | translate }}</div>
+      <div class="text_currency">
+        {{ inputUsdValueIn | currency }}
+      </div>
+    </div>
+    <div class="select-amount-wrapper">
+      <div class="select-field" fxLayout="column">
+        <button mat-raised-button class="asset-button">
+          <img
+            src="{{ assetIn.iconPath }}"
+            alt="TOKEN IN"
+            width="32px"
+            onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+          />
+        </button>
+      </div>
+
+      <div class="amount-field" fxFlex fxLayout="column wrap">
+        <!-- SEND FORM -->
+
+        <form class="content_input-amount" fxLayoutAlign="center center">
+          <input
+            class="input_assets-amount"
+            type="text"
+            name="send"
+            fxFlex="100"
+            maxlength="30"
+            [(ngModel)]="assetUnitInLabel"
+            readonly
+          />
+        </form>
+
+        <!--<span class="hint text_modal">{{ assetUnitInHint }}</span>-->
+      </div>
+    </div>
+    <br />
+    <div class="send-usd-value" fxLayout="row" fxLayoutAlign="start end">
+      <div class="title_modal">{{ "operations.swap.send_modal.to_recipient" | translate }}</div>
+    </div>
+    <div class="select-amount-wrapper" fxLayout="row">
+      <div class="amount-field only-input" fxLayout="column">
+        <form class="content_input-amount">
+          <input
+            class="input_assets-amount only-input"
+            name="recived"
+            [(ngModel)]="recipientInput"
+            readonly
+          />
+        </form>
+      </div>
+    </div>
+    <br />
+    <div class="send-usd-value" fxLayout="row" fxLayoutAlign="start end" *ngIf="memoInput.length > 0">
+      <div class="title_modal">{{ "operations.swap.send_modal.with_memo" | translate }}</div>
+    </div>
+    <div
+      class="select-amount-wrapper"
+      fxLayout="row"
+      *ngIf="memoInput.length > 0"
+    >
+      <div class="amount-field only-input" fxLayout="column">
+        <form class="content_input-amount">
+          <input
+            class="input_assets-amount only-input"
+            name="recived"
+            [(ngModel)]="memoInput"
+            readonly
+          />
+        </form>
+      </div>
+    </div>
+
+    <!-- TOTAL FEE -->
+
+    <div
+      class="fee-detail"
+      fxLayout="column"
+      fxLayoutAlign="space-evenly center"
+    >
+      <div class="title">{{ "operations.swap.fee_resume.total_fee" | translate }}</div>
+      <div class="detail">
+        <span>
+          {{ networkFeeIn | number: "0.0-6" }}
+          {{ assetIn.ticker === "RUNE" ? assetIn.ticker : assetIn.chain }}
+        </span>
+      </div>
+    </div>
+
+    <div
+      class="confirm-swap-button"
+      fxFlex="100"
+      fxLayout="row wrap"
+      fxLayoutAlign="center start"
+      fxLayoutGap="25px"
+    >
+      <button mat-raised-button class="back button_modal" (click)="backSend()">
+        <span class="swap-label">{{ "operations.swap.buttons.back" | translate }}</span>
+      </button>
+      <button mat-raised-button class="swap button_modal" (click)="send()">
+        <span class="swap-label">{{ "operations.swap.buttons.confirm.send" | translate }}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="64 64 896 896"
+          focusable="false"
+          data-icon="swap"
+          width="1.5rem"
+          height="1.5rem"
+          aria-hidden="true"
+        >
+          <path
+            d="M847.9 592H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h605.2L612.9 851c-4.1 5.2-.4 13 6.3 13h72.5c4.9 0 9.5-2.2 12.6-6.1l168.8-214.1c16.5-21 1.6-51.8-25.2-51.8zM872 356H266.8l144.3-183c4.1-5.2.4-13-6.3-13h-72.5c-4.9 0-9.5 2.2-12.6 6.1L150.9 380.2c-16.5 21-1.6 51.8 25.1 51.8h696c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

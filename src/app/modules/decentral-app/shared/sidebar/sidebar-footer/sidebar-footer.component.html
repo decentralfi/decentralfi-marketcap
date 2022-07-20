@@ -1,0 +1,102 @@
+<mat-toolbar class="sidebar-footer-toolbar" fxLayout="column" fxLayoutAlign="start center">
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <mat-form-field class="sidebar-currency-select" appearance="outline" color="accent">
+      <mat-select [(value)]="currencyValue" panelClass="currency-select-panel">
+        <mat-select-trigger>
+          <img src="../../../../assets/icons/currency.svg" alt="currency" /> {{currencyName}}
+        </mat-select-trigger>
+        <mat-option *ngFor="let currency of currencies" value="{{currency.label}}" (click)="selectCurrency(currency.label,currency.value)">
+          {{currency.label}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <button mat-raised-button class="wallet-button mobile" (click)="addWallet()" *ngIf="addresses.length == 0">
+      <span class="add-wallet-button-label">Add wallet</span>
+      <mat-icon class="add-wallet-icon">account_balance_wallet</mat-icon>
+    </button>
+    <mat-form-field class="wallet-select mobile" appearance="outline" color="accent" *ngIf="addresses.length > 0">
+      <!--<mat-select [(value)]="selectedWallet" [panelClass]="getWalletPanelClass()">-->
+      <mat-select value="1" [panelClass]="getWalletPanelClass()" disableRipple>
+        <mat-select-trigger>
+          <div fxLayout="row wrap" fxLayoutAlign="center center">
+            <!--<div fxFlex="85" fxLayoutAlign="center center">{{selectedWalletLabel}}</div>-->
+            <div fxFlex="85" fxLayoutAlign="center center">Wallets</div>
+            <mat-icon class="add-wallet-icon" fxFlex="15">account_balance_wallet</mat-icon>
+          </div>
+        </mat-select-trigger>
+        <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+          <mat-option fxFlex="45" value="1" (click)="addWallet()" class="add-option" matRipple>
+              <div>Add Wallet&nbsp;</div>
+              <mat-icon [inline]="true">add_circle</mat-icon>
+          </mat-option>
+          <mat-option fxFlex="45" value="1" class="edit-option" (click)="editWallet()"matRipple>
+              <div>Edit Wallets&nbsp;</div>
+              <mat-icon [inline]="true">border_color</mat-icon>
+          </mat-option>
+      </div>
+      <mat-option *ngFor="let address of addresses" value="{{address.address}}">
+          <div fxLayout="row" fxFlex="100">
+              <div class="address-template" fxLayout="column" fxLayoutAlign="center start" fxFlex="70" (click)="selectWallet(address)">
+                  <div class="chain-title" fxLayout="row" fxLayoutAlign="start center">
+                      <img src="../../../../../assets/icons/xdefi.png" alt="xfi" width="14" *ngIf="address.type == 'xdefi'" matTooltip="xDefi Wallet">
+                      <mat-icon *ngIf="address.type == 'manual'" matTooltip="Manual input">keyboard</mat-icon>
+                      <img src="../../../../../assets/icons/walletconnect.png" alt="walletconnect" width="14" *ngIf="address.type == 'walletconnect'" matTooltip="walletconnect">
+                      &nbsp;{{address.chain}} Address
+                  </div>
+                  <div class="address-label" fxLayout="row" fxLayoutAlign="center center">
+                      <img src="{{address.logo}}" alt="{{address.chain}}" onerror='this.src="https://unpkg.com/cryptoicons-cdn@0.1.22/images/RUNE.png"' loading="lazy" />
+                      <div class="address">{{address.mask}}</div>
+                  </div>
+              </div>
+              <div class="icons" fxFlex="30" fxLayoutAlign="center center">
+                  <mat-icon matRipple (click)="copy(address.address)">content_copy</mat-icon>
+                  <mat-icon matRipple (click)="launch(address)">launch</mat-icon>
+              </div>
+          </div>
+      </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <mat-slide-toggle [class]="getNetworkClass()" (click)="selectNetwork()" color="primary" [(ngModel)]="networkToggle" matTooltip="Toggle slide to change between Singlechain Chaosnet and Multichain Chaosnet">
+    </mat-slide-toggle>
+  </div>
+  <div fxLayout="row">
+  <div fxLayout="column" fxLayoutAlign="start center" class="misc">
+  <div fxLayout="row" fxLayoutAlign="space-between" class="footer-help">
+    <a [routerLink]="['/app/faq']" (click)="goTo()">
+      <fa-icon [icon]="faQuestionCircle"></fa-icon>
+    </a>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between" class="footer-social">
+    <a href="https://twitter.com/decentralfi" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+        width="15" height="15"
+        viewBox="0 0 172 172"
+        style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M157.66667,28.6595c-5.59,3.31817 -16.80583,7.84033 -23.39917,9.14467c-0.1935,0.05017 -0.35117,0.11467 -0.5375,0.16483c-5.8265,-5.74767 -13.81017,-9.3095 -22.64667,-9.3095c-17.80917,0 -32.25,14.44083 -32.25,32.25c0,0.93883 -0.07883,2.666 0,3.58333c-24.02983,0 -42.31917,-12.58467 -55.43417,-28.66667c-1.42617,3.58333 -2.04967,9.245 -2.04967,14.56267c0,10.0405 7.8475,19.90183 20.06667,26.015c-2.25033,0.5805 -4.73,0.99617 -7.31,0.99617c-4.16383,0 -8.57133,-1.0965 -12.60617,-4.42183c0,0.12183 0,0.2365 0,0.3655c0,14.03233 14.89233,23.5855 28.13633,26.24433c-2.6875,1.58383 -8.1055,1.7415 -10.75,1.7415c-1.86333,0 -8.45667,-0.85283 -10.21967,-1.1825c3.68367,11.5025 16.97067,17.96683 29.63417,18.19617c-9.90433,7.76867 -16.77717,10.64967 -37.05883,10.64967h-6.90867c12.814,8.213 29.1325,14.3405 45.48683,14.3405c53.24833,0 83.51317,-40.58483 83.51317,-78.8405c0,-0.61633 -0.01433,-1.90633 -0.03583,-3.2035c0,-0.129 0.03583,-0.25083 0.03583,-0.37983c0,-0.1935 -0.05733,-0.37983 -0.05733,-0.57333c-0.0215,-0.97467 -0.043,-1.88483 -0.0645,-2.35783c5.66167,-4.085 10.57083,-9.1805 14.45517,-14.9855c-5.19583,2.30767 -10.7715,3.85567 -16.62667,4.558c5.977,-3.58333 14.4695,-12.126 16.62667,-18.89133z"></path></g></g>
+      </svg>
+    </a>
+    &nbsp;
+    <a href="https://t.me/decentralfi" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+        width="15" height="15"
+        viewBox="0 0 172 172"
+        style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M158.71128,22.53888c-2.58,-2.18784 -6.63232,-2.50088 -10.82224,-0.81872h-0.00688c-4.40664,1.76816 -124.73784,53.38192 -129.6364,55.49064c-0.89096,0.3096 -8.67224,3.21296 -7.87072,9.68016c0.71552,5.8308 6.96944,8.24568 7.73312,8.52432l30.59192,10.4748c2.0296,6.75616 9.5116,31.6824 11.16624,37.00752c1.032,3.3196 2.71416,7.68152 5.66224,8.57936c2.58688,0.9976 5.16,0.086 6.82496,-1.2212l18.70328,-17.34792l30.19288,23.5468l0.71896,0.43c2.05024,0.90816 4.01448,1.36224 5.88928,1.36224c1.44824,0 2.838,-0.27176 4.16584,-0.81528c4.5236,-1.8576 6.33304,-6.16792 6.52224,-6.6564l22.55264,-117.22488c1.376,-6.2608 -0.53664,-9.44624 -2.38736,-11.01144zM75.68,110.08l-10.32,27.52l-10.32,-34.4l79.12,-58.48z"></path></g></g>
+      </svg>
+    </a>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center" class="footer-copyright">
+    <span><mat-icon>copyright</mat-icon> DecentralFi</span>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="start center" class="footer-conditions">
+    <span><a href="https://medium.com/thorchain/thorchain-chaosnet-risk-outline-c16db4b78df7" target="_blank">Know the Risks</a></span>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="center center" class="app-version">
+    <span>Beta Version</span>
+    <span>20201022</span>
+  </div>
+</div>
+</div>
+</mat-toolbar>

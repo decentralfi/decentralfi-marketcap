@@ -1,0 +1,11 @@
+@media screen and (min-width: 920px) {
+  .div-responsive {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 920px) {
+  .div-responsive {
+    padding-bottom: 1rem !important;
+  }
+}

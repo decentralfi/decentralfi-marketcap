@@ -1,0 +1,72 @@
+//colors
+$dcf-main-background: #0b3a4b;
+$dcf-menus-background: #06232c;
+$dcf-cards-background: #0c4f67;
+$dcf-cards-background-hover: rgba(12, 80, 105, 0.6);
+$dcf-cards-color: #ececec;
+$dcf-last-updated: #ececec;
+$dcf-table-border: #0b3a4b;
+$dcf-table-font: #ececec;
+$dcf-paginator-background: #0b3a4b;
+$dcf-paginator-range-label: #ececec;
+$dcf-paginator-pagesize-back: #0c4f67;
+$dcf-filter-label: #ececec;
+$dcf-filter-input-font: #ececec;
+$dcf-filter-input-background: #0c4f67;
+$dcf-information-icon: #ececec;
+$dcf-status-inefficient: rgb(28, 72, 14);
+$dcf-status-overbonded: rgb(53, 105, 36);
+$dcf-status-optimal: rgb(103, 157, 85);
+$dcf-status-underbonded: rgb(241, 56, 56);
+$dcf-status-unsafe: rgb(186, 0, 0);
+$dcf-blue: #20a8d8;
+$dcf-blue-birght: #63c2de;
+$dcf-purple: #be29e2;
+$dcf-light-blue: #0c4f67;
+$dcf-orange: #ff9500;
+$dcf-white: #ffffff;
+$dcf-grey: #808080;
+$dcf-light-grey: #abafb3;
+$dcf-lightest-grey: #f0f0f0;
+$dcf-loader-background: rgb(11, 58, 75, 1);
+$dcf-coming-soon-background: rgb(11, 58, 75, 0.6);
+$dcf-disabled-paginator: rgba(0, 0, 0, 0.26);
+$dcf-wallet-resume-value: #20a8d8;
+$dcf-collebtibles: #0c4f67;
+$dcf-pending-txs: #0c4f67;
+$dcf-theme-toggle: #0c4f67;
+$dcf-theme-toggle-img: url("../icons/theme/sunny-black.svg");
+$dcf-theme-toggle-img-pos: 8% 50%;
+
+/*TRANSACTIONS MODULE*/
+$dcf-transactions-background: transparent
+  linear-gradient(180deg, #103d3e 0%, #154e507c 40%, #00000000 70%) 0% 0%
+  no-repeat padding-box;
+$dcf-transactions-background-size: 150% 150%;
+$dcf-transactions-main-background: #0b3a4b;
+$dcf-wallet-connect-backdrop-light: rgb(99, 194, 222, 0.6);
+$dcf-wallet-connect-backdrop-dark: rgb(11, 58, 75, 0.6);
+$dcf-wallet-connect-panel-light: #ffffff;
+$dcf-wallet-connect-panel-dark: #0c4f67;
+$dcf-wallet-connect-panel-font-light: #20a8d8;
+$dcf-wallet-connect-panel-font-dark: #ececec;
+$dcf-wallet-connect-panel-row-light: #aee8fa;
+$dcf-wallet-connect-panel-row-dark: #36687a;
+$dcf-wallet-yes-button-light: #ffffff;
+$dcf-wallet-yes-button-dark: #0b3a4b;
+$dcf-wallet-yes-button-font-light: #808080;
+$dcf-wallet-yes-button-font-dark: #ffffff;
+$dcf-wallet-back-button: #0c4f67;
+$dcf-wallet-back-button-font: #ffffff;
+
+/**LIQUIDITY COMPONENT**/
+$dcf-liquidity-pool-title: #0c4f67;
+$dcf-liquidity-background: transparent
+  linear-gradient(180deg, #103d3e 0%, #154e50 40%, #000000 70%) 0% 0% no-repeat
+  padding-box;
+$dcf-liquidity-background-size: 150% 150%;
+/**COOKIES MSG COMPONENT**/
+$dcf-cookies-msg-background: transparent
+  linear-gradient(180deg, #103d3e 0%, #154e50ea 40%, #000000ec 70%) 0% 0%
+  no-repeat padding-box;
+$dcf-cookies-msg-background-size: 150% 150%;

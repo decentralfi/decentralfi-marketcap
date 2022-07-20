@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+/*@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "../node_modules/gridstack/dist/gridstack.min.css";
+@import "../node_modules/gridstack/dist/gridstack-extra.css";*/
+
+/* main theme file*/
+@import "./assets/theme/palettes/light.scss";
+@import "./assets/theme/theme.scss";
+
+.light-theme {
+  @import "./assets/theme/palettes/light.scss";
+  @import "./assets/theme/theme.scss";
+}
+
+.dark-theme {
+  @import "./assets/theme/palettes/dark.scss";
+  @import "./assets/theme/theme.scss";
+  //background: #0b3a4b !important;
+}

@@ -1,0 +1,529 @@
+<div
+  class="header marketcap"
+  fxLayout="row"
+  fxLayoutAlign="space-between center"
+>
+  <div
+    fxLayout="column"
+    fxLayout.gt-md="row"
+    fxLayout.md="row"
+    fxLayoutAlign="center start"
+    fxLayoutAlign.gt-md="center center"
+    fxLayoutAlign.md="center center"
+    fxFlexOffset="5"
+    fxFlexOffset.gt-md="8"
+    fxFlexOffset.md="8"
+  >
+    <a (click)="logout()"
+      ><img
+        src="../../../../assets/images/{{ logoFile }}"
+        alt="logo"
+        loading="lazy"
+    /></a>
+    <span class="dex-nav">{{ assetLabel }}</span>
+  </div>
+  <div
+    class="wallet-connect"
+    fxLayout="row wrap"
+    fxLayoutAlign="end center"
+    fxFlex
+  >
+    <!-- <mat-form-field class="currency-select" appearance="outline" color="accent">
+      <mat-select [(value)]="networkValue" panelClass="currency-select-panel">
+        <mat-select-trigger>
+          {{ networkLabel }}
+        </mat-select-trigger>
+        <mat-option
+          *ngFor="let network of networks"
+          value="{{ network.value }}"
+          (click)="selectNetwork(network.label, network.value)"
+        >
+          {{ network.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field> -->
+
+    <mat-slide-toggle
+      [class]="getShowHideClass()"
+      (click)="selectShowHide()"
+      color="primary"
+      [(ngModel)]="showHideToggle"
+      matTooltip="Toggle slide to hide wallet Amounts"
+    >
+    </mat-slide-toggle>
+    <mat-form-field class="status-select" appearance="outline" color="accent">
+      <mat-select
+        [(value)]="statusValue"
+        panelClass="status-select-panel"
+        disableRipple
+      >
+        <mat-select-trigger>
+          <div [class]="getOverallHealthStatus()"></div>
+        </mat-select-trigger>
+        <mat-option *ngFor="let status of statuses" value="{{ status.label }}">
+          <div fxLayout="row wrap">
+            <div fxFlex="10" fxLayoutAlign="center center">
+              <div
+                [class]="
+                  status.status == true ? 'status-dot green' : 'status-dot red'
+                "
+              ></div>
+            </div>
+            <div fxFlex fxLayout="column" fxLayoutAlign="center center">
+              <div class="status-label">{{ status.label }}</div>
+              <div class="status-value">{{ status.value }}</div>
+            </div>
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      class="marketcap-button desktop"
+      fxFlex.gt-md="20"
+      fxFlex.md="20"
+      (click)="goToDashboard()"
+    >
+      <img
+        src="../../../../assets/icons/marketcap.svg"
+        style="font-size: 2rem !important; height: 33px; width: 30px"
+        alt="marketcap"
+      />
+      <span class="add-wallet-button-label">{{ "header.dashboard_button" | translate }}</span>
+    </button>
+    <div
+      class="connect-button"
+      fxLayoutAlign="center center"
+      *ngIf="!addresses || addresses.length == 0"
+    >
+      <button
+        mat-raised-button
+        class="wallet-button desktop"
+        (click)="addWallet()"
+      >
+        <mat-icon class="add-wallet-icon">account_balance_wallet</mat-icon>
+        <span class="add-wallet-button-label">{{ "header.connect_wallet.title" | translate }}</span>
+      </button>
+    </div>
+    <div
+      class="connected-button desktop"
+      fxLayoutAlign="center center"
+      *ngIf="addresses && addresses.length > 0"
+    >
+      <!--<button mat-raised-button class="forget-button" (click)="forgetWallet()">
+        <span class="forget-wallet-button-label">Desconnect Wallet</span>
+      </button>-->
+      <mat-form-field
+        class="wallet-select desktop"
+        appearance="outline"
+        color="accent"
+      >
+        <!--<mat-select [(value)]="selectedWallet" [panelClass]="getWalletPanelClass()">-->
+        <mat-select
+          value="1"
+          [panelClass]="getWalletPanelClass()"
+          disableRipple
+        >
+          <mat-select-trigger>
+            <div fxLayout="row wrap" fxLayoutAlign="center center">
+              <div
+                fxFlex="85"
+                fxLayoutAlign="center center"
+                *ngIf="!selectedWalletLabel"
+              >
+                {{ "header.connect_wallet.connected.title" | translate }}
+              </div>
+              <div
+                fxFlex="85"
+                fxLayoutAlign="center center"
+                *ngIf="selectedWalletLabel"
+              >
+                {{ selectedWalletLabel }}
+              </div>
+              <mat-icon class="add-wallet-icon" fxFlex="15"
+                >account_balance_wallet</mat-icon
+              >
+            </div>
+          </mat-select-trigger>
+
+          <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+            <mat-option
+              fxFlex="45"
+              value="1"
+              (click)="addWallet()"
+              class="add-option"
+              matRipple
+            >
+              <div>{{ "header.connect_wallet.connected.add" | translate }}&nbsp;</div>
+              <mat-icon [inline]="true">add_circle</mat-icon>
+            </mat-option>
+
+            <mat-option
+              fxFlex="45"
+              value="1"
+              class="edit-option"
+              (click)="editWallet()"
+              matRipple
+            >
+              <div>{{ "header.connect_wallet.connected.edit" | translate }}&nbsp;</div>
+              <mat-icon [inline]="true">border_color</mat-icon>
+            </mat-option>
+
+            <mat-option
+              fxFlex="100"
+              value="1"
+              class="edit-option"
+              (click)="openPending()"
+              matRipple
+            >
+              <div>{{ "header.connect_wallet.connected.pending" | translate }}&nbsp;</div>
+              <mat-icon [inline]="true">pending</mat-icon>
+            </mat-option>
+          </div>
+          <mat-option
+            *ngFor="let address of addresses"
+            value="{{ address.address }}"
+          >
+            <div fxLayout="row" fxFlex="100">
+              <div
+                class="address-template"
+                fxLayout="column"
+                fxLayoutAlign="center start"
+                fxFlex="70"
+                (click)="selectWallet(address)"
+              >
+                <div
+                  class="chain-title"
+                  fxLayout="row"
+                  fxLayoutAlign="start center"
+                >
+                  <img
+                    src="../../../../../assets/icons/xdefi.png"
+                    alt="xfi"
+                    width="14"
+                    *ngIf="address.type == 'xdefi'"
+                    matTooltip="xDefi Wallet"
+                  />
+                  <mat-icon
+                    *ngIf="address.type == 'manual'"
+                    matTooltip="Manual input"
+                    >keyboard</mat-icon
+                  >
+                  <mat-icon
+                    *ngIf="address.type == 'keystore'"
+                    matTooltip="Keystore File"
+                    >vpn_key</mat-icon
+                  >
+                  <img
+                    src="../../../../../assets/icons/walletconnect.png"
+                    alt="walletconnect"
+                    width="14"
+                    *ngIf="address.type == 'walletconnect'"
+                    matTooltip="walletconnect"
+                  />
+                  &nbsp;{{ "header.connect_wallet.connected.address" | translate:address }}
+                </div>
+                <div
+                  class="address-label"
+                  fxLayout="row"
+                  fxLayoutAlign="center center"
+                >
+                  <img
+                    src="{{ address.logo }}"
+                    alt="{{ address.chain }}"
+                    onerror='this.src="https://unpkg.com/cryptoicons-cdn@0.1.22/images/RUNE.png"'
+                    loading="lazy"
+                  />
+                  <div class="address">
+                    {{ address.mask }} ({{ getSimbol()
+                    }}{{
+                      showHideToggle
+                        ? (address.totalBalance | roundedValue)
+                        : "****"
+                    }})
+                  </div>
+                </div>
+              </div>
+              <div class="icons" fxFlex="30" fxLayoutAlign="center center">
+                <mat-icon matRipple (click)="copy(address.address)"
+                  >content_copy</mat-icon
+                >
+                <mat-icon matRipple (click)="launch(address)">launch</mat-icon>
+              </div>
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-form-field class="currency-select" appearance="outline" color="accent">
+      <mat-select [(value)]="currencyValue" panelClass="currency-select-panel">
+        <mat-select-trigger>
+          <img
+            src="../../../../assets/icons/currency.svg"
+            alt="currency"
+            width="20px"
+            loading="lazy"
+            loading="lazy"
+          />
+          {{ currencyName }}
+        </mat-select-trigger>
+        <mat-option
+          *ngFor="let currency of currencies"
+          value="{{ currency.label }}"
+          (click)="selectCurrency(currency.label, currency.value)"
+        >
+          {{ currency.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field
+      class="lang-select"
+      appearance="outline"
+      color="accent"
+    >
+      <mat-select [(value)]="language" [panelClass]="langPanelClass">
+        <mat-select-trigger>
+          {{ language }}
+        </mat-select-trigger>
+        <mat-option
+          *ngFor="let lang of languages"
+          value="{{ lang }}"
+          (click)="setLang(lang)"
+        >
+          {{ lang }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-slide-toggle
+      class="theme-toggle"
+      color="primary"
+      (click)="setTheme()"
+      [(ngModel)]="isToggle"
+    >
+    </mat-slide-toggle>
+  </div>
+  <div fxFlex="3" fxFlex.gt-md="8" fxFlex.md="8">&nbsp;</div>
+</div>
+
+<div
+  class="header marketcap div-responsive"
+  fxLayout="row wrap"
+  fxLayoutAlign="center center"
+>
+  <div
+    fxLayout="row wrap"
+    class="action-buttons"
+    fxFlex="90"
+    fxLayoutAlign="space-between center"
+  >
+    <mat-form-field
+      appearance="outline"
+      color="accent"
+      *ngIf="dcf_network == 'testnet'"
+      fxFlex="0 0 100"
+      fxFlex.gt-md="30"
+      fxFlex.md="30"
+    >
+      <mat-select [(value)]="networkValue" panelClass="currency-select-panel">
+        <mat-select-trigger>
+          <span style="color: white">{{ networkLabel }}</span>
+        </mat-select-trigger>
+        <mat-option
+          *ngFor="let network of networks"
+          value="{{ network.value }}"
+          (click)="selectNetwork(network.label, network.value)"
+        >
+          {{ network.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      class="marketcap-button"
+      fxFlex="0 0 47"
+      fxFlex.gt-md="30"
+      fxFlex.md="30"
+      (click)="goToDashboard()"
+    >
+      <img
+        src="../../../../assets/icons/marketcap.svg"
+        style="font-size: 2rem !important; height: 31px; width: 28px"
+        alt="marketcap"
+      />
+      <span class="add-wallet-button-label">Go to Dashboard</span>
+    </button>
+
+    <mat-form-field
+      appearance="outline"
+      color="accent"
+      fxFlex="0 0 47"
+      fxFlex.gt-md="30"
+      fxFlex.md="30"
+    >
+      <mat-select [(value)]="currencyValue" panelClass="currency-select-panel">
+        <mat-select-trigger>
+          <img
+            src="../../../../assets/icons/currency.svg"
+            alt="currency"
+            width="20px"
+            loading="lazy"
+            loading="lazy"
+          />
+          <span style="color: white"> {{ currencyName }} </span>
+        </mat-select-trigger>
+        <mat-option
+          *ngFor="let currency of currencies"
+          value="{{ currency.label }}"
+          (click)="selectCurrency(currency.label, currency.value)"
+        >
+          {{ currency.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      class="wallet-button"
+      fxFlex="0 0 100"
+      fxFlex.gt-md="30"
+      fxFlex.md="30"
+      (click)="addWallet()"
+      *ngIf="!addresses || addresses.length == 0"
+    >
+      <mat-icon class="add-wallet-icon">account_balance_wallet</mat-icon>
+      <span class="add-wallet-button-label">Connect to a wallet</span>
+    </button>
+
+    <mat-form-field
+      class="wallet-select desktop"
+      appearance="outline"
+      color="accent"
+      fxFlex="0 0 100"
+      fxFlex.gt-md="30"
+      fxFlex.md="30"
+      *ngIf="addresses && addresses.length > 0"
+    >
+      <mat-select value="1" [panelClass]="getWalletPanelClass()" disableRipple>
+        <mat-select-trigger>
+          <div fxLayout="row wrap" fxLayoutAlign="center center">
+            <div
+              fxFlex="85"
+              fxLayoutAlign="center center"
+              *ngIf="!selectedWalletLabel"
+            >
+              Wallets
+            </div>
+            <div
+              fxFlex="85"
+              fxLayoutAlign="center center"
+              *ngIf="selectedWalletLabel"
+            >
+              {{ selectedWalletLabel }}
+            </div>
+            <mat-icon class="add-wallet-icon" fxFlex="15"
+              >account_balance_wallet</mat-icon
+            >
+          </div>
+        </mat-select-trigger>
+        <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+          <mat-option
+            fxFlex="45"
+            value="1"
+            (click)="addWallet()"
+            class="add-option"
+            matRipple
+          >
+            <div>Add&nbsp;</div>
+            <mat-icon [inline]="true">add_circle</mat-icon>
+          </mat-option>
+          <mat-option
+            fxFlex="45"
+            value="1"
+            class="edit-option"
+            (click)="editWallet()"
+            matRipple
+          >
+            <div>Edit&nbsp;</div>
+            <mat-icon [inline]="true">border_color</mat-icon>
+          </mat-option>
+          <mat-option
+            fxFlex="100"
+            value="1"
+            class="edit-option"
+            (click)="openPending()"
+            matRipple
+          >
+            <div>Pending Txs&nbsp;</div>
+            <mat-icon [inline]="true">pending</mat-icon>
+          </mat-option>
+        </div>
+        <mat-option
+          *ngFor="let address of addresses"
+          value="{{ address.address }}"
+        >
+          <div fxLayout="row" fxFlex="100">
+            <div
+              class="address-template"
+              fxLayout="column"
+              fxLayoutAlign="center start"
+              fxFlex="70"
+              (click)="selectWallet(address)"
+            >
+              <div class="chain-title" fxLayoutAlign="start center">
+                <img
+                  src="../../../../../assets/icons/xdefi.png"
+                  alt="xfi"
+                  width="14"
+                  *ngIf="address.type == 'xdefi'"
+                  matTooltip="xDefi Wallet"
+                />
+                <mat-icon
+                  *ngIf="address.type == 'manual'"
+                  matTooltip="Manual input"
+                  >keyboard</mat-icon
+                >
+                <mat-icon
+                  *ngIf="address.type == 'keystore'"
+                  matTooltip="Keystore File"
+                  >vpn_key</mat-icon
+                >
+                <img
+                  src="../../../../../assets/icons/walletconnect.png"
+                  alt="walletconnect"
+                  width="14"
+                  *ngIf="address.type == 'walletconnect'"
+                  matTooltip="walletconnect"
+                />
+                &nbsp;{{ address.chain }} Address
+              </div>
+              <div
+                class="address-label"
+                fxLayout="row"
+                fxLayoutAlign="center center"
+              >
+                <img
+                  src="{{ address.logo }}"
+                  alt="{{ address.chain }}"
+                  onerror='this.src="https://unpkg.com/cryptoicons-cdn@0.1.22/images/RUNE.png"'
+                  loading="lazy"
+                />
+                <div class="address">
+                  {{ address.mask }} ({{ getSimbol()
+                  }}{{ address.totalBalance | roundedValue }})
+                </div>
+              </div>
+            </div>
+            <div class="icons" fxFlex="30" fxLayoutAlign="center center">
+              <mat-icon matRipple (click)="copy(address.address)" [matTooltip]="translation.copy"
+                >content_copy</mat-icon
+              >
+              <mat-icon matRipple (click)="launch(address)" [matTooltip]="translation.view_explorer">launch</mat-icon>
+            </div>
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+<br />

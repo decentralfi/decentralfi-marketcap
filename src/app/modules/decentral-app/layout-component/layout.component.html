@@ -1,0 +1,16 @@
+<app-loader></app-loader>
+<div class="main-layout">
+  <div [class]="sideBarClass">
+    <dcf-sidebar
+      [mobileFlag]="mobileFlag"
+      (toggle)="updateSidebarClass($event)"
+    ></dcf-sidebar>
+  </div>
+  <div [class]="mainColumnClass">
+    <dcf-header
+      (toggle)="updateSidebarClass($event)"
+      (theme)="onSetTheme($event)"
+    ></dcf-header>
+    <router-outlet></router-outlet>
+  </div>
+</div>

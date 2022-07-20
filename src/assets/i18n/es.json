@@ -1,0 +1,454 @@
+{
+  "marketcap": {
+    "volume_paragraph": {
+      "30d": {
+        "p1": "El volumen de los últimos 30 días",
+        "p2": "y",
+        "p3": "intercambios en Thorchain",
+        "volume_title": "Volumen 30d",
+        "swap_title": "Inter. 30d"
+      },
+      "24h": {
+        "p1": "El voluman total en las últimas 24 horas",
+        "p2": "con",
+        "p3": "intercambios",
+        "volume_title": "Volumen 24h",
+        "swap_title": "Inter. 24h"
+      }
+    },
+    "liquidity_search": {
+      "title": "Ve tu liquidez",
+      "placeholder": "Coloca tu direccion aquí...",
+      "button": "Ir"
+    },
+    "wallet_resume": {
+      "title": "Total de activos en tus billeteras",
+      "not_resume": {
+        "p1": "Agrega tus billeteras para ver",
+        "p2": "tu portafolio y posiciones"
+      }
+    },
+    "search_pools": {
+      "placeholder": "Buscar Piscinas..."
+    },
+    "table": {
+      "headers": {
+        "asset": "Activo",
+        "price": "Precio de Piscina",
+        "depth": "Profundidad",
+        "volume": "Volumen 24h",
+        "status": "Estado",
+        "operations": "Operaciones"
+      },
+      "operations_tooltips": {
+        "swap": "Intercambiar Tokens",
+        "add": "Agregar Liquidez",
+        "withdraw": "Extraer de piscina",
+        "send": "Enviar Crypto"
+      },
+      "status":{
+        "available":"Activa",
+        "terminated": "Terminada"
+      },
+      "paginator": "Mostrar",
+      "not_available_pool":"Esta piscina no esta disponible, Por favor seleccione otra piscina"
+    }
+  },
+  "info_bar": {
+    "depth": "Prof. Total",
+    "pools": "Pisc. Activas",
+    "nodes": "Nodos Activos",
+    "bond": "Bono Promedio",
+    "queue": "Cola de Salida",
+    "churn": "Bloques para churn",
+    "volumes": "Volumenes"
+  },
+  "header": {
+    "hide_toggle": "switch para ocultar montos",
+    "copy_msg":"Dirección de billetera ha sido copiada al Portapapeles!",
+    "copy":"Copiar",
+    "view_explorer":"Ver en el Explorardor de Blockchain",
+    "statuses": {
+      "labels": {
+        "BTC": "CADENA BITCOIN",
+        "BNB": "CADENA BINANCE",
+        "BCH": "CADENA BITCOIN CASH",
+        "LTC": "CADENA LITECOIN",
+        "ETH": "CADENA ETHEREUM",
+        "DOGE": "CADENA DOGECOIN"
+      },
+      "status": {
+        "active": "Activo",
+        "halted": "Detenido"
+      }
+    },
+    "dashboard_button": "Ir al Dashboard",
+    "connect_wallet": {
+      "title": "Connectar billetera",
+      "connected":{
+        "title": "Billeteras",
+        "add": "Agregar",
+        "edit": "Editar",
+        "pending": "Txs Pendientes",
+        "address": "Dirección {{chain}}"
+      }
+    }
+  },
+  "footer":{},
+  "operations":{
+    "buttons":{
+      "swap":"INTERCAMBIAR",
+      "add":"AGREGAR LIQUIDEZ",
+      "withdraw":"EXTRAER DE PISCINA",
+      "send":"ENVIAR CRYPTO",
+      "pending":"TXS PENDIENTES"
+    },
+    "select":{
+      "address": "Dirección {{chain}}"
+    },
+    "msg": {
+      "chaosnet": {
+        "p1":"Esta es una version beta. Usar con discreción.",
+        "p2":"Por favor, probar con montos bajos unicamente.",
+        "p3":"Reportar problemas",
+        "p4":"Aquí",
+        "p5":"O probar Testnet primero,"
+      },
+      "testnet": "Usted se encuentra actualmente en Testnet."
+    },
+    "asset_dialog":{
+      "title":"Seleccione un token",
+      "placeholder":"Buscar token",
+      "token_name":"Nombre del Token",
+      "pool_name":"Nombre de la piscina",
+      "pool_type":"Tipo de Piscina",
+      "units":"Unidades de LP",
+      "balance":"Saldo"
+    },
+    "recieve_wallet_dialog":{
+      "title":"Agregar billetera receptora",
+      "address":"Direccion {{chain}}",
+      "import":"Importar",
+      "cancel":"Cancelar",
+      "manual_input":{
+        "select":"Entrada Manual",
+        "placeholder":"Por favor, ingrese billetera",
+        "msg":"Direccion no valida"
+      }
+    },
+    "confirm_dialog":{
+      "title":"Desea continuar?",
+      "no":"No",
+      "yes":"Si"
+    },
+    "swap":{
+      "send":"Envia",
+      "balance": "Saldo",
+      "shared": "Participiacion",
+      "recieve": "Recibe",
+      "in": "en",
+      "eq_after_fees": "Approx equivalente despues de comision",
+      "fee_toggle": {
+        "view": "Ver detalle de comisiones",
+        "hide": "Ocultar detalle de comisiones"
+      },
+      "add_modal":{
+        "sym":"Agregar Simetricamente",
+        "asym":"Agregar Asimetricamente"
+      },
+      "withdraw_modal":{
+        "sym":"Extraer Simetracamente",
+        "asym":"Extraer Asimetricamente",
+        "withdraw":"Extraer",
+        "from":"De",
+        "msgs":{
+          "searching":"Buscando Posiciones de Liquidez",
+          "no_lp":"Usted no posee posicion de Liquidez en esta piscina",
+          "error":"Hubo un error cargando la información de Liquidez"
+        }
+      },
+      "send_modal":{
+        "recipient":"Receptor (requerido)",
+        "invalid_address":"*Invalid address",
+        "memo":"Memo (opcional)",
+        "to_recipient":"a Receptor",
+        "with_memo":"con Memo"
+      },
+      "fee_resume": {
+        "slip": "Slip",
+        "fee": "Comision {{chain}}.{{ticker}}",
+        "aff_fee": "Comision de Afiliado",
+        "share_estimated": "Participacion en piscina Est.",
+        "units": "Unidades de Liquidez",
+        "shared": "Participacion en piscina",
+        "total_fee": "Comision total"
+      },
+      "slippage_check": "Activar proteccion de Slippage",
+      "slippage_bot":{
+        "calculate_msg":"Calculando proteccion de Slippage",
+        "msg":{
+          "applies":"A esta transaccion es posible aplicarle proteccion de slip",
+          "not_applies":"No es posible aplicar proteccion de slip a esta transaccion"
+        },
+        "sp_resume":{
+          "title":"Detalle por transaccion",
+          "w_protection":"Slipagge con proteccion",
+          "wout_protection":"Slipagge sin proteccion",
+          "total_saving":"Total ahorro"
+        }
+      },
+      "buttons":{
+        "swap":"Intercambiar",
+        "add":"Agregar",
+        "withdraw":"Extraer",
+        "send":"Enviar",
+        "back":"Regresar",
+        "confirm":{
+          "swap":"Confirmar Intercambio",
+          "add":"Confirmar Agregar",
+          "withdraw":"Confirmar Extraer",
+          "send":"Confirm Envio"
+        }
+      }
+    },
+    "pending":{
+      "action":{
+        "swap":"INTERCAMBIO",
+        "add":"AGREGAR",
+        "withdraw":"EXTRAER",
+        "send":"ENVIAR",
+        "refund":"REEMBOLSO"
+      },
+      "action_verb":{
+        "swap":"Intercambiaste",
+        "add":"Agregaste",
+        "withdraw":"Extrajiste",
+        "send":"Enviaste",
+        "refund":"Se ha reembolsado"
+      },
+      "status":{
+        "PENDING":"PENDIENTE",
+        "COMPLETE":"COMPLETADO",
+        "REFUNDED":"REEMBOLSADO",
+        "INCOMPLETE":"INCOMPLETO"
+      },
+      "view_tx":"VER TRANSACCION EN",
+      "explorer":"Explorador",
+      "check_lp":"Ver Liquidez",
+      "refund_msg":{
+        "p1":"Algo no ha salido bien al enviar su transacción a la red",
+        "p2":"Su transacción ha sido",
+        "p3":"reembolsada"
+      },
+      "paginator":"Mostrar",
+      "no_pending":"NO SE ENCONTRARON TRANSACCIÓNES"
+    },
+    "confirm_tx":{
+      "title":{
+        "swap":"ESTAS INTERCAMBIANDO",
+        "add":"ESTAS AGREGANDO LIQUIDEZ",
+        "withdraw":"ESTAS EXTRALLENDO LIQUIDEZ",
+        "send":"ESTAS ENVIANDO CRYPTO"
+      },
+      "from":"DE",
+      "to":"A",
+      "to_wallet":"A BILLETERA",
+      "pool":"PISCINA {{ ticker }}",
+      "estimated_minutes":"{{ time }} min para confirmar transaccion",
+      "explorer_link":"VER TRANSACCION EN THORCHAIN",
+      "close": "Cerrar"
+    },
+    "confirm_keystore_tx":{
+      "title":"Ingrese la contraseña de su Keystore para continuar con la transaccion",
+      "placeholder":"Ingrese su contraseña",
+      "error_msgs":{
+        "empty":"La contraseña no puede estar vacia",
+        "invalid":"Contraseña incorrecta"
+      },
+      "cancel": "Cancelar",
+      "confirm": "Confirmar"
+    },
+    "wallet_connect":{
+      "title":"Conectarse a una billetera",
+      "main_menu":{
+        "xdefi":{
+          "connect":"Connectar billetera XDEFI",
+          "install":"Instalar billetera XDEFI"
+        },
+        "keystore":"Archivo Keystore",
+        "create_keystore":"Crear Archivo Keystore",
+        "phrase_import":"Importar Frase Secreta",
+        "manual":"Entrada Manual"
+      },
+      "xdefi":{
+        "sub_title":"Por favor seleccione las billeteras que desea importar de XDEFI",
+        "select_all":"Seleccionar todas las cadenas",
+        "already_imported":"Esta billetera ya fue importada previamente",
+        "msg":"Vaya a la configuración de XDEFI para habilitar este proveedore para asi poder cargarlo. Luego de esto, recargue la pagina e intentelo de nuevo."
+      },
+      "keystore":{
+        "sub_title":"Por favor seleccione las billeteras que desea importar del Keystore",
+        "select_all":"Seleccionar todas las cadenas",
+        "upload_file":"Cargar Archivo Keystore",
+        "password":"Por favor ingrese contraseña",
+        "msgs":{
+          "empty":"la contraseña no puede estar vacia",
+          "invalid":"contraseña invalida",
+          "invalid_keystore":"Archivo Keystore Inválido",
+          "invalid_json":"Archivo JSON Inválido",
+          "no_file":"No se ha seleecionado ningun archivo"
+        }
+      },
+      "keystore_create":{
+        "sub_title":"Ingrese la contraseña y confirmela para proceder con la creacion del archivo Keystore",
+        "password":"Por favor ingrese contraseña",
+        "confirm_password":"Por favor confirme contraseña",
+        "msgs":{
+          "empty":"Ambos campos son requeridos",
+          "invalid":"Las contraseñas no coinciden"
+        }
+      },
+      "phrase_import":{
+        "sub_title":"Ingrese la frase secreta y confirme el password para proceder con la importacion",
+        "phrase":"Por favor ingrese la frase aqui",
+        "password":"Por favor ingrese contraseña",
+        "confirm_password":"Por favor confirme contraseña",
+        "msgs":{
+          "empty":"Todos los campos son requeridos",
+          "invalid_phrase":"Frase secreta invalida",
+          "not_match":"Las contraseñas no coinciden"
+        }
+      },
+      "manual":{
+        "wallet":"Por favor ingrese la direccion de su billetera aquí",
+        "remember":"Recordar billetera",
+        "invalid":"Billetera Invalida",
+        "already_imported":"Esta billetera ya fue importada previamente"
+      },
+      "buttons":{
+        "back":"Regresar",
+        "next":"Siguiente",
+        "create":"Crear",
+        "import":"Importar",
+        "connect":"Conectar"
+      }
+    },
+    "forget_wallet":{
+      "title":"Esta seguro de eliminar",
+      "delete_all":"Eliminar todas las billeteras de este tipo",
+      "delete_only":"Eliminar solo esta billetera",
+      "yes":"Si",
+      "no":"No"
+    }
+  },
+  "pool_details":{
+    "go_back":"Regresar",
+    "volumes":"Volumen Total",
+    "depth":"Profundidad Total",
+    "swaps":"# de Intercambios",
+    "buys":"Volumen de Compra",
+    "sells":"Volumen de Venta",
+    "swap_size":"Prom. de tamaño de intercambios",
+    "swap_fee":"Prom. de comision de intercambios",
+    "tx_buttons":{
+      "swap":"Intercambiar Tokens",
+      "add":"Agregar Liquidez",
+      "withdraw":"Extraer de piscina",
+      "send":"Enviar Crypto"
+    },
+    "search_placeholder":"Buscar Piscinas...",
+    "table":{
+      "headers": {
+        "asset": "Activo",
+        "price": "Precio de Piscina",
+        "depth": "Profundidad",
+        "volume": "Volumen 24h",
+        "status": "Estado"
+      },
+      "paginator": "Mostrar"
+    },
+    "details":{
+      "price":"Precio de la Piscina",
+      "pool_apy":"APY de la Piscina",
+      "members":"Miembros"
+    }
+  },
+    "wallet_manager":{
+    "go_back":"Regresar",
+    "copy_msg":"Dirección de billetera ha sido copiada al Portapapeles!",
+    "add_new_wallet":"Agregar nueva billetera",
+    "wallet":{
+      "types":{
+        "keystore":"Archivo Keystore",
+        "xdefi":"Billetera XDEFI",
+        "manual":"Entrada Manual",
+        "walletconnect":"Walletconnect"
+      },
+      "address":"Dirección {{chain}}",
+      "balance":"Su Balance",
+      "wallet_address":"Dirección de Billetera",
+      "copy":"Copiar",
+      "view_explorer":"Ver en el Explorardor de Blockchain",
+      "buttons":{
+        "swap": "Intercambiar Tokens",
+        "add": "Agregar Liquidez",
+        "withdraw": "Extraer de piscina",
+        "send": "Enviar Crypto"
+      }
+    }
+  },
+  "liquidity":{
+    "go_back":"Regresar",
+    "totals":{
+      "added":"Total Liquidez agregada",
+      "current":"Liquidez Actual",
+      "withdrawn":"Total Extraido",
+      "current_gain_loss":"Ganancia / Perdida Actual",
+      "gain_loss":"Ganancia / Perdida",
+      "APY":"APY"
+    },
+    "graph":{
+      "liquidity":"Liquidez",
+      "gain_loss":"Ganancia / Perdida"
+    },
+    "resume":{
+      "not_resume_msg":"Esta billetera no provee liquidez en Thorchain. Mientras tanto, le mostramos un resumen de su billetera.",
+      "total_portfolio":"Total Portafolio",
+      "daily":"Diario",
+      "weekly":"Semanal",
+      "yearly":"Anual",
+      "assets_in_lp":"Activos en Liquidez"
+    },
+    "position":{
+      "buttons":{
+        "swap": "Intercambiar Tokens",
+        "add": "Agregar Liquidez",
+        "withdraw": "Extraer de piscina",
+        "send": "Enviar Crypto"
+      },
+      "lp_days":"dia(s) de LP",
+      "table":{
+        "row_titles":{
+          "rune":"Rune",
+          "asset":"Activo",
+          "total":"Total"
+        },
+        "column_titles":{
+          "added":"Liquidez agregada",
+          "withdraw":"Extraido",
+          "current":"Liquidez Actual",
+          "gain_loss":"Ganancia / Perdida"
+        }
+      }
+    }
+  },
+  "cookie_msg":{
+    "msg":"Utilizamos cookies para asegurarnos de brindar la mejor experiencia al usuario en nuestro sitio web. Si continúa utilizando este sitio, asumiremos que está de acuerdo",
+    "button":"Aceptar"
+  },
+  "maintenance_page":{
+    "title":"Sitio en mantenimiento",
+    "msg":"Actualmente estamos solucionando algunos problemas para mejorar la experiencia en la plataforma.",
+    "button":"Cerrar"
+  }
+}

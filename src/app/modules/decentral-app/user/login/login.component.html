@@ -1,0 +1,129 @@
+<div class="transact-main">
+  <div
+    class="transact-layout"
+    fxLayout="row wrap"
+    fxLayoutAlign="centert start"
+  >
+    <div class="header" fxFlex="100" fxLayout="row" fxLayoutAlign="end center">
+      <mat-slide-toggle
+        class="theme-toggle"
+        color="primary"
+        (click)="setTheme()"
+        [(ngModel)]="isToggle"
+      >
+      </mat-slide-toggle>
+    </div>
+    <div
+      class="container"
+      fxFlex="100"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+    >
+      <div class="main" fxLayout="column">
+        <div class="main-header" fxLayout="column" fxFlex="100">
+          <div class="logo" fxLayoutAlign="center center">
+            <img
+              src="../../../assets/images/{{ logoFile }}"
+              alt="logo"
+              width="250px"
+            />
+          </div>
+        </div>
+        <div class="main-content" fxLayout="column">
+          <div class="form-msg" fxLayout="row" fxLayoutAlign="center center">
+            {{ msg }}
+          </div>
+          <form [formGroup]="signin">
+            <div
+              class="form-row"
+              fxLayout="row wrap"
+              fxLayoutAlign="center center"
+            >
+              <mat-form-field fxFlex="80" class="login-field">
+                <mat-label>Email</mat-label>
+                <input
+                  type="email"
+                  matInput
+                  placeholder="Ex. example@decentralfi.io"
+                  formControlName="email"
+                  required
+                />
+                <mat-error *ngIf="signin.controls.email.hasError('required')">
+                  Email is required
+                </mat-error>
+                <mat-error *ngIf="signin.controls.email.hasError('email')">
+                  Please enter a valid email address
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div
+              class="form-row"
+              fxLayout="row wrap"
+              fxLayoutAlign="center center"
+            >
+              <mat-form-field fxFlex="80" class="login-field">
+                <mat-label>Password</mat-label>
+                <input
+                  matInput
+                  [type]="hide ? 'password' : 'text'"
+                  formControlName="password"
+                  required
+                />
+                <mat-icon matSuffix (click)="hide = !hide">{{
+                  hide ? "visibility_off" : "visibility"
+                }}</mat-icon>
+                <mat-error
+                  *ngIf="signin.controls.password.hasError('required')"
+                >
+                  Password is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div
+              class="form-forgot-row"
+              fxLayout="row wrap"
+              fxLayoutAlign="center center"
+            >
+              <div fxFlex="80" fxLayoutAlign="end center">
+                <a href="app/recovery">Forgot your password?</a>
+              </div>
+            </div>
+            <div
+              class="form-log-button"
+              fxLayout="row"
+              fxLayoutAlign="space-evenly center"
+            >
+              <button mat-raised-button class="login-button" (click)="login()">
+                <span class="login-button-label">Log In</span>
+              </button>
+              <button
+                mat-raised-button
+                class="cancel-button"
+                (click)="cancel()"
+              >
+                <span class="cancel-button-label">Cancel</span>
+              </button>
+            </div>
+            <div
+              class="form-register-row"
+              fxLayout="row wrap"
+              fxLayoutAlign="center center"
+            >
+              <div
+                class="form-register"
+                fxFlex="80"
+                fxLayout="column"
+                fxLayout.gt-md="row"
+                fxLayout.md="row"
+                fxLayoutAlign="center center"
+              >
+                <span>Do not have an account yet?&nbsp;&nbsp;</span
+                ><a href="app/register">Register now!</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

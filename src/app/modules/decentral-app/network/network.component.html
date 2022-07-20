@@ -1,0 +1,402 @@
+<div class="auxiliar-background">
+  <div
+    class="dcf-main-container"
+    fxLayout="column"
+    fxLayoutAlign="start center"
+  >
+    <div
+      fxLayout="row wrap"
+      class="decentral-row"
+      fxLayoutAlign="end center"
+      fxFlex="100"
+    >
+      <div class="last-updated">
+        Last Updated: {{ lastUpdatedLabel | date: "MM/dd/yyyy HH:mm (zzzz)" }}
+      </div>
+    </div>
+    <div
+      fxLayout="row wrap"
+      class="decentral-row"
+      fxLayoutAlign="space-between start"
+      fxFlex="100"
+    >
+      <h2 class="module-title">Network</h2>
+    </div>
+    <div fxLayout="row" class="decentral-row">
+      <div
+        fxLayout="row wrap"
+        fxFlex="100"
+        fxLayoutAlign="space-between center"
+        class="chart-bottom-data"
+      >
+        <div
+          fxFlex="45"
+          fxFlex.gt-md="18"
+          fxFlex.md="18"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('totalcapital')"
+          (click)="paramSelect('totalcapital', 'Total Capital')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ networkModule.totalcapital.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Total Capital</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ networkModule.totalcapital.total | roundedValue }}
+          </h1>
+        </div>
+        <div
+          fxFlex="45"
+          fxFlex.gt-md="18"
+          fxFlex.md="18"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('totalactivebond')"
+          (click)="paramSelect('totalactivebond', 'Active Bonded')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ networkModule.totalactivebond.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Active Bonded</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ networkModule.totalactivebond.total | roundedValue }}
+          </h1>
+        </div>
+        <div
+          fxFlex="45"
+          fxFlex.gt-md="18"
+          fxFlex.md="18"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('totalstandbybond')"
+          (click)="paramSelect('totalstandbybond', 'Standby Bonded')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ networkModule.totalstandbybond.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Standby Bonded</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ networkModule.totalstandbybond.total | roundedValue }}
+          </h1>
+        </div>
+        <div
+          fxFlex="45"
+          fxFlex.gt-md="18"
+          fxFlex.md="18"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('totalreserve')"
+          (click)="paramSelect('totalreserve', 'Total Reserve')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ networkModule.totalreserve.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Total Reserve</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ networkModule.totalreserve.total | roundedValue }}
+          </h1>
+        </div>
+        <div
+          fxFlex="45"
+          fxFlex.gt-md="18"
+          fxFlex.md="18"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('totalstaked')"
+          (click)="paramSelect('totalstaked', 'Total Staked')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ networkModule.totalstaked.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Total Staked</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ networkModule.totalstaked.total | roundedValue }}
+          </h1>
+        </div>
+        <div
+          fxFlex="45"
+          fxFlex.gt-md="18"
+          fxFlex.md="18"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('totalactivenode')"
+          (click)="paramSelect('totalactivenode', 'Active Nodes')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ networkModule.totalactivenode.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Active Nodes</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ networkModule.totalactivenode.total | roundedValue: true }}
+          </h1>
+        </div>
+        <div
+          fxFlex="45"
+          fxFlex.gt-md="18"
+          fxFlex.md="18"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('totalstakers')"
+          (click)="paramSelect('totalstakers', 'Active Stakers')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ networkModule.totalstakers.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Active Stakers</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ networkModule.totalstakers.total | roundedValue: true }}
+          </h1>
+        </div>
+        <div
+          fxFlex="45"
+          fxFlex.gt-md="18"
+          fxFlex.md="18"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('totalactiveusers')"
+          (click)="paramSelect('totalactiveusers', 'Active Users')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ networkModule.totalactiveusers.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Active Users</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ networkModule.totalactiveusers.total | roundedValue: true }}
+          </h1>
+        </div>
+        <div
+          fxFlex="45"
+          fxFlex.gt-md="18"
+          fxFlex.md="18"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('totalblockreward')"
+          (click)="paramSelect('totalblockreward', 'Block Reward')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ networkModule.totalblockreward.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Block Reward</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ networkModule.totalblockreward.total | roundedValue }}
+          </h1>
+        </div>
+        <div
+          fxFlex="45"
+          fxFlex.gt-md="18"
+          fxFlex.md="18"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('totalblockheight')"
+          (click)="paramSelect('totalblockheight', 'Block Height')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ networkModule.totalblockheight.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Block Height</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ networkModule.totalblockheight.total | roundedValue: true }}
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" class="decentral-row">
+      <div class="pools-rank-graph" fxFlex="100">
+        <div class="chart">
+          <div
+            echarts
+            [options]="options"
+            theme="macarons"
+            [loading]="isLoading"
+            (chartInit)="onChartInit($event)"
+            class="network-chart"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <!--<div fxLayout="row" class="decentral-row">
+    <div class="information" fxLayoutAlign="center center">
+      <mat-icon >warning</mat-icon>
+      <span>The information below is represented as the current status of the system and not the historical data.</span>
+    </div>
+  </div>
+  <div fxLayout="row wrap" class="decentral-row network-pendulum" fxLayoutAlign="space-between start">
+    <div fxLayout="column wrap" fxFlex="100" fxFlex.gt-md="45" fxFlex.md="45" class="incentive-pendulum">
+      <h2>Incentive Pendulum</h2>
+      <div [class]="incentiveStatusClass" fxFlex="50"> <h2>System Status: <br *ngIf="systemStatus!='Optimal'">{{systemStatus}}</h2></div>
+      <div [class]="incentiveStatusClass"> <h2>Reward Changes: <br *ngIf="systemStatus!='Optimal'">{{rewardChanges}}</h2></div>
+      <p>The Algorithm for incentive pendulum is as folows</p>
+      <div class="row" fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="card" fxFlex="35" fxLayoutAlign="center center">
+          <h2>ShareFactor</h2>
+        </div>
+        <div class="equal" fxFlex="5"fxLayoutAlign="center center">
+          <h2>=</h2>
+        </div>
+        <div fxLayout="row" class="card formula-example" fxFlex="60" fxLayoutAlign="center center">
+          <div class="formula-example">1 /</div>
+          <div fxLayout="column">
+            <div class="formula-example"> Total Bonded <span>+</span> Total Staked</div>
+            <hr>
+            <div class="formula-example"> Total Bonded <span>-</span> Total Staked</div>
+          </div>
+        </div>
+      </div>
+      <div class="row" fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="card" fxFlex="35" fxLayoutAlign="center center">
+          <h2>ShareFactor</h2>
+        </div>
+        <div class="equal" fxFlex="5"fxLayoutAlign="center center">
+          <h2>=</h2>
+        </div>
+        <div fxLayout="row" class="card formula" fxFlex="45" fxLayoutAlign="center center">
+          <div class="formula">1 /</div>
+          <div fxLayout="column">
+            <div class="formula"> {{incentiveBonded | roundedValue}} <span>+</span> {{incentiveStaked | roundedValue}}</div>
+            <hr>
+            <div class="formula"> {{incentiveBonded | roundedValue}} <span>-</span> {{incentiveStaked | roundedValue}}</div>
+          </div>
+        </div>
+        <div class="equal" fxFlex="5"fxLayoutAlign="center center">
+          <h2>=</h2>
+        </div>
+        <div [class]="resultClass" fxFlex="15"fxLayoutAlign="center center">
+          <h1>{{incentiveStatus}}%</h1>
+        </div>
+      </div>
+      <div class="row" fxLayout="row" fxLayoutAlign="space-between center">
+        <p>For more information on the incentive pendulum, visit <a href="https://rebase.foundation/" target="_blank">https://rebase.foundation/</a></p>
+      </div>
+
+    </div>
+    <div fxLayout="column" fxFlex="100" fxFlex.gt-md="45" fxFlex.md="45" class="sharefactor">
+      <h2>Sharefactor #</h2>
+      <div class="sharefactor-inefficient" fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
+        <div class="number" fxFlex="25" fxFlex.gt-md="20" fxFlex.md="20" fxLayoutAlign="center center"><h2>0%-18%</h2></div>
+        <div class="title" fxFlex="30" fxFlex.gt-md="20" fxFlex.md="20" fxLayoutAlign="center center">Inefficient</div>
+        <div class="description" fxFlex="45" fxFlex.gt-md="60" fxFlex.md="60" fxLayoutAlign="start center">Further decrase node rewards and further increase liquidity rewards</div>
+      </div>
+      <div class="sharefactor-overbonded" fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
+        <div class="number" fxFlex="25" fxFlex.gt-md="20" fxFlex.md="20" fxLayoutAlign="center center"><h2>19%-24%</h2></div>
+        <div class="title" fxFlex="30" fxFlex.gt-md="20" fxFlex.md="20" fxLayoutAlign="center center">Over-Bonded</div>
+        <div class="description" fxFlex="45" fxFlex.gt-md="60" fxFlex.md="60" fxLayoutAlign="start center">Decrease node rewards and increase liquidity rewards</div>
+      </div>
+      <div class="sharefactor-optimal" fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
+        <div class="number" fxFlex="25" fxFlex.gt-md="20" fxFlex.md="20" fxLayoutAlign="center center"><h2>25%-35%</h2></div>
+        <div class="title" fxFlex="30" fxFlex.gt-md="20" fxFlex.md="20" fxLayoutAlign="center center">Optimal</div>
+        <div class="description" fxFlex="45" fxFlex.gt-md="60" fxFlex.md="60" fxLayoutAlign="start center">None</div>
+      </div>
+      <div class="sharefactor-underbonded" fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
+        <div class="number" fxFlex="25" fxFlex.gt-md="20" fxFlex.md="20" fxLayoutAlign="center center"><h2>36%-41%</h2></div>
+        <div class="title" fxFlex="30" fxFlex.gt-md="20" fxFlex.md="20" fxLayoutAlign="center center">Under-Bonded</div>
+        <div class="description" fxFlex="45" fxFlex.gt-md="60" fxFlex.md="60" fxLayoutAlign="start center">Increase node rewards and decrease liquidity rewards</div>
+      </div>
+      <div class="sharefactor-unsafe" fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
+        <div class="number" fxFlex="25" fxFlex.gt-md="20" fxFlex.md="20" fxLayoutAlign="center center"><h2>42%-100%</h2></div>
+        <div class="title" fxFlex="30" fxFlex.gt-md="20" fxFlex.md="20" fxLayoutAlign="center center">UnSafe</div>
+        <div class="description" fxFlex="45" fxFlex.gt-md="60" fxFlex.md="60" fxLayoutAlign="start center">Further increase node rewards and further decrease liquidity rewards</div>
+      </div>
+    </div>
+  </div>-->
+    <!--
+  <div fxLayout="row wrap" class="decentral-row network-pendulum">
+    <div fxLayout="column wrap" fxFlex="100" fxFlex.gt-md="45" fxFlex.md="45" class="incentive-pendulum">
+      <h2>
+        Rune utilization and averages <br>
+        <h4>(system efficiency, average capital utilization of all agents)</h4>
+      </h2>
+      <div class="avg-size" fxLayout="column">
+        <div class="row average" fxLayout="row wrap" fxLayoutAlign="start center">
+          <div fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30">&nbsp;</div>
+          <div fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" class="title" fxLayoutAlign="center center"><h4>Avg. Size</h4></div>
+        </div>
+        <div class="row average" fxLayout="row wrap" fxLayoutAlign="start center">
+          <div class="card" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>Node</h4></div>
+          <div class="card last" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>1,100,000 Rune</h4></div>
+        </div>
+        <div class="row average" fxLayout="row wrap" fxLayoutAlign="start center">
+          <div class="card" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>Pool</h4></div>
+          <div class="card last" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>150,000 Rune</h4></div>
+        </div>
+        <div class="row average" fxLayout="row wrap" fxLayoutAlign="start center">
+          <div class="card" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>Staker</h4></div>
+          <div class="card last" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>150,000 Rune</h4></div>
+        </div>
+        <div class="row average" fxLayout="row wrap" fxLayoutAlign="start center">
+          <div class="card" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>Swap</h4></div>
+          <div class="card last" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>50 Rune</h4></div>
+        </div>
+        <div class="row average" fxLayout="row wrap" fxLayoutAlign="start center">
+          <div class="card" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>Slip-base fee</h4></div>
+          <div class="card last" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>2.5 Rune</h4></div>
+        </div>
+        <div class="row average" fxLayout="row wrap" fxLayoutAlign="start center">
+          <div class="card" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>External chain fee</h4></div>
+          <div class="card last" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>5.5 Rune</h4></div>
+        </div>
+        <div class="row average" fxLayout="row wrap" fxLayoutAlign="start center">
+          <div class="card" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>Thorchain fee</h4></div>
+          <div class="card last" fxFlex="45" fxFlex.gt-md="30" fxFlex.md="30" fxLayoutAlign="center center"><h4>1 Rune</h4></div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="100" fxFlex.gt-md="55" fxFlex.md="55" class="sharefactor">
+      <h2>Rune Supply allocation</h2>
+      <div class="chart" fxFlex="100">
+        <div echarts [options]="runeSupplyOptions" theme="macarons" [loading]="isLoading" class="network-supply-chart"></div>
+      </div>
+    </div>
+  </div>-->
+  </div>
+</div>

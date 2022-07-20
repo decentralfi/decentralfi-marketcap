@@ -1,0 +1,20 @@
+#The minimum that Decentralfi(Frontend) supports are t2.small instances
+branch-defaults:
+  develop:
+    environment: decentralfi-front-develop
+  master:
+    environment: decentralfi-front-production
+  qa:
+    environment: decentralfi-front-qa
+global:
+  application_name: decentralfi_front
+  default_ec2_keyname: eb-key-pair-front-dev
+  default_platform: Node.js 16 running on 64bit Amazon Linux 2
+  default_region: us-west-2
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-cli
+  sc: git
+  workspace_type: Application

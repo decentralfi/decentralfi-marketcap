@@ -1,0 +1,37 @@
+<div
+  [class]="cookieOverlayClass"
+  fxLayoutAlign="center center"
+  fxLayout="row wrap"
+  *ngIf="hideOverlay == false"
+>
+  <div
+    class="msg-wrapper"
+    fxLayout="column"
+    fxLayout.gt-md="row"
+    fxLayout.md="row"
+    fxLayoutAlign="center center"
+    fxFlex="80"
+    fxFlex.gt-md="100"
+    fxFlex.md="100"
+  >
+    <div>
+      <img
+        src="../../../../assets/images/{{ logoFile }}"
+        alt="logo"
+        loading="lazy"
+        width="180px"
+        fxHide="false"
+        fxHide.gt-md="true"
+        fxHide.md="true"
+      />
+    </div>
+    <div class="msg">
+      {{ "cookie_msg.msg" | translate }}
+    </div>
+    <br fxHide="false" fxHide.gt-md="true" fxHide.md="true" />
+    <br fxHide="false" fxHide.gt-md="true" fxHide.md="true" />
+    <div class="accept-button">
+      <button mat-raised-button class="accept" (click)="close()">{{ "cookie_msg.button" | translate }}</button>
+    </div>
+  </div>
+</div>

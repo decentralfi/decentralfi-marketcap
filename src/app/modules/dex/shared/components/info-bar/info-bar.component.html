@@ -1,0 +1,118 @@
+<mat-icon [class]="expand" (click)="setTopBarClass()">expand_less</mat-icon>
+<div
+  [class]="topBar"
+  fxLayout="row wrap"
+  fxLayoutAlign="start center"
+  fxLayoutAlign.gt-md="space-between center"
+  fxLayoutAlign.md="space-between center"
+>
+  <div class="stats_fade"></div>
+  <div
+    fxFlex="8"
+    fxLayoutAlign="center center"
+    fxShow.gt-md="true"
+    fxShow.md="true"
+    fxShow="false"
+  ></div>
+  <div
+    fxFlex="80"
+    fxLayout="row"
+    class="marquee"
+    fxLayoutAlign.md="start center"
+    fxLayoutAlign.="center center"
+    fxLayoutAlign="center center"
+  >
+    <span class="topbar-field">{{ "info_bar.depth" | translate }}:</span>
+    &nbsp;
+
+    <div *ngIf="totalDepth == undefined">
+      <mat-spinner diameter="16"></mat-spinner>
+    </div>
+
+    <span class="topbar-value" *ngIf="totalDepth != undefined"
+      >{{ this.getSimbol() }}{{ totalDepth | roundedValue }}</span
+    >
+    &nbsp;&nbsp;
+    <span class="topbar-field">{{ "info_bar.pools" | translate }}:</span>
+    &nbsp;
+    <div *ngIf="activePools == undefined">
+      <mat-spinner diameter="16"></mat-spinner>
+    </div>
+
+    <span class="topbar-value" *ngIf="activePools != undefined">{{
+      activePools
+    }}</span>
+
+    &nbsp;&nbsp;
+    <span class="topbar-field">{{ "info_bar.nodes" | translate }}:</span>
+    &nbsp;
+    <div *ngIf="activeNodes == undefined">
+      <mat-spinner diameter="16"></mat-spinner>
+    </div>
+    <span class="topbar-value" *ngIf="activeNodes != undefined">{{
+      activeNodes
+    }}</span>
+    &nbsp;&nbsp;
+    <span class="topbar-field">{{ "info_bar.bond" | translate }}:</span>
+    &nbsp;
+    <div *ngIf="avgBond == undefined">
+      <mat-spinner diameter="16"></mat-spinner>
+    </div>
+    <span class="topbar-value" *ngIf="avgBond != undefined">{{
+      avgBond | roundedValue
+    }}</span>
+    &nbsp;&nbsp;
+    <span class="topbar-field">Rune=</span>
+    &nbsp;
+    <div *ngIf="runePrice == undefined">
+      <mat-spinner diameter="16"></mat-spinner>
+    </div>
+    <span class="topbar-value" *ngIf="runePrice != undefined"
+      >${{ runePrice | roundedValue }}</span
+    >
+    &nbsp;&nbsp;
+    <span class="topbar-field">{{ "info_bar.queue" | translate }}:</span>
+    &nbsp;
+    <div *ngIf="txnQueue == undefined">
+      <mat-spinner diameter="16"></mat-spinner>
+    </div>
+    <span class="topbar-value" *ngIf="txnQueue != undefined">{{
+      txnQueue
+    }}</span>
+    &nbsp;&nbsp;
+    <span class="topbar-field">{{ "info_bar.churn" | translate }}:</span>
+    &nbsp;
+    <div *ngIf="blocksToChurn == undefined">
+      <mat-spinner diameter="16"></mat-spinner>
+    </div>
+    <span class="topbar-value" *ngIf="blocksToChurn != undefined">{{
+      blocksToChurn | roundedValue
+    }}</span>
+    &nbsp;&nbsp;
+    <span class="topbar-field">{{ "info_bar.volumes" | translate }}:</span>
+    &nbsp;&nbsp;
+    <span class="topbar-field">24h=</span>
+    &nbsp;
+    <div *ngIf="totalVolume24H == undefined">
+      <mat-spinner diameter="16"></mat-spinner>
+    </div>
+    <span class="topbar-value" *ngIf="totalVolume24H != undefined"
+      >{{ this.getSimbol() }}{{ totalVolume24H | roundedValue }}</span
+    >
+    &nbsp;&nbsp;
+    <div *ngIf="totalVolume7D != undefined && totalVolume1M != undefined">
+      <span class="topbar-field">7D=</span>
+      <span class="topbar-value" *ngIf="totalVolume7D != undefined"
+        >{{ this.getSimbol() }}{{ totalVolume7D | roundedValue }}</span
+      >
+      &nbsp;
+      <span class="topbar-field">1M=</span>
+      <span class="topbar-value" *ngIf="totalVolume1M != undefined"
+        >{{ this.getSimbol() }}{{ totalVolume1M | roundedValue }}</span
+      >
+    </div>
+  </div>
+  <div fxFlex="8" fxShow.gt-md="true" fxShow.md="true" fxShow="false">
+    &nbsp;
+  </div>
+</div>

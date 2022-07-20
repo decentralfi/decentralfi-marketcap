@@ -1,0 +1,532 @@
+<div fxLayout="row wrap" class="decentral-row" fxLayoutAlign="center center">
+  <div fxFlex="85" fxLayoutAlign="start center">
+    <button class="master-go-back-button" matRipple (click)="goBack()">
+      <div
+        class="btn-wrapper"
+        fxLayout="row wrap"
+        fxLayoutAlign="center center"
+      >
+        <div class="bnt-icon" fxFlex="32px" fxLayoutAlign="center center">
+          <mat-icon>arrow_back</mat-icon>
+        </div>
+        <div class="btn-text" fxFlex>{{ "liquidity.go_back" | translate }}</div>
+      </div>
+    </button>
+  </div>
+</div>
+<!-- MAIN-->
+
+<div>
+  <div
+    fxLayout="row wrap"
+    class="decentral-row"
+    fxLayoutAlign="center center"
+    *ngIf="msgMCCN.length > 0"
+  >
+    <div class="connect-msg" fxLayoutAlign="center center">
+      <h1>{{ msgMCCN }}</h1>
+    </div>
+  </div>
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="center start"
+    class="decentral-row"
+    *ngIf="LPTotalsMCCN && nonResumeFlag === false && msgMCCN.length === 0"
+  >
+    <div
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between start"
+      fxFlex="100"
+      fxFlex.gt-md="85"
+      fxFlex.md="85"
+    >
+      <div fxFlex="100" fxFlex.gt-md="15" fxFlex.md="15" class="mini-card">
+        <!--<mat-card-title fxLayout="row" fxLayoutAlign="end start">
+          <fa-icon
+            [icon]="faQuestionCircle"
+            matTooltip="Total added liquidity of all pools"
+          ></fa-icon>
+        </mat-card-title>-->
+        <mat-card-subtitle fxLayoutAlign="center start"
+          >{{ "liquidity.totals.added" | translate }}</mat-card-subtitle
+        >
+        <h1 fxLayoutAlign="center start" *ngIf="showHideToggle === true">
+          {{
+            LPTotalsMCCN.totalStaked.div(100000000).toNumber() | roundedValue
+          }}
+          {{ this.getSimbol(true) }}
+        </h1>
+        <h1 fxLayoutAlign="center start" *ngIf="showHideToggle == false">
+          ****** {{ this.getSimbol(true) }}
+        </h1>
+      </div>
+      <div fxFlex="45" fxFlex.gt-md="15" fxFlex.md="15" class="mini-card">
+        <!--<mat-card-title fxLayout="row" fxLayoutAlign="end start">
+          <fa-icon
+            [icon]="faQuestionCircle"
+            matTooltip="Total current liquidity of all pools"
+          ></fa-icon>
+        </mat-card-title>-->
+        <mat-card-subtitle fxLayoutAlign="center start"
+          >{{ "liquidity.totals.current" | translate }}</mat-card-subtitle
+        >
+        <h1 fxLayoutAlign="center start" *ngIf="showHideToggle == true">
+          {{
+            LPTotalsMCCN.totalCurrent.div(100000000).toNumber() | roundedValue
+          }}
+          {{ this.getSimbol(true) }}
+        </h1>
+        <h1 fxLayoutAlign="center start" *ngIf="showHideToggle == false">
+          ****** {{ this.getSimbol(true) }}
+        </h1>
+      </div>
+      <div fxFlex="45" fxFlex.gt-md="15" fxFlex.md="15" class="mini-card">
+        <!--<mat-card-title fxLayout="row" fxLayoutAlign="end start">
+          <fa-icon
+            [icon]="faQuestionCircle"
+            matTooltip="Total Withdrawn of all pools"
+          ></fa-icon>
+        </mat-card-title>-->
+        <mat-card-subtitle fxLayoutAlign="center start"
+          >{{ "liquidity.totals.withdrawn" | translate }}</mat-card-subtitle
+        >
+        <h1 fxLayoutAlign="center start" *ngIf="showHideToggle == true">
+          {{
+            LPTotalsMCCN.totalWithdrawn.div(100000000).toNumber() | roundedValue
+          }}
+          {{ this.getSimbol(true) }}
+        </h1>
+        <h1 fxLayoutAlign="center start" *ngIf="showHideToggle == false">
+          ****** {{ this.getSimbol(true) }}
+        </h1>
+      </div>
+      <div fxFlex="45" fxFlex.gt-md="15" fxFlex.md="15" class="mini-card">
+        <!--<mat-card-title fxLayout="row" fxLayoutAlign="end start">
+          <fa-icon
+            [icon]="faQuestionCircle"
+            matTooltip="Total current gain or loss of all pools"
+          ></fa-icon>
+        </mat-card-title>-->
+        <mat-card-subtitle fxLayoutAlign="center start"
+          >{{ "liquidity.totals.current_gain_loss" | translate }}</mat-card-subtitle
+        >
+        <h1 fxLayoutAlign="center start" *ngIf="showHideToggle == true">
+          {{ LPTotalsMCCN.totalGainLoss / 100000000 | roundedValue }}
+          {{ this.getSimbol(true) }}
+        </h1>
+        <h1 fxLayoutAlign="center start" *ngIf="showHideToggle == false">
+          ****** {{ this.getSimbol(true) }}
+        </h1>
+      </div>
+      <div fxFlex="45" fxFlex.gt-md="15" fxFlex.md="15" class="mini-card">
+        <!--<mat-card-title fxLayout="row" fxLayoutAlign="end start">
+          <fa-icon
+            [icon]="faQuestionCircle"
+            matTooltip="Total current gain or loss in % of all pools"
+          ></fa-icon>
+        </mat-card-title>-->
+        <mat-card-subtitle fxLayoutAlign="center start">
+          {{ "liquidity.totals.gain_loss" | translate }}</mat-card-subtitle
+        >
+        <h1 fxLayoutAlign="center start" *ngIf="showHideToggle == true">
+          {{ LPTotalsMCCN.totalGainLossPerc | number: "1.0-2" }} %
+        </h1>
+        <h1 fxLayoutAlign="center start" *ngIf="showHideToggle == false">
+          ****** %
+        </h1>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="15" fxFlex.md="15" class="mini-card">
+        <!--<mat-card-title fxLayout="row" fxLayoutAlign="end start">
+          <fa-icon
+            [icon]="faQuestionCircle"
+            matTooltip="Total % of annual Yield of all pools"
+          ></fa-icon>
+        </mat-card-title>-->
+        <mat-card-subtitle fxLayoutAlign="center start"> APY</mat-card-subtitle>
+        <h1 fxLayoutAlign="center start" *ngIf="showHideToggle == true">
+          {{ LPTotalsMCCN.apy | number: "1.0-2" }}%
+        </h1>
+        <h1 fxLayoutAlign="center start" *ngIf="showHideToggle == false">
+          ******%
+        </h1>
+      </div>
+    </div>
+  </div>
+  <div
+    fxLayout="row wrap"
+    class="decentral-row"
+    fxLayoutAlign="center start"
+    *ngIf="nonResumeFlag === true"
+  >
+    <h3>
+      {{ "liquidity.resume.not_resume_msg" | translate }}
+    </h3>
+  </div>
+  <div fxLayout="row wrap" [class]="getRowClass()" fxLayoutAlign="center start">
+    <div
+      class="periods"
+      fxLayoutAlign="end center"
+      fxFlex="95"
+      fxFlex.gt-md="80"
+      fxFlex.md="80"
+      fxLayoutGap="5"
+      *ngIf="
+        lineChartOptionsMCCN && nonResumeFlag === false && msgMCCN.length === 0
+      "
+    >
+      <mat-chip-list aria-label="period">
+        <mat-chip
+          *ngFor="let period of periods"
+          [color]="setColor(period.label)"
+          (click)="getPeriod(period.value, period.label)"
+          selected
+        >
+          {{ period.label }}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+    <div
+      fxLayout="row wrap"
+      fxLayoutAlign="space-evenly start"
+      fxFlex="100"
+      fxFlex.gt-md="85"
+      fxFlex.md="85"
+    >
+      <div
+        class="asset-chart"
+        fxFlex="100"
+        fxFlex.gt-md="45"
+        fxFlex.md="45"
+        *ngIf="
+          lineChartOptionsMCCN && nonResumeFlag === false && msgMCCN.length == 0
+        "
+      >
+        <br />
+        <div echarts [options]="lineChartOptionsMCCN" class="stake-chart"></div>
+      </div>
+      <div
+        class="total-resume"
+        fxFlex="100"
+        fxFlex.gt-md="45"
+        fxFlex.md="45"
+        *ngIf="resumeMCCN.totalWallet.valueOf() !== '0' && msgMCCN.length === 0"
+      >
+        <div class="row" fxLayout="row wrap" fxLayoutAlign="space-evenly start">
+          <div fxFlex="100" fxFlex.gt-md="45" fxFlex.md="45" class="mini-card">
+            <!--<mat-card-title fxLayout="row" fxLayoutAlign="end start">
+              <fa-icon
+                [icon]="faQuestionCircle"
+                matTooltip="Sum of asset in wallet and assets in LP"
+              ></fa-icon>
+            </mat-card-title>-->
+            <mat-card-subtitle fxLayoutAlign="center start"
+              >{{ "liquidity.resume.total_portfolio" | translate }}</mat-card-subtitle
+            >
+            <h1 fxLayoutAlign="center start" *ngIf="showHideToggle == true">
+              {{ resumeMCCN.totalWallet.toNumber() | roundedValue }}
+              {{ this.getSimbol(true) }}
+            </h1>
+            <h1 fxLayoutAlign="center start" *ngIf="showHideToggle == false">
+              ****** {{ this.getSimbol(true) }}
+            </h1>
+          </div>
+          <div
+            fxFlex="25"
+            fxFlex.gt-md="15"
+            fxFlex.md="15"
+            class="mini-card-2"
+            *ngIf="nonResumeFlag == false"
+          >
+            <!--<mat-card-title fxLayout="row" fxLayoutAlign="end start">
+              <fa-icon
+                [icon]="faQuestionCircle"
+                matTooltip="Daily % of APY"
+              ></fa-icon>
+            </mat-card-title>-->
+            <mat-card-subtitle fxLayoutAlign="center start"
+              >{{ "liquidity.resume.daily" | translate }}</mat-card-subtitle
+            >
+            <h1 fxLayoutAlign="center start">{{ resumeMCCN.apd }}%</h1>
+          </div>
+          <div
+            fxFlex="25"
+            fxFlex.gt-md="15"
+            fxFlex.md="15"
+            class="mini-card-2"
+            *ngIf="nonResumeFlag == false"
+          >
+            <!--<mat-card-title fxLayout="row" fxLayoutAlign="end start">
+              <fa-icon
+                [icon]="faQuestionCircle"
+                matTooltip="Weekly % of APY"
+              ></fa-icon>
+            </mat-card-title>-->
+            <mat-card-subtitle fxLayoutAlign="center start"
+              >{{ "liquidity.resume.weekly" | translate }}</mat-card-subtitle
+            >
+            <h1 fxLayoutAlign="center start">{{ resumeMCCN.apw }}%</h1>
+          </div>
+          <div
+            fxFlex="25"
+            fxFlex.gt-md="15"
+            fxFlex.md="15"
+            class="mini-card-2"
+            *ngIf="nonResumeFlag == false"
+          >
+            <!--<mat-card-title fxLayout="row" fxLayoutAlign="end start">
+              <fa-icon
+                [icon]="faQuestionCircle"
+                matTooltip="Yearly % of APY"
+              ></fa-icon>
+            </mat-card-title>-->
+            <mat-card-subtitle fxLayoutAlign="center start"
+              >{{ "liquidity.resume.yearly" | translate }}</mat-card-subtitle
+            >
+            <h1 fxLayoutAlign="center start">{{ resumeMCCN.apy }}%</h1>
+          </div>
+        </div>
+        <div class="row" fxLayout="row">
+          <div class="chart" fxFlex="100">
+            <div
+              echarts
+              [options]="pieOptionsMCCN"
+              theme="macarons"
+              class="network-supply-chart"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    fxLayout="row wrap"
+    class="decentral-row"
+    fxLayoutAlign="space-evenly start"
+    *ngIf="summaryMCCN && nonResumeFlag == false && msgMCCN.length == 0"
+  >
+    <div
+      fxLayout="row wrap"
+      fxLayoutAlign="space-evenly start"
+      fxFlex="100"
+      fxFlex.gt-md="85"
+      fxFlex.md="85"
+    >
+      <div
+        class="pool-details"
+        fxLayout="column"
+        fxFlex="100"
+        fxFlex.gt-md="40"
+        fxFlex.md="40"
+        *ngFor="let pool of summaryMCCN"
+      >
+        <div
+          class="card-title"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+        >
+          <div fxLayout="column" fxLayoutAlign="center start">
+            <h4>{{ pool.pool_name.chain }}</h4>
+            <h3>{{ pool.pool_name.ticker }}</h3>
+          </div>
+
+          <app-operations-buttons
+            [element]="{
+              chain: pool.pool_name.chain,
+              ticker: pool.pool_name.ticker,
+              fullname: pool.pool_name.fullname,
+              status: 'available'
+            }"
+            style="margin-right: 5px"
+          ></app-operations-buttons>
+        </div>
+
+        <div class="card-content" fxLayout="row wrap">
+          <div
+            class="column first"
+            fxLayout="row wrap"
+            fxLayout.gt-md="column"
+            fxLayout.md="column"
+            fxFlex="100"
+            fxFlex.gt-md="27"
+            fxFlex.md="27"
+            fxLayoutAlign="space-evenly center"
+            fxLayoutAlign.md="center center"
+            fxLayoutAlign.gt-md="center center"
+          >
+            <div
+              fxFlex="30"
+              fxFlex.gt-md="100"
+              fxFlex.md="100"
+              fxLayoutAlign="center center"
+            >
+              <img
+                src="{{ pool.pool_name.iconPath }}"
+                alt="{{ pool.pool_name.ticker }}"
+                width="34"
+                loading="lazy"
+              />
+            </div>
+            <div
+              fxFlex="70"
+              fxFlex.gt-md="100"
+              fxFlex.md="100"
+              fxLayout="row wrap"
+              fxLayout.gt-md="column"
+              fxLayout.md="column"
+              fxLayoutAlign="center start"
+              fxLayoutAlign.gt-md="center center"
+              fxLayoutAlign.md="center center"
+            >
+              <div
+                fxFlex="100"
+                fxLayoutAlign="center center"
+                [class]="getClassProfit(+pool.gain_loss_percentage.total)"
+              >
+                {{ +pool.gain_loss_percentage.total | roundedValue }}%
+              </div>
+              <div
+                fxFlex="40"
+                fxFlex.gt-md="100"
+                fxFlex.md="100"
+                fxLayoutAlign="center center"
+                class="lpHodl"
+              >
+                LP vs HODL
+              </div>
+              <div
+                fxFlex="40"
+                fxFlex.gt-md="100"
+                fxFlex.md="100"
+                fxLayoutAlign="center center"
+                [class]="getClass(+pool.hodl.total, true)"
+                [matTooltip]=""
+              >
+                {{ +pool.hodl.total | roundedValue }}$
+              </div>
+              <div fxFlex="100" fxLayoutAlign="center center" class="lpHodl">
+                {{ +pool.lp_days <= 0 ? "0" : +pool.lp_days }} {{ "liquidity.position.lp_days" | translate }}
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="column second"
+            fxLayout="column"
+            fxFlex="40"
+            fxFlex.gt-md="26"
+            fxFlex.md="26"
+          >
+            <div class="title">&nbsp;</div>
+            <div class="title">{{ "liquidity.position.table.column_titles.added" | translate }}</div>
+            <div class="title">{{ "liquidity.position.table.column_titles.withdraw" | translate }}</div>
+            <div class="title">{{ "liquidity.position.table.column_titles.current" | translate }}</div>
+            <div class="title">{{ "liquidity.position.table.column_titles.gain_loss" | translate }}</div>
+          </div>
+          <div
+            class="column"
+            fxLayout="column"
+            fxFlex="20"
+            fxFlex.gt-md="15"
+            fxFlex.md="15"
+            *ngIf="showHideToggle == true"
+          >
+            <div class="title">{{ "liquidity.position.table.row_titles.rune" | translate }}</div>
+            <div class="content">
+              {{ +pool.liquidity_added.rune | roundedValue }}
+            </div>
+            <div class="content">{{ +pool.withdraw.rune | roundedValue }}</div>
+            <div class="content">
+              {{ +pool.current_liquidity.rune | roundedValue }}
+            </div>
+            <div [class]="getClass(+pool.gain_loss.rune)">
+              {{ +pool.gain_loss.rune | roundedValue }}
+            </div>
+          </div>
+          <div
+            class="column"
+            fxLayout="column"
+            fxFlex="20"
+            fxFlex.gt-md="15"
+            fxFlex.md="15"
+            *ngIf="showHideToggle == false"
+          >
+            <div class="title">{{ "liquidity.position.table.row_titles.rune" | translate }}</div>
+            <div class="content">******</div>
+            <div class="content">******</div>
+            <div class="content">******</div>
+            <div [class]="getClass(+pool.gain_loss.rune)">******</div>
+          </div>
+          <div
+            class="column"
+            fxLayout="column"
+            fxFlex="20"
+            fxFlex.gt-md="15"
+            fxFlex.md="15"
+            *ngIf="showHideToggle == true"
+          >
+            <div class="title">{{ "liquidity.position.table.row_titles.asset" | translate }}</div>
+            <div class="content">
+              {{ +pool.liquidity_added.asset | roundedValue }}
+            </div>
+            <div class="content">{{ +pool.withdraw.asset | roundedValue }}</div>
+            <div class="content">
+              {{ +pool.current_liquidity.asset | roundedValue }}
+            </div>
+            <div [class]="getClass(+pool.gain_loss.asset)">
+              {{ +pool.gain_loss.asset | roundedValue }}
+            </div>
+          </div>
+          <div
+            class="column"
+            fxLayout="column"
+            fxFlex="20"
+            fxFlex.gt-md="15"
+            fxFlex.md="15"
+            *ngIf="showHideToggle == false"
+          >
+            <div class="title">{{ "liquidity.position.table.row_titles.asset" | translate }}</div>
+            <div class="content">******</div>
+            <div class="content">******</div>
+            <div class="content">******</div>
+            <div [class]="getClass(+pool.gain_loss.asset)">******</div>
+          </div>
+          <div
+            class="column"
+            fxLayout="column"
+            fxFlex="20"
+            fxFlex.gt-md="17"
+            fxFlex.md="17"
+            *ngIf="showHideToggle == true"
+          >
+            <div class="title">{{ "liquidity.position.table.row_titles.total" | translate }} {{ this.getSimbol() }}</div>
+            <div class="content">
+              {{ +pool.liquidity_added.total | roundedValue }}
+            </div>
+            <div class="content">{{ +pool.withdraw.total | roundedValue }}</div>
+            <div class="content">
+              {{ +pool.current_liquidity.total | roundedValue }}
+            </div>
+            <div [class]="getClass(+pool.gain_loss.total)">
+              {{ +pool.gain_loss.total | roundedValue }}
+            </div>
+          </div>
+          <div
+            class="column"
+            fxLayout="column"
+            fxFlex="20"
+            fxFlex.gt-md="17"
+            fxFlex.md="17"
+            *ngIf="showHideToggle == false"
+          >
+            <div class="title">{{ "liquidity.position.table.row_titles.total" | translate }} {{ this.getSimbol() }}</div>
+            <div class="content">******</div>
+            <div class="content">******</div>
+            <div class="content">******</div>
+            <div [class]="getClass(+pool.gain_loss.total)">******</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

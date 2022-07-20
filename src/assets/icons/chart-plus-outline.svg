@@ -1,0 +1,7 @@
+<svg id="MDI_chart-box-plus-outline" data-name="MDI / chart-box-plus-outline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Boundary" fill="#fff" stroke="rgba(0,0,0,0)" stroke-width="1" opacity="0">
+    <rect width="24" height="24" stroke="none"/>
+    <rect x="0.5" y="0.5" width="23" height="23" fill="none"/>
+  </g>
+  <path id="Path_chart-box-plus-outline" data-name="Path / chart-box-plus-outline" d="M22,5V7H19v3H17V7H14V5h3V2h2V5h3M19,19H5V5h6V3H5A2.006,2.006,0,0,0,3,5V19a2.006,2.006,0,0,0,2,2H19a2.006,2.006,0,0,0,2-2V13H19v6m-4-6v4h2V13H15m-4,4h2V9H11v8M9,17V11H7v6Z" transform="translate(0 1)" fill="#fff"/>
+</svg>

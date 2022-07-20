@@ -1,0 +1,455 @@
+{
+  "marketcap": {
+    "volume_paragraph": {
+      "30d": {
+        "p1": "Last 30 days volume of",
+        "p2": "and",
+        "p3": "swaps on Thorchain",
+        "volume_title": "30d Volume",
+        "swap_title": "30d Swaps"
+      },
+      "24h": {
+        "p1": "Total Volume last 24h",
+        "p2": "with",
+        "p3": "swaps",
+        "volume_title": "24h Volume",
+        "swap_title": "24h Swaps"
+      }
+    },
+    "liquidity_search": {
+      "title": "Follow your liquidity",
+      "placeholder": "Put your address here...",
+      "button": "Go"
+    },
+    "wallet_resume": {
+      "title": "Total assets in wallets",
+      "not_resume": {
+        "p1": "Add your wallet to follow",
+        "p2": "your portfolio and positions"
+      }
+    },
+    "search_pools": {
+      "placeholder": "Search pools..."
+    },
+    "table": {
+      "headers": {
+        "asset": "Asset",
+        "price": "Pool Price",
+        "depth": "Depth",
+        "volume": "24h Volume",
+        "status": "Status",
+        "operations": "Operations"
+      },
+      "operations_tooltips": {
+        "swap": "Swap Tokens",
+        "add": "Add Liquidity",
+        "withdraw": "Withdraw from Pool",
+        "send": "Send Crypto"
+      },
+      "status":{
+        "available":"Available",
+        "terminated": "Terminated"
+      },
+      "paginator": "Show",
+      "not_available_pool":"This Pool is not Available, please select another pool"
+    }
+  },
+  "info_bar": {
+    "depth": "Total Depth",
+    "pools": "Active Pools",
+    "nodes": "Active Nodes",
+    "bond": "Avg Bond",
+    "queue": "Outbound Q",
+    "churn": "Blocks to churn",
+    "volumes": "Volumes"
+  },
+  "header": {
+    "hide_toggle": "Toggle slide to hide wallet Amounts",
+    "copy_msg":"Wallet address copied to Clipboard!",
+    "copy":"Copy",
+    "view_explorer":"View on Blockchain Explorer",
+    "statuses": {
+      "labels": {
+        "BTC": "BITCOIN CHAIN",
+        "BNB": "BINANCE CHAIN",
+        "BCH": "BITCOIN CASH CHAIN",
+        "LTC": "LITECOIN CHAIN",
+        "ETH": "ETHEREUM CHAIN",
+        "DOGE": "DOGECOIN CHAIN"
+      },
+      "status": {
+        "active": "Active",
+        "halted": "Halted"
+      }
+    },
+    "dashboard_button": "Go to Dashboard",
+    "connect_wallet": {
+      "title": "Connect to a wallet",
+      "connected":{
+        "title": "Wallets",
+        "add": "Add",
+        "edit": "Edit",
+        "pending": "Pending Txs",
+        "address": "{{chain}} Address"
+      }
+    }
+  },
+  "footer":{},
+  "operations":{
+    "buttons":{
+      "swap":"SWAP",
+      "add":"ADD",
+      "withdraw":"WITHDRAW",
+      "send":"SEND",
+      "pending":"PENDING TXS"
+    },
+    "select":{
+      "address": "{{chain}} Address"
+    },
+    "msg": {
+      "chaosnet": {
+        "p1":"This is a beta version. Use under your own risk.",
+        "p2":"Please try with small amounts only.",
+        "p3":"Report issues",
+        "p4":"Here",
+        "p5":"Or try Testnet first,"
+      },
+      "testnet": "You are currently on Testnet."
+    },
+    "asset_dialog":{
+      "title":"Select a token",
+      "placeholder":"Search Token",
+      "token_name":"Token Name",
+      "pool_name":"Pool Name",
+      "pool_type":"Pool Type",
+      "units":"LP Units",
+      "balance":"Balance"
+    },
+    "recieve_wallet_dialog":{
+      "title":"Add Recieve Wallet",
+      "address":"{{chain}} Address",
+      "import":"Import",
+      "cancel":"Cancel",
+      "manual_input":{
+        "select":"Manual Input",
+        "placeholder":"Please Enter Wallet",
+        "msg":"Not Valid Address"
+      }
+    },
+    "confirm_dialog":{
+      "title":"Do you want to continue?",
+      "no":"No",
+      "yes":"Yes"
+    },
+    "swap":{
+      "send":"Send",
+      "balance": "Balance",
+      "shared": "Shared",
+      "recieve": "Receive",
+      "in": "in",
+      "eq_after_fees": "Approx equivalent after fees",
+      "fee_toggle": {
+        "view": "View fee details",
+        "hide": "Hide fee details"
+      },
+      "add_modal":{
+        "sym":"Symmetrical Add",
+        "asym":"Asymmetrical Add"
+      },
+      "withdraw_modal":{
+        "sym":"Symmetrical Withdraw",
+        "asym":"Asymmetrical Withdraw",
+        "withdraw":"Withdraw",
+        "from":"From",
+        "msgs":{
+          "searching":"Searching for LP positions",
+          "no_lp":"You have no LP positions on this pool",
+          "error":"There's an error loading LP position data"
+        }
+      },
+      "send_modal":{
+        "recipient":"Recipient (required)",
+        "invalid_address":"*Invalid address",
+        "memo":"Memo (optional)",
+        "to_recipient":"To Recipient",
+        "with_memo":"With Memo"
+      },
+      "fee_resume": {
+        "slip": "Slip",
+        "fee": "{{chain}}.{{ticker}} fee",
+        "aff_fee": "Affiliate fee",
+        "share_estimated": "Pool Shared Estimated",
+        "units": "LP Units",
+        "shared": "Pool Shared",
+        "total_fee": "Total fee"
+      },
+      "slippage_check": "Activate Slippage Protection",
+      "slippage_bot":{
+        "calculate_msg":"Calculating Slippage Protection",
+        "msg":{
+          "applies":"The transaction is suitable for slippage protection",
+          "not_applies":"The transaction is not suitable for slip protection"
+        },
+        "sp_resume":{
+          "title":"Details per transaction",
+          "w_protection":"Slipagge with Protection",
+          "wout_protection":"Slipagge without Protection",
+          "total_saving":"Total savings"
+        }
+      },
+      "buttons":{
+        "swap":"Swap",
+        "add":"Add",
+        "withdraw":"Withdraw",
+        "send":"Send",
+        "back":"Back",
+        "confirm":{
+          "swap":"Confirm Swap",
+          "add":"Confirm Add",
+          "withdraw":"Confirm Withdraw",
+          "send":"Confirm Send"
+        }
+      }
+    },
+    "pending":{
+      "action":{
+        "swap":"SWAP",
+        "add":"ADD",
+        "withdraw":"WITHDRAW",
+        "send":"SEND",
+        "refund":"REFUND"
+      },
+      "action_verb":{
+        "swap":"You swapped",
+        "add":"You added",
+        "withdraw":"You withdrew",
+        "send":"You sent",
+        "refund":"Has been refund"
+      },
+      "status":{
+        "PENDING":"PENDING",
+        "COMPLETE":"COMPLETE",
+        "REFUNDED":"REFUNDED",
+        "INCOMPLETE":"INCOMPLETE"
+      },
+      "view_tx":"VIEW TRANSACTION ON",
+      "explorer":"Explorer",
+      "check_lp":"Check Liquidity",
+      "refund_msg":{
+        "p1":"Something went wrong submitting your transaction on the network",
+        "p2":"Your transaction has been",
+        "p3":"refunded"
+      },
+      "paginator":"Show",
+      "no_pending":"NO TRANSACTIONS FOUND"
+    },
+    "confirm_tx":{
+      "title":{
+        "swap":"YOU ARE SWAPPING",
+        "add":"YOU ARE ADDING LIQUIDITY",
+        "withdraw":"YOU ARE WITHDRAWING FROM POOL",
+        "send":"YOU ARE SENDING CRYPTO"
+      },
+      "from":"FROM",
+      "to":"TO",
+      "to_wallet":"TO WALLET",
+      "pool":"{{ ticker }} POOL",
+      "estimated_minutes":"{{ time }} min to confirm transaction",
+      "explorer_link":"VIEW TRANSACTION ON THORCHAIN",
+      "close": "Close"
+    },
+    "confirm_keystore_tx":{
+      "title":"Please enter the Keystore password to proceed with transaction",
+      "placeholder":"Enter Password",
+      "error_msgs":{
+        "empty":"Password can not be empty",
+        "invalid":"Invalid password"
+      },
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "wallet_connect":{
+      "title":"Connect to a wallet",
+      "main_menu":{
+        "xdefi":{
+          "connect":"Connect XDEFI Wallet",
+          "install":"Install XDEFI Wallet"
+        },
+        "keystore":"Keystore File",
+        "create_keystore":"Keystore File Create",
+        "phrase_import":"Secret Phrase Import",
+        "manual":"Manual Input"
+      },
+      "xdefi":{
+        "sub_title":"Please select the XDEFI wallets you want to import",
+        "select_all":"Select All Chains",
+        "already_imported":"This wallet is already imported",
+        "msg":"Go to Apps Settings in xDefi and enable this provider to be able to import it. Then, reload the page and try again."
+      },
+      "keystore":{
+        "sub_title":"Please select the wallets you want to import from Keystore",
+        "select_all":"Select All Chains",
+        "already_imported":"This wallet is already imported",
+        "upload_file":"Upload Keystore File",
+        "password":"Please Enter Password",
+        "msgs":{
+          "empty":"Password can not be empty",
+          "invalid":"Invalid password",
+          "invalid_keystore":"Invalid Keystore File",
+          "invalid_json":"Invalid JSON File",
+          "no_file":"No file selected"
+        }
+      },
+      "keystore_create":{
+        "sub_title":"Please enter and confirm the new password for Keystore creation",
+        "password":"Please Enter Password",
+        "confirm_password":"Please Confirm Password",
+        "msgs":{
+          "empty":"Both fields must be filled",
+          "invalid":"Both fields not match"
+        }
+      },
+      "phrase_import":{
+        "sub_title":"Please enter your secret phrase and confirm the new password for Keystore Creation",
+        "phrase":"Please Enter Phrase Here",
+        "password":"Please Enter Password",
+        "confirm_password":"Please Confirm Password",
+        "msgs":{
+          "empty":"All fields must be filled",
+          "invalid_phrase":"Not valid secret phrase",
+          "not_match":"Password fields not Match"
+        }
+      },
+      "manual":{
+        "wallet":"Please Enter Wallet here",
+        "remember":"Remember wallet",
+        "invalid":"Invalid Address",
+        "already_imported":"This wallet is already imported"
+      },
+      "buttons":{
+        "back":"Back",
+        "next":"Next",
+        "create":"Create",
+        "import":"Import",
+        "connect":"Connect"
+      }
+    },
+    "forget_wallet":{
+      "title":"Are you sure to Delete",
+      "delete_all":"Delete all wallets of this type",
+      "delete_only":"Delete only this wallet",
+      "yes":"Yes",
+      "no":"No"
+    }
+  },
+  "pool_details":{
+    "go_back":"Go Back",
+    "volumes":"Total Volumes",
+    "depth":"Total Depth",
+    "swaps":"# of Swaps",
+    "buys":"Volume Buys",
+    "sells":"Volume Sells",
+    "swap_size":"Avg swap size",
+    "swap_fee":"Avg swap fee",
+    "tx_buttons":{
+      "swap":"Swap Tokens",
+      "add":"Add Liquidity",
+      "withdraw":"Withdraw from Pool",
+      "send":"Send Crypto"
+    },
+    "search_placeholder":"Search pools...",
+    "table":{
+      "headers": {
+        "asset": "Asset",
+        "price": "Pool Price",
+        "depth": "Depth",
+        "volume": "24h Volume",
+        "status": "Status"
+      },
+      "paginator": "Show"
+    },
+    "details":{
+      "price":"Pool Price",
+      "pool_apy":"Pool APY",
+      "members":"Members"
+    }
+  },
+  "wallet_manager":{
+    "go_back":"Go Back",
+    "copy_msg":"Wallet address copied to Clipboard!",
+    "add_new_wallet":"Add new wallet",
+    "wallet":{
+      "types":{
+        "keystore":"Keystore File",
+        "xdefi":"XDEFI Wallet",
+        "manual":"Manual Input",
+        "walletconnect":"Walletconnect"
+      },
+      "address":"{{chain}} Address",
+      "balance":"Your Balance",
+      "wallet_address":"Wallet Address",
+      "copy":"Copy",
+      "view_explorer":"View on Blockchain Explorer",
+      "buttons":{
+        "swap":"Swap Tokens",
+        "add":"Add Liquidity",
+        "withdraw":"Withdraw from Pool",
+        "send":"Send Crypto"
+      }
+    }
+  },
+  "liquidity":{
+    "go_back":"Go Back",
+    "totals":{
+      "added":"Total Added Liquidity",
+      "current":"Current Liquidity",
+      "withdrawn":"Total Withdrawn",
+      "current_gain_loss":"Current Gain / Loss",
+      "gain_loss":"Gain / Loss",
+      "APY":"APY"
+    },
+    "graph":{
+      "liquidity":"Liquidity",
+      "gain_loss":"Gain / Loss"
+    },
+    "resume":{
+      "not_resume_msg":"This wallet is not providing liquidity on Thorchain. Instead, we are showing you a summary of your wallet.",
+      "total_portfolio":"Total Portfolio",
+      "daily":"Daily",
+      "weekly":"Weekly",
+      "yearly":"Yearly",
+      "assets_in_lp":"Assets in liquidity"
+    },
+    "position":{
+      "buttons":{
+        "swap":"Swap Tokens",
+        "add":"Add Liquidity",
+        "withdraw":"Withdraw from Pool",
+        "send":"Send Crypto"
+      },
+      "lp_days":"day(s) in LP",
+      "table":{
+        "row_titles":{
+          "rune":"Rune",
+          "asset":"Asset",
+          "total":"Total"
+        },
+        "column_titles":{
+          "added":"Liquidity Added",
+          "withdraw":"Withdraw",
+          "current":"Current Liquidity",
+          "gain_loss":"Gain / Loss"
+        }
+      }
+    }
+  },
+  "cookie_msg":{
+    "msg":"We use cookies to ensure that we give the best user experience on our website. If you continue to use this site, we'll asume that you agree",
+    "button":"Accept"
+  },
+  "maintenance_page":{
+    "title":"Site in maintenance",
+    "msg":"We are currently fixing some issues to improve the experience on the platform.",
+    "button":"Close"
+  }
+}

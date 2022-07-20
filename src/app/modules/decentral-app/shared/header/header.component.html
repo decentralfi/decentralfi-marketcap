@@ -1,0 +1,250 @@
+<mat-toolbar
+  class="sidenav-content-toolbar sticky mat-elevation-z2"
+  color="primary"
+  fxLayout="row"
+  fxLayoutAlign="space-between center"
+>
+  <div fxLayout="row wrap" fxLayoutAlign="start center">
+    <button
+      mat-icon-button
+      class="header-menu-button"
+      type="button"
+      (click)="toggleSidebar()"
+    >
+      <i class="material-icons">menu</i>
+    </button>
+    <img
+      class="header-logo-decentral"
+      src="../../../../assets/icons/decentralfi-logo.svg"
+      alt="logo"
+      (click)="logout()"
+    />
+    <mat-form-field class="period-select" appearance="outline" color="accent">
+      <mat-select
+        [(value)]="perdiodRangeLabel"
+        panelClass="currency-select-panel"
+      >
+        <mat-option value="24H" (click)="selectPeriod('last24hr', '24H')">
+          24H
+        </mat-option>
+        <mat-option value="7D" (click)="selectPeriod('last7day', '7D')">
+          7D
+        </mat-option>
+        <mat-option value="1M" (click)="selectPeriod('lastMonth', '1M')">
+          1M
+        </mat-option>
+        <mat-option value="3M" (click)="selectPeriod('last3Month', '3M')">
+          3M
+        </mat-option>
+        <mat-option value="6M" (click)="selectPeriod('last6Month', '6M')">
+          6M
+        </mat-option>
+        <!-- <mat-option value="YTD" (click)="selectPeriod('lastYTD', 'YTD')">
+          YTD
+        </mat-option>
+        <mat-option value="1Y" (click)="selectPeriod('lastYear', '1Y')">
+          1Y
+        </mat-option>
+        <mat-option value="MAX" (click)="selectPeriod('MAX', 'MAX')">
+          MAX
+        </mat-option> -->
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="currency-select" appearance="outline" color="accent">
+      <mat-select [(value)]="currencyValue" panelClass="currency-select-panel">
+        <mat-select-trigger>
+          <img src="../../../../assets/icons/currency.svg" alt="currency" />
+          {{ currencyName }}
+        </mat-select-trigger>
+        <mat-option
+          *ngFor="let currency of currencies"
+          value="{{ currency.label }}"
+          (click)="selectCurrency(currency)"
+        >
+          {{ currency.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button
+      mat-raised-button
+      class="wallet-button desktop"
+      (click)="addWallet()"
+      *ngIf="!addresses || addresses.length == 0"
+    >
+      <span class="add-wallet-button-label">Connect to a wallet</span>
+      <mat-icon class="add-wallet-icon">account_balance_wallet</mat-icon>
+    </button>
+
+    <mat-form-field
+      class="wallet-select desktop"
+      appearance="outline"
+      color="accent"
+      *ngIf="addresses && addresses.length > 0"
+    >
+      <!--<mat-select [(value)]="selectedWallet" [panelClass]="getWalletPanelClass()">-->
+      <mat-select value="1" [panelClass]="getWalletPanelClass()" disableRipple>
+        <mat-select-trigger>
+          <div fxLayout="row wrap" fxLayoutAlign="center center">
+            <!--<div fxFlex="85" fxLayoutAlign="center center">{{selectedWalletLabel}}</div>-->
+            <div fxFlex="85" fxLayoutAlign="center center">Wallets</div>
+            <mat-icon class="add-wallet-icon" fxFlex="15"
+              >account_balance_wallet</mat-icon
+            >
+          </div>
+        </mat-select-trigger>
+
+        <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+          <mat-option
+            fxFlex="45"
+            value="1"
+            (click)="addWallet()"
+            class="add-option"
+            matRipple
+          >
+            <div>Add&nbsp;</div>
+            <mat-icon [inline]="true">add_circle</mat-icon>
+          </mat-option>
+
+          <mat-option
+            fxFlex="45"
+            value="1"
+            class="edit-option"
+            (click)="editWallet()"
+            matRipple
+          >
+            <div>Edit&nbsp;</div>
+            <mat-icon [inline]="true">border_color</mat-icon>
+          </mat-option>
+
+          <mat-option
+            fxFlex="100"
+            value="1"
+            class="edit-option"
+            (click)="openPending()"
+            matRipple
+          >
+            <div>Pending Txs&nbsp;</div>
+            <mat-icon [inline]="true">pending</mat-icon>
+          </mat-option>
+        </div>
+
+        <!-- WALLETS CHOISE -->
+
+        <mat-option
+          *ngFor="let address of addresses"
+          value="{{ address.address }}"
+        >
+          <div fxLayout="row" fxFlex="100">
+            <div
+              class="address-template"
+              fxLayout="column"
+              fxLayoutAlign="center start"
+              fxFlex="70"
+              (click)="selectWallet(address)"
+            >
+              <div
+                class="chain-title"
+                fxLayout="row"
+                fxLayoutAlign="start center"
+              >
+                <img
+                  src="../../../../../assets/icons/xdefi.png"
+                  alt="xfi"
+                  width="14"
+                  *ngIf="address.type == 'xdefi'"
+                  matTooltip="xDefi Wallet"
+                />
+                <mat-icon
+                  *ngIf="address.type == 'manual'"
+                  matTooltip="Manual input"
+                  >keyboard</mat-icon
+                >
+                <mat-icon
+                  *ngIf="address.type == 'keystore'"
+                  matTooltip="Keystore File"
+                  >vpn_key</mat-icon
+                >
+                <img
+                  src="../../../../../assets/icons/walletconnect.png"
+                  alt="walletconnect"
+                  width="14"
+                  *ngIf="address.type == 'walletconnect'"
+                  matTooltip="walletconnect"
+                />
+                &nbsp;{{ address.chain }} Address
+              </div>
+              <div
+                class="address-label"
+                fxLayout="row"
+                fxLayoutAlign="center center"
+              >
+                <img
+                  src="{{ address.logo }}"
+                  alt="{{ address.chain }}"
+                  onerror='this.src="https://unpkg.com/cryptoicons-cdn@0.1.22/images/RUNE.png"'
+                  loading="lazy"
+                />
+                <div class="address">
+                  {{ address.mask }} ({{ getSimbol()
+                  }}{{ address.totalBalance | roundedValue }})
+                </div>
+              </div>
+            </div>
+
+            <div class="icons" fxFlex="30" fxLayoutAlign="center center">
+              <mat-icon matRipple (click)="copy(address.address)"
+                >content_copy</mat-icon
+              >
+              <mat-icon matRipple (click)="launch(address)">launch</mat-icon>
+            </div>
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- PERIODS -->
+
+    <div
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+      class="header-period-chips"
+    >
+      <div class="periods" fxLayoutAlign="space-between center">
+        <mat-chip-list aria-label="period">
+          <mat-chip
+            *ngFor="let period of periods"
+            [color]="setColor(period.label)"
+            (click)="getPeriod(period.value, period.label)"
+            selected
+          >
+            {{ period.label }}
+          </mat-chip>
+          <!--<mat-chip [color]="setColor('range')" selected>
+            <mat-datepicker-toggle matSuffix [for]="picker">
+              <mat-icon matDatepickerToggleIcon>add_circle</mat-icon>
+            </mat-datepicker-toggle>
+          </mat-chip>-->
+        </mat-chip-list>
+      </div>
+      <!--<mat-date-range-picker #picker></mat-date-range-picker>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate type="hidden" width="1" (dateInput)="inputEvent('start',$event)" [max]="today">
+        <input matEndDate type="hidden" width="1" (dateInput)="inputEvent('end',$event)" [max]="today">
+      </mat-date-range-input>-->
+    </div>
+
+    <!-- CHANGE THEME -->
+
+    <mat-slide-toggle
+      class="theme-toggle"
+      color="primary"
+      (click)="setTheme()"
+      [(ngModel)]="isToggle"
+    >
+    </mat-slide-toggle>
+  </div>
+</mat-toolbar>

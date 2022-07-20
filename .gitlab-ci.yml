@@ -1,0 +1,75 @@
+image: nikolaik/python-nodejs
+
+before_script:
+  - echo "debugging info"
+  - python --version # Print out python version for debugging
+  - node -v
+  - npm -v
+
+stages:
+  - deploy_develop
+  - deploy_qa
+  - deploy_production
+
+deploy_develop:
+  stage: deploy_develop
+  script:
+    - git config --global user.email "dev@turpialdev.com"
+    - git config --global user.name "Turpial"
+    - git checkout develop
+    - mkdir ~/.aws
+    - touch ~/.aws/config
+    - echo "[profile eb-cli]" >> ~/.aws/config
+    - echo "aws_access_key_id = $AWS_ACCESS_KEY_ID_PROD" >> ~/.aws/config
+    - echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY_PROD" >> ~/.aws/config
+    - npm install -g @angular/cli@13.3.0
+    - npm install
+    - npm run build:dev
+    - git add .
+    - git commit -m "dev deploy"
+    - pip install awsebcli --upgrade
+    - eb deploy decentralfi-front-develop
+  only:
+    - develop
+
+deploy_qa:
+  stage: deploy_qa
+  script:
+    - git config --global user.email "dev@turpialdev.com"
+    - git config --global user.name "Turpial"
+    - git checkout qa
+    - mkdir ~/.aws
+    - touch ~/.aws/config
+    - echo "[profile eb-cli]" >> ~/.aws/config
+    - echo "aws_access_key_id = $AWS_ACCESS_KEY_ID_PROD" >> ~/.aws/config
+    - echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY_PROD" >> ~/.aws/config
+    - npm install -g @angular/cli@13.3.0
+    - npm install
+    - npm run build:qa
+    - git add .
+    - git commit -m "qa deploy"
+    - pip install awsebcli --upgrade
+    - eb deploy decentralfi-front-qa
+  only:
+    - qa
+
+deploy_production:
+  stage: deploy_production
+  script:
+    - git config --global user.email "dev@turpialdev.com"
+    - git config --global user.name "Turpial"
+    - git checkout master
+    - mkdir ~/.aws
+    - touch ~/.aws/config
+    - echo "[profile eb-cli]" >> ~/.aws/config
+    - echo "aws_access_key_id = $AWS_ACCESS_KEY_ID_PROD" >> ~/.aws/config
+    - echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY_PROD" >> ~/.aws/config
+    - npm install -g @angular/cli@13.3.0
+    - npm install
+    - npm run build:prod
+    - git add .
+    - git commit -m "deploy"
+    - pip install awsebcli --upgrade
+    - eb deploy decentralfi-front-production
+  only:
+    - master

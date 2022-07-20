@@ -1,0 +1,11 @@
+@media screen and (min-width: 920px) {
+  .cookie-overlay {
+    height: 96px;
+  }
+}
+
+@media screen and (max-width: 920px) {
+  .cookie-overlay {
+    height: 100vh;
+  }
+}

@@ -1,0 +1,378 @@
+<div class="operations-wrapper" fxFlex="100" fxLayout="column">
+  <!-- LOADER -->
+  <div
+    class="w-loader"
+    *ngIf="memberQueryStatus === 'QUERYING'"
+    fxFlex="100"
+    fxLayout="column"
+    fxLayoutAlign="center center"
+  >
+    <img alt="loader" />
+    <div>{{"operations.swap.withdraw_modal.msgs.searching" | translate}}</div>
+  </div>
+
+  <!-- NO LIQUIDITY -->
+  <div
+    class="w-loader"
+    *ngIf="memberQueryStatus === 'HAS_NO_LIQUIDITY'"
+    fxFlex="100"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+  >
+    <div>{{"operations.swap.withdraw_modal.msgs.no_lp" | translate}}</div>
+  </div>
+
+  <!-- ERROR -->
+  <div
+    class="w-loader"
+    *ngIf="memberQueryStatus === 'QUERY_ERROR'"
+    fxFlex="100"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+  >
+    <div>{{"operations.swap.withdraw_modal.msgs.error" | translate}}</div>
+  </div>
+
+  <!-- WITH LIQUIDITY -->
+  <div *ngIf="memberQueryStatus === 'HAS_LIQUIDITY'">
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      class="add-buttons"
+      *ngIf="!showConfirm"
+    >
+      <div class="from">{{"operations.swap.withdraw_modal.withdraw" | translate}}:</div>
+      <!-- ASYM ASSET BUTTON -->
+      <button
+        [ngClass]="
+          poolTypeOptions.asymAsset
+            ? 'button_transaccion_active'
+            : 'button_transaccion'
+        "
+        (click)="changeSubOperacion('ASYM_ASSET')"
+        mat-stroked-button
+        *ngIf="asymAsset == true"
+      >
+        <img
+          src="{{ assetIn.iconPath }}"
+          alt="{{ assetIn.ticker }}"
+          width="18px"
+        />
+        {{ assetIn.ticker }}
+      </button>
+      <!-- SYM BUTTON -->
+      <button
+        [ngClass]="
+          poolTypeOptions.sym
+            ? 'button_transaccion_active'
+            : 'button_transaccion'
+        "
+        (click)="changeSubOperacion('SYM')"
+        mat-stroked-button
+        *ngIf="sym == true"
+      >
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <div class="img-wrapper">
+            <div
+              class="asset-selected"
+              fxLayout="row"
+              fxLayoutAlign="start center"
+            >
+              <img
+                src="{{ assetIn.iconPath }}"
+                alt="{{ assetIn.ticker }}"
+                width="15px"
+              />
+            </div>
+            <div
+              class="rune-selected"
+              fxLayout="row"
+              fxLayoutAlign="end center"
+            >
+              <img
+                src="{{ assetOut.iconPath }}"
+                alt="{{ assetOut.ticker }}"
+                width="15px"
+              />
+            </div>
+          </div>
+          {{ assetIn.ticker }} +
+          {{ assetOut.ticker }}
+        </div>
+      </button>
+      <!-- ASYM RUNE BUTTON -->
+      <button
+        [ngClass]="
+          poolTypeOptions.asymRune
+            ? 'button_transaccion_active'
+            : 'button_transaccion'
+        "
+        (click)="changeSubOperacion('ASYM_RUNE')"
+        mat-stroked-button
+        *ngIf="asymRune == true"
+      >
+        <img
+          src="{{ assetOut.iconPath }}"
+          alt="{{ assetOut.ticker }}"
+          width="20px"
+        />
+        {{ assetOut.ticker }}
+      </button>
+    </div>
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      class="add-buttons"
+      *ngIf="!showConfirm"
+    >
+      <div class="from">{{"operations.swap.withdraw_modal.from" | translate}}:</div>
+      <!-- ASYM ASSET BUTTON -->
+      <button
+        class="button_transaccion_active"
+        (click)="setAsset('in')"
+        mat-stroked-button
+      >
+        <img
+          src="{{ assetIn.iconPath }}"
+          alt="{{ assetIn.ticker }}"
+          width="18px"
+        />
+        {{ assetIn.ticker }}
+      </button>
+    </div>
+
+    <!-- INPUTS -->
+
+    <app-one-input-operation
+      *ngIf="withdrawType === 'ASYM_ASSET' && !showConfirm"
+      fxLayoutAlign="center center"
+      [operation]="operation"
+      [type]="withdrawType"
+      [tokenSelected]="assetIn"
+      [asset]="assetIn"
+      [assetUnit]="assetUnitIn"
+      [inputUsdValue]="inputUsdValueIn"
+      [slip]="slip"
+      [poolShare]="poolShare"
+      [networkFee]="networkFeeIn"
+      [feeToUsdValue]="inboundFeeToUsdValue"
+      [balance]="getSharedAmount()"
+      [balanceUSD]="balanceInUSD"
+      [LPUnits]="LPUnits"
+      [addIsValid]="addIsValid"
+      [hasWallet]="hasWallet"
+      (inputValue)="inputValueComing($event)"
+      (percent)="setPercent($event)"
+      (setAssetValue)="setAsset($event)"
+      (setMaxFunction)="setMax()"
+      (setConfirmation)="confirmWithDraw()"
+    ></app-one-input-operation>
+
+    <app-two-input-operation
+      *ngIf="withdrawType === 'SYM' && !showConfirm"
+      fxLayoutAlign="center center"
+      [operation]="operation"
+      [assetSelected]="assetIn"
+      [inputUsdValueIn]="inputUsdValueIn"
+      [inputUsdValueOut]="inputUsdValueOut"
+      [assetIn]="assetIn"
+      [assetOut]="assetOut"
+      [assetUnitIn]="assetUnitIn"
+      [assetUnitOut]="assetUnitOut"
+      [slip]="slip"
+      [poolShare]="poolShare"
+      [networkFeeIn]="networkFeeIn"
+      [networkFeeOut]="networkFeeOut"
+      [totalFeeToUSD]="totalFeeToUSD"
+      [balanceIn]="investedAssetAmount"
+      [balanceInUSD]="balanceInUSD"
+      [balanceOut]="investedRuneAmount"
+      [balanceOutUSD]="balanceOutUSD"
+      [LPUnits]="LPUnits"
+      [addIsValid]="addIsValid"
+      [hasWallet]="hasWallet"
+      (inputValue)="inputValueComing($event)"
+      (percent)="setPercent($event)"
+      (setAssetValue)="setAsset($event)"
+      (setMaxFunction)="setMax()"
+      (setConfirmation)="confirmWithDraw()"
+    ></app-two-input-operation>
+
+    <app-one-input-operation
+      *ngIf="withdrawType === 'ASYM_RUNE' && !showConfirm"
+      fxLayoutAlign="center center"
+      [operation]="operation"
+      [type]="withdrawType"
+      [name]="'received'"
+      [tokenSelected]="assetOut"
+      [inputUsdValue]="inputUsdValueOut"
+      [asset]="assetOut"
+      [assetUnit]="assetUnitOut"
+      [slip]="slip"
+      [poolShare]="poolShare"
+      [networkFee]="networkFeeOut"
+      [feeToUsdValue]="inboundFeeToUsdValue"
+      [addIsValid]="addIsValid"
+      [hasWallet]="hasWallet"
+      [balance]="getSharedAmount()"
+      [balanceUSD]="balanceOutUSD"
+      [LPUnits]="LPUnits"
+      (inputValue)="inputValueComing($event)"
+      (percent)="setPercent($event)"
+      (setAssetValue)="setAsset($event)"
+      (setMaxFunction)="setMax()"
+      (setConfirmation)="confirmWithDraw()"
+    ></app-one-input-operation>
+
+    <!-- CONFIRMATION -->
+
+    <div fxLayout="column" *ngIf="showConfirm && withdrawType">
+      <div
+        class="send-usd-value"
+        fxLayout="row"
+        fxLayoutAlign="start end"
+        *ngIf="withdrawType == 'SYM' || withdrawType == 'ASYM_ASSET'"
+      >
+        <div class="title_modal">
+          {{ withdrawType === "SYM" ? ("operations.swap.withdraw_modal.sym" | translate) : ("operations.swap.withdraw_modal.asym" | translate)
+          }}
+        </div>
+      </div>
+      <div
+        class="select-amount-wrapper"
+        *ngIf="withdrawType == 'SYM' || withdrawType == 'ASYM_ASSET'"
+      >
+        <div class="select-field" fxLayout="column">
+          <button mat-raised-button class="asset-button">
+            <img
+              src="{{ assetIn.iconPath }}"
+              alt="TOKEN IN"
+              width="32px"
+              onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+            />
+          </button>
+        </div>
+
+        <div class="amount-field" fxFlex fxLayout="column wrap">
+          <!-- SEND FORM -->
+
+          <form class="content_input-amount" fxLayoutAlign="center center">
+            <input
+              class="input_assets-amount"
+              type="text"
+              name="send"
+              fxFlex="100"
+              maxlength="30"
+              [formControl]="assetUnitIn"
+              readonly
+            />
+          </form>
+
+          <!--<span class="hint text_modal">{{ assetUnitInHint }}</span>-->
+        </div>
+      </div>
+      <div
+        class="arrow-row"
+        fxLayout="row wrap"
+        fxLayoutAlign="center center"
+        *ngIf="withdrawType == 'SYM'"
+      >
+        <mat-icon class="down-arrow-icon">arrow_downward</mat-icon>
+      </div>
+      <div
+        class="send-usd-value"
+        fxLayout="row"
+        fxLayoutAlign="start end"
+        *ngIf="withdrawType == 'SYM' || withdrawType == 'ASYM_RUNE'"
+      >
+        <div class="title_modal">
+          {{ withdrawType === "SYM" ? ("operations.swap.withdraw_modal.sym" | translate) : ("operations.swap.withdraw_modal.asym"
+          | translate)
+          }}
+        </div>
+      </div>
+      <div
+        class="select-amount-wrapper"
+        fxLayout="row"
+        *ngIf="withdrawType == 'SYM' || withdrawType == 'ASYM_RUNE'"
+      >
+        <div class="select-field" fxLayout="column">
+          <button mat-raised-button class="asset-button">
+            <img
+              src="{{ assetOut.iconPath }}"
+              alt="TOKEN OUT"
+              width="32px"
+              onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+            />
+          </button>
+        </div>
+
+        <!-- RECIVE FORM -->
+
+        <div class="amount-field" fxLayout="column">
+          <!-- <h4 class="text_modal">Out (Want)</h4> -->
+          <form class="content_input-amount">
+            <input
+              class="input_assets-amount"
+              name="recived"
+              [formControl]="assetUnitOut"
+              readonly
+            />
+          </form>
+          <!-- <span class="hint text_modal">&nbsp;</span> -->
+        </div>
+      </div>
+
+      <!-- TOTAL FEE -->
+
+      <div
+        class="fee-detail"
+        fxLayout="column"
+        fxLayoutAlign="space-evenly center"
+      >
+        <div class="title">{{"operations.swap.fee_resume.total_fee" | translate}}</div>
+        <div class="detail">
+          <span fxLayout="row">
+            <div
+              *ngIf="withdrawType === 'SYM' || withdrawType === 'ASYM_ASSET'"
+            >
+              {{ networkFeeIn | number: "0.0-6" }}
+              {{ assetIn.ticker === "RUNE" ? assetIn.ticker : assetIn.chain }}
+            </div>
+            <div *ngIf="withdrawType === 'SYM'">&nbsp;+&nbsp;</div>
+            <div *ngIf="withdrawType === 'SYM' || withdrawType === 'ASYM_RUNE'">
+              {{ networkFeeOut | number: "0.0-6" }}
+              {{
+                assetOut.ticker === "RUNE" ? assetOut.ticker : assetOut.chain
+              }}
+            </div>
+          </span>
+        </div>
+      </div>
+
+      <div
+        class="confirm-swap-button"
+        fxFlex="100"
+        fxLayout="row wrap"
+        fxLayoutAlign="center start"
+        fxLayoutGap="25px"
+      >
+        <button
+          mat-raised-button
+          class="back button_modal"
+          (click)="confirmWithDraw(false)"
+        >
+          <span class="swap-label">{{"operations.swap.buttons.back" | translate}}</span>
+        </button>
+        <button
+          mat-raised-button
+          class="swap button_modal"
+          (click)="withdraw()"
+        >
+          <span class="swap-label">{{"operations.swap.buttons.confirm.withdraw" | translate}}</span>
+          <app-operation-icon [type]="'add'"></app-operation-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

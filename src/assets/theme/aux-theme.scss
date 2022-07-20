@@ -1,0 +1,210 @@
+/*Typographies*/
+@font-face {
+  font-family: "Hero-Light"; /*a name to be used later*/
+  src: url("../fonts/Hero-Light.ttf"); /*URL to font*/
+}
+
+@font-face {
+  font-family: "Opificio-Bold"; /*a name to be used later*/
+  src: url("../fonts/Opificio_Bold.ttf"); /*URL to font*/
+}
+
+@font-face {
+  font-family: "Opificio"; /*a name to be used later*/
+  src: url("../fonts/Opificio_regular.ttf"); /*URL to font*/
+}
+
+@font-face {
+  font-family: "Inner Lato"; /*a name to be used later*/
+  src: url("../fonts/Lato-Regular.ttf"); /*URL to font*/
+}
+@font-face {
+  font-family: "Inner Lato Bold"; /*a name to be used later*/
+  src: url("../fonts/Lato-Bold.ttf"); /*URL to font*/
+}
+
+.landing-chart {
+  height: 700px;
+}
+
+.volumes-chart {
+  height: 500px;
+}
+
+.poolrates-first-chart {
+  height: 600px;
+}
+
+.poolrates-stakers-chart {
+  height: 250px;
+}
+
+.poolrates-price-chart {
+  height: 500px;
+}
+
+.dex-price-chart {
+  height: 750px;
+}
+
+.network-chart {
+  height: 500px;
+}
+
+.market-chart {
+  height: 40px;
+  width: 140px;
+}
+
+.network-supply-chart {
+  height: 250px;
+}
+
+.mat-select {
+  font-family: "Inner Lato" !important;
+}
+
+.mat-table {
+  background: unset;
+}
+
+.status-dot {
+  width: 14px;
+  height: 14px;
+  border: none;
+  border-radius: 50%;
+  opacity: 0.5;
+
+  &.green {
+    background-color: #00b75c;
+  }
+
+  &.yellow {
+    background-color: #ff9500;
+  }
+
+  &.red {
+    background-color: #f13838;
+  }
+}
+
+mat-progress-bar {
+  width: 250px !important;
+  .mat-progress-bar-buffer {
+    background-color: $dcf-filter-label;
+  }
+  .mat-progress-bar-fill::after {
+    background-color: $dcf-blue !important;
+  }
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+  background-color: $dcf-table-font;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-label {
+  color: $dcf-table-font;
+  font-family: "Inner Lato" !important;
+}
+
+/*Body*/
+body {
+  margin: 0;
+  font-family: "Inner Lato" !important;
+  background: inherit;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar-thumb {
+  background: #20a8d8;
+  border-radius: 0px;
+}
+body::-webkit-scrollbar-thumb:active {
+  background-color: #20a8d8;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background: #20a8d8;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+/* Scroll track styles */
+body::-webkit-scrollbar-track {
+  background: #63c2de;
+  border-radius: 0px;
+}
+body::-webkit-scrollbar-track:hover,
+body::-webkit-scrollbar-track:active {
+  background: #63c2de;
+}
+/**/
+
+.main-layout {
+  transition: 0.3s;
+  height: 100%;
+  background: $dcf-main-background;
+}
+
+.auxiliar-background {
+  transition: 0.3s;
+  height: 100vh;
+  background: $dcf-main-background;
+  &.soon {
+    background: $dcf-coming-soon-background !important;
+  }
+}
+
+/*Main layout customization*/
+.scrollable {
+  padding: unset !important;
+}
+
+nb-layout-column {
+  padding: unset !important;
+}
+
+.main-container-fixed {
+  top: 1rem !important;
+}
+
+.mat-card {
+  font-family: "Inner Lato" !important;
+}
+
+.mat-card .last-child {
+  margin-bottom: 0 !important;
+}
+
+.cdk-overlay-container {
+  z-index: 100000 !important;
+}
+
+.loader-overlay {
+  z-index: 99999;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: $dcf-loader-background;
+  img {
+    width: 250px;
+  }
+}
+
+.show {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s linear;
+}
+
+.hide {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 1s linear;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+}

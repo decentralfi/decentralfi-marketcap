@@ -1,0 +1,308 @@
+<div class="operations-wrapper" fxFlex="100" fxLayout="column">
+  <div
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+    class="add-buttons"
+    *ngIf="assetIn && !showConfirm"
+  >
+    <button
+      [ngClass]="
+        poolTypeOptions.asymAsset
+          ? 'button_transaccion_active'
+          : 'button_transaccion'
+      "
+      (click)="changeSubOperacion('ASYM_ASSET')"
+      mat-stroked-button
+    >
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <img
+          src="{{ assetIn.iconPath }}"
+          alt="{{ assetIn.ticker }}"
+          width="18px"
+        />
+        {{ assetIn.ticker }}
+      </div>
+    </button>
+    <button
+      [ngClass]="
+        poolTypeOptions.sym ? 'button_transaccion_active' : 'button_transaccion'
+      "
+      (click)="changeSubOperacion('SYM')"
+      mat-stroked-button
+    >
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <div class="img-wrapper">
+          <div
+            class="asset-selected"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+          >
+            <img
+              src="{{ assetIn.iconPath }}"
+              alt="{{ assetIn.ticker }}"
+              width="15px"
+            />
+          </div>
+          <div class="rune-selected" fxLayout="row" fxLayoutAlign="end center">
+            <img
+              src="{{ assetOut.iconPath }}"
+              alt="{{ assetOut.ticker }}"
+              width="15px"
+            />
+          </div>
+        </div>
+        {{ assetIn.ticker }} +
+        {{ assetOut.ticker }}
+      </div>
+    </button>
+    <button
+      [ngClass]="
+        poolTypeOptions.asymRune
+          ? 'button_transaccion_active'
+          : 'button_transaccion'
+      "
+      (click)="changeSubOperacion('ASYM_RUNE')"
+      mat-stroked-button
+    >
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <img
+          src="{{ assetOut.iconPath }}"
+          alt="{{ assetOut.ticker }}"
+          width="18px"
+        />
+        {{ assetOut.ticker }}
+      </div>
+    </button>
+  </div>
+
+  <app-one-input-operation
+    *ngIf="poolType === 'ASYM_ASSET' && !showConfirm"
+    fxLayoutAlign="center center"
+    [operation]="operation"
+    [type]="poolType"
+    [tokenSelected]="assetIn"
+    [inputUsdValue]="inputUsdValueIn"
+    [asset]="assetIn"
+    [slip]="slip"
+    [poolShareEst]="poolShareEst"
+    [networkFee]="networkFeeIn"
+    [feeToUsdValue]="inboundFeeToUsdValue"
+    [assetUnit]="assetUnitIn"
+    [balance]="balanceIn"
+    [balanceUSD]="balanceInUSD"
+    [addIsValid]="addIsValid"
+    [hasWallet]="hasWallet"
+    (inputValue)="inputValueComing($event)"
+    (setAssetValue)="setAsset($event)"
+    (setMaxFunction)="setMax()"
+    (setConfirmation)="setIsValidForm()"
+  ></app-one-input-operation>
+
+  <app-two-input-operation
+    *ngIf="poolType === 'SYM' && !showConfirm"
+    fxLayoutAlign="center center"
+    [operation]="operation"
+    [assetSelected]="assetIn"
+    [inputUsdValueIn]="inputUsdValueIn"
+    [inputUsdValueOut]="inputUsdValueOut"
+    [assetIn]="assetIn"
+    [assetOut]="assetOut"
+    [slip]="slip"
+    [poolShareEst]="poolShareEst"
+    [networkFeeIn]="networkFeeIn"
+    [networkFeeOut]="networkFeeOut"
+    [totalFeeToUSD]="totalFeeToUSD"
+    [assetUnitIn]="assetUnitIn"
+    [assetUnitOut]="assetUnitOut"
+    [balanceIn]="balanceIn"
+    [balanceInUSD]="balanceInUSD"
+    [balanceOut]="balanceOut"
+    [balanceOutUSD]="balanceOutUSD"
+    [addIsValid]="addIsValid"
+    [hasWallet]="hasWallet"
+    (inputValue)="inputValueComing($event)"
+    (setAssetValue)="setAsset($event)"
+    (setMaxFunction)="setMax()"
+    (setConfirmation)="setIsValidForm()"
+  ></app-two-input-operation>
+
+  <app-one-input-operation
+    *ngIf="poolType === 'ASYM_RUNE' && !showConfirm"
+    fxLayoutAlign="center center"
+    [operation]="operation"
+    [type]="poolType"
+    [name]="'received'"
+    [tokenSelected]="assetOut"
+    [asset]="assetOut"
+    [assetUnit]="assetUnitOut"
+    [inputUsdValue]="inputUsdValueOut"
+    [slip]="slip"
+    [poolShareEst]="poolShareEst"
+    [networkFee]="networkFeeOut"
+    [feeToUsdValue]="inboundFeeToUsdValue"
+    [balance]="balanceOut"
+    [balanceUSD]="balanceOutUSD"
+    [addIsValid]="addIsValid"
+    [hasWallet]="hasWallet"
+    (inputValue)="inputValueComing($event)"
+    (setAssetValue)="setAsset($event)"
+    (setMaxFunction)="setMax()"
+    (setConfirmation)="setIsValidForm()"
+  ></app-one-input-operation>
+
+  <!--2 STEP CONFIRMATION -->
+
+  <div fxLayout="column" *ngIf="showConfirm && poolType">
+    <div
+      class="send-usd-value"
+      fxLayout="row"
+      fxLayoutAlign="start end"
+      *ngIf="poolType === 'SYM' || poolType == 'ASYM_ASSET'"
+    >
+      <div class="title_modal">
+        {{ poolType === "SYM" ? ("operations.swap.add_modal.sym" | translate) : ("operations.swap.add_modal.asym" | translate) }}
+      </div>
+    </div>
+    <div
+      class="select-amount-wrapper"
+      *ngIf="poolType == 'SYM' || poolType == 'ASYM_ASSET'"
+    >
+      <div class="select-field" fxLayout="column">
+        <button mat-raised-button class="asset-button">
+          <img
+            src="{{ assetIn.iconPath }}"
+            alt="TOKEN IN"
+            width="32px"
+            onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+          />
+        </button>
+      </div>
+
+      <div class="amount-field" fxFlex fxLayout="column wrap">
+        <!-- SEND FORM -->
+        <form class="content_input-amount" fxLayoutAlign="center center">
+          <input
+            class="input_assets-amount"
+            type="text"
+            name="send"
+            fxFlex="100"
+            maxlength="30"
+            [formControl]="assetUnitIn"
+            readonly
+          />
+        </form>
+
+        <!--<span class="hint text_modal">{{ assetUnitInHint }}</span>-->
+      </div>
+    </div>
+    <div
+      class="arrow-row"
+      fxLayout="row wrap"
+      fxLayoutAlign="center center"
+      *ngIf="poolType == 'SYM'"
+    >
+      <mat-icon class="down-arrow-icon">arrow_downward</mat-icon>
+    </div>
+    <div
+      class="send-usd-value"
+      fxLayout="row"
+      fxLayoutAlign="start end"
+      *ngIf="poolType == 'SYM' || poolType == 'ASYM_RUNE'"
+    >
+      <div class="title_modal">
+        {{ poolType === "SYM" ? ("operations.swap.add_modal.sym" | translate) : ("operations.swap.add_modal.asym" | translate)
+        }}
+      </div>
+    </div>
+    <div
+      class="select-amount-wrapper"
+      fxLayout="row"
+      *ngIf="poolType == 'SYM' || poolType == 'ASYM_RUNE'"
+    >
+      <div class="select-field" fxLayout="column">
+        <button mat-raised-button class="asset-button">
+          <img
+            src="{{ assetOut.iconPath }}"
+            alt="TOKEN OUT"
+            width="32px"
+            onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+          />
+        </button>
+      </div>
+
+      <!-- RECIVE FORM -->
+
+      <div class="amount-field" fxLayout="column">
+        <!-- <h4 class="text_modal">Out (Want)</h4> -->
+        <form class="content_input-amount">
+          <input
+            class="input_assets-amount"
+            name="recived"
+            [formControl]="assetUnitOut"
+            readonly
+          />
+        </form>
+        <!-- <span class="hint text_modal">&nbsp;</span> -->
+      </div>
+    </div>
+
+    <!-- TOTAL FEE -->
+
+    <div
+      class="fee-detail"
+      fxLayout="column"
+      fxLayoutAlign="space-evenly center"
+    >
+      <div class="title">{{"operations.swap.fee_resume.total_fee" | translate}}</div>
+      <div class="detail">
+        <span fxLayout="row">
+          <div *ngIf="poolType == 'SYM' || poolType == 'ASYM_ASSET'">
+            {{ networkFeeIn | number: "0.0-6" }}
+            {{ assetIn.ticker === "RUNE" ? assetIn.ticker : assetIn.chain }}
+          </div>
+          <div *ngIf="poolType == 'SYM'">&nbsp;+&nbsp;</div>
+          <div *ngIf="poolType == 'SYM' || poolType == 'ASYM_RUNE'">
+            {{ networkFeeOut | number: "0.0-6" }}
+            {{ assetOut.ticker === "RUNE" ? assetOut.ticker : assetOut.chain }}
+          </div>
+        </span>
+      </div>
+    </div>
+
+    <!-- SLIP -->
+
+    <div
+      class="fee-detail"
+      fxLayout="column"
+      fxLayoutAlign="space-evenly center"
+    >
+      <div class="title">{{"operations.swap.fee_resume.slip" | translate}}</div>
+      <div class="detail">
+        <span>
+          {{ slip == undefined || slip == null || slip == "" ? 0 : slip }}
+        </span>
+      </div>
+    </div>
+
+    <div
+      class="confirm-swap-button"
+      fxFlex="100"
+      fxLayout="row wrap"
+      fxLayoutAlign="center start"
+      fxLayoutGap="25px"
+    >
+      <button
+        mat-raised-button
+        class="back button_modal"
+        (click)="setIsValidForm(false)"
+      >
+        <span class="swap-label">{{"operations.swap.buttons.back" | translate}}</span>
+      </button>
+
+      <button mat-raised-button class="swap button_modal" (click)="add()">
+        <span class="swap-label">{{"operations.swap.buttons.confirm.add" | translate}}</span>
+        <app-operation-icon [type]="'add'"></app-operation-icon>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,125 @@
+<div class="wallet-connect-dialog" fxLayout="column">
+  <div class="dialog-exit-button" fxLayout="row wrap" fxLayoutAlign="end start">
+    <a (click)="closeDialog()"
+      ><mat-icon class="close-icon">cancel</mat-icon></a
+    >
+  </div>
+  <div class="dialog-header" fxLayout="column" fxLayoutAlign="center center">
+    <h3>{{ "operations.asset_dialog.title" | translate }}</h3>
+
+    <mat-form-field
+      appearance="outline"
+      class="search-field-input search-asset"
+    >
+      <input matInput [(ngModel)]="searchTerm" [placeholder]="translation.asset_dialog.placeholder" />
+    </mat-form-field>
+
+    <div class="sub-title" fxLayout="row" fxLayoutAlign="space-between center">
+      <h5>{{ data.type == "withdraw" ? ("operations.asset_dialog.pool_name" | translate) : ("operations.asset_dialog.token_name" | translate) }}</h5>
+      <h5 *ngIf="data.type == 'withdraw'">{{ "operations.asset_dialog.pool_type" | translate }}</h5>
+      <h5 *ngIf="data.type == 'withdraw'">{{ "operations.asset_dialog.units" | translate }}</h5>
+      <h5 *ngIf="validateBalances()">{{ "operations.asset_dialog.balance" | translate }}</h5>
+    </div>
+  </div>
+  <div
+    class="asset-list-container"
+    fxLayout="row wrap"
+    fxLayoutAlign="start start"
+  >
+    <div
+      *ngIf="loading"
+      class="asset-loader-spinner"
+      fxFlex="100"
+      fxLayoutAlign="center center"
+    >
+      <mat-spinner diameter="32"></mat-spinner>
+    </div>
+
+    <ul
+      fxFlex="100"
+      *ngIf="
+        !loading &&
+        filteredMarketListItems &&
+        filteredMarketListItems.length > 0
+      "
+    >
+      <li
+        *ngFor="let item of filteredMarketListItems"
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        (click)="selectToken(item)"
+        [class.disabled]="item.asset.ticker == data.disabledAssetSymbol"
+      >
+        <div class="asset-icon-container">
+          <img
+            *ngIf="item.asset.iconPath"
+            [class]="getIconClass(item.asset)"
+            [src]="item.asset.iconPath"
+            loading="lazy"
+            width="25"
+          />
+          <mat-icon *ngIf="!item.asset.iconPath">help_outline</mat-icon>
+        </div>
+        <div
+          class="asset-token-container"
+          fxLayout="row wrap"
+          fxLayoutAlign="space-between center"
+          fxFlex
+        >
+          <div fxLayout="column">
+            <span class="symbol"
+              >{{ item.asset.chain }}.{{ item.asset.ticker }}</span
+            >
+          </div>
+          <div *ngIf="item.balance != undefined">
+            <span class="balance">{{ item.balance }}</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <ul fxFlex="100" *ngIf="!loading && filteredPoolLPList.length > 0">
+      <li
+        *ngFor="let item of filteredPoolLPList"
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        (click)="selectToken(item)"
+        [class.disabled]="item.asset.ticker == data.disabledAssetSymbol"
+      >
+        <div class="asset-icon-container">
+          <img
+            *ngIf="item.asset.iconPath"
+            class="asset-icon"
+            [src]="item.asset.iconPath"
+            loading="lazy"
+            width="25"
+          />
+          <mat-icon *ngIf="!item.asset.iconPath">help_outline</mat-icon>
+        </div>
+        <div
+          class="asset-token-container"
+          fxLayout="row wrap"
+          fxLayoutAlign="space-between center"
+          fxFlex
+        >
+          <div fxLayout="column">
+            <span class="symbol"
+              >{{ item.asset.chain }}.{{ item.asset.ticker }}</span
+            >
+          </div>
+          <div>
+            <span class="balance">{{
+              item.type == "SYM"
+                ? "ASSET + RUNE LP"
+                : item.type == "ASYM_ASSET"
+                ? "ASSET LP"
+                : "RUNE LP"
+            }}</span>
+          </div>
+          <div>
+            <span class="balance">{{ item.units | number:'1.0-4'}}</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

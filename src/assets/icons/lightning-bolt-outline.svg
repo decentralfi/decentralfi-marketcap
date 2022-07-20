@@ -1,0 +1,7 @@
+<svg id="MDI_lightning-bolt-outline" data-name="MDI / lightning-bolt-outline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Boundary" fill="#fff" stroke="rgba(0,0,0,0)" stroke-width="1" opacity="0">
+    <rect width="24" height="24" stroke="none"/>
+    <rect x="0.5" y="0.5" width="23" height="23" fill="none"/>
+  </g>
+  <path id="Path_lightning-bolt-outline" data-name="Path / lightning-bolt-outline" d="M11,9.47V11h3.76L13,14.53V13H9.24L11,9.47M13,1,6,15h5v8L18,9H13Z" fill="#fff"/>
+</svg>

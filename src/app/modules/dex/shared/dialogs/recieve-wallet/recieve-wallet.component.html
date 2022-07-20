@@ -1,0 +1,189 @@
+<div class="wallet-connect-dialog" fxLayout="column">
+  <div class="dialog-exit-button" fxLayout="row wrap" fxLayoutAlign="end start">
+    <a (click)="closeDialog()"><mat-icon class="close-icon">close</mat-icon></a>
+  </div>
+  <div class="dialog-header" fxLayout="row" fxLayoutAlign="center center">
+    <h3>{{ "operations.recieve_wallet_dialog.title" | translate }}</h3>
+  </div>
+  <div class="wallet-list" fxLayout="column wrap" fxLayoutAlign="center center">
+    <mat-form-field
+      fxFlex="80"
+      class="wallet-select"
+      appearance="outline"
+      color="accent"
+    >
+      <mat-select
+        [value]="selectedAddress.address"
+        [panelClass]="getWalletPanelClass()"
+        disableRipple
+        [disabled]="isDisabled"
+      >
+        <mat-select-trigger>
+          <div *ngIf="selectedAddress.type == 'manual'">{{ "operations.recieve_wallet_dialog.manual_input.select" | translate }}</div>
+          <div
+            class="address-template"
+            fxLayout="column wrap"
+            fxLayoutAlign="center start"
+            fxFlex="100"
+            *ngIf="selectedAddress.type != 'manual'"
+          >
+            <div
+              class="chain-title"
+              fxLayout="row wrap"
+              fxLayoutAlign="start center"
+            >
+              <div
+                fxFlex="20"
+                fxFlex.md="10"
+                fxFlex.gt-md="10"
+                fxLayoutAlign="center center"
+              >
+                <img
+                  src="../../../../../assets/icons/walletconnect.png"
+                  alt="walletconnect"
+                  width="14"
+                  *ngIf="selectedAddress.type == 'walletconnect'"
+                  matTooltip="walletconnect"
+                />
+                <img
+                  src="../../../../../assets/icons/xdefi.png"
+                  alt="xfi"
+                  *ngIf="selectedAddress.type == 'xdefi'"
+                  matTooltip="xDefi Wallet"
+                />
+                <mat-icon
+                  *ngIf="selectedAddress.type == 'keystore'"
+                  matTooltip="Keystore File"
+                  >vpn_key</mat-icon
+                >
+              </div>
+              <div fxFlex>{{ "operations.recieve_wallet_dialog.address" | translate:selectedAddress }}</div>
+            </div>
+            <div
+              class="address-label"
+              fxLayout="row wrap"
+              fxLayoutAlign="start center"
+            >
+              <div
+                fxFlex="20"
+                fxFlex.md="10"
+                fxFlex.gt-md="10"
+                fxLayoutAlign="center center"
+              >
+                <img
+                  src="{{ selectedAddress.logo }}"
+                  alt="{{ selectedAddress.chain }}"
+                  onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+                  loading="lazy"
+                />
+              </div>
+              <div class="address" fxFlex>
+                {{ addressMask }}
+              </div>
+            </div>
+          </div>
+        </mat-select-trigger>
+        <mat-option
+          value="{{ manual.address }}"
+          (click)="selectManual()"
+          selected
+          >{{ "operations.recieve_wallet_dialog.manual_input.select" | translate }}</mat-option
+        >
+        <mat-option
+          *ngFor="let address of addresses"
+          value="{{ address.address }}"
+        >
+          <div
+            class="address-template"
+            fxLayout="column"
+            fxLayoutAlign="center start"
+            fxFlex="100"
+            (click)="selectWallet(address)"
+          >
+            <div
+              class="chain-title"
+              fxLayout="row"
+              fxLayoutAlign="start center"
+            >
+              <img
+                src="../../../../../assets/icons/xdefi.png"
+                alt="xfi"
+                width="14"
+                *ngIf="address.type == 'xdefi'"
+                matTooltip="xDefi Wallet"
+              />
+              <mat-icon
+                *ngIf="address.type == 'manual'"
+                matTooltip="Manual input"
+                >keyboard</mat-icon
+              >
+              <img
+                src="../../../../../assets/icons/walletconnect.png"
+                alt="walletconnect"
+                width="14"
+                *ngIf="address.type == 'walletconnect'"
+                matTooltip="walletconnect"
+              />
+              <mat-icon
+                *ngIf="selectedAddress.type == 'keystore'"
+                matTooltip="Keystore File"
+                >vpn_key</mat-icon
+              >
+              &nbsp;{{ "operations.recieve_wallet_dialog.address" | translate:address }}
+            </div>
+            <div
+              class="address-label"
+              fxLayout="row"
+              fxLayoutAlign="center center"
+            >
+              <img
+                src="{{ address.logo }}"
+                alt="{{ address.chain }}"
+                onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+                loading="lazy"
+              />
+              <div class="address">{{ address.mask }}</div>
+            </div>
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div
+    class="keystore-form"
+    fxLayout="column wrap"
+    fxLayoutAlign="center center"
+    *ngIf="selectedAddress.type == 'manual'"
+  >
+    <div class="uni-input-wrapper" fxLayoutAlign="center center">
+      <div class="uni-input password">
+        <input
+          [(ngModel)]="manualWallet"
+          name="wallet"
+          [placeholder]="translation.recieve_wallet_dialog.manual_input.placeholder"
+          type="text"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="error-msg"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="manualInputError"
+  >
+    {{ "operations.recieve_wallet_dialog.manual_input.msg" | translate }}
+  </div>
+  <div
+    class="dialog-actions-row"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+  >
+    <button mat-raised-button class="no-button" (click)="closeDialog()">
+      <span class="yes-button-label">{{ "operations.recieve_wallet_dialog.cancel" | translate }}</span>
+    </button>
+    <button mat-raised-button class="yes-button" (click)="connect()">
+      <span class="no-button-label">{{ "operations.recieve_wallet_dialog.import" | translate }}</span>
+    </button>
+  </div>
+</div>

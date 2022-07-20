@@ -1,0 +1,42 @@
+<div fxLayoutAlign="start center" class="sidebar-logo">
+<button mat-icon-button class="sidebar-menu-button" type="button" (click)="toggleSidebar()">
+  <i class="material-icons">menu</i>
+</button>
+<img class="sidebar-logo-decentral" src="../../../../assets/icons/decentralfi-logo.svg" alt="logo" (click)="logout()" />
+<!--<span class="sidebar-logo-decentral"><img src="../../../../assets/icons/decentralfi-logo.svg" alt="logo" /></span>
+<span class="sidebar-logo-fi">Fi</span>-->
+</div>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav"
+      [attr.role]="'navigation'"
+      mode="side"
+      opened="true">
+    <mat-nav-list class="navigation-list">
+      <a class="navigation-item" mat-list-item matRippleColor="white" [routerLink]="['/app/poolrates']" routerLinkActive="router-link-active"  routerLinkActive="active" (click)="goTo()">
+        <img src="../../../../assets/icons/poolrates.svg" alt="poolrates" /><span class="navigation-item-label">Pool Rates</span>
+      </a>
+      <a class="navigation-item" mat-list-item [routerLink]="['/app/volumes']" routerLinkActive="active" (click)="goTo()">
+        <img src="../../../../assets/icons/volumes.svg" alt="volumes" /><span class="navigation-item-label">Volumes</span>
+      </a>
+      <a class="navigation-item" mat-list-item [routerLink]="['/app/network']" routerLinkActive="active" (click)="goTo()">
+        <img src="../../../../assets/icons/network.svg" alt="network" /><span class="navigation-item-label">Network</span>
+      </a>
+      <!--<a class="navigation-item" mat-list-item [routerLink]="['/app/defibots']" routerLinkActive="active" (click)="goTo()">
+        <img src="../../../../assets/icons/defibots.svg" alt="defibots" /><span class="navigation-item-label">DeFibots</span>
+      </a>
+      <a class="navigation-item" mat-list-item [routerLink]="['/app/settings']" routerLinkActive="active" (click)="goTo()">
+        <img src="../../../../assets/icons/settings.svg" alt="settings" /><span class="navigation-item-label">Settings</span>
+      </a>
+      <a mat-list-item routerLinkActive="active" (click)="logout()">
+        <mat-icon class="logout">login</mat-icon><span class="navigation-item-label">Log Out</span>
+      </a>-->
+      <div fxLayout="row wrap" fxLayoutAlign="center center">
+        <button mat-raised-button class="marketcap-button" fxFlex="40" fxFlex.gt-md="80" fxFlex.md="80" (click)="logout()">
+          <img src="../../../../assets/icons/marketcap.svg" alt="marketcap" />
+          <span class="add-wallet-button-label">Go to Marketcap</span>
+        </button>
+      </div>
+      <dcf-sidebar-footer [mobileFlag]="mobileFlag" (toggle)="goTo()"></dcf-sidebar-footer>
+    </mat-nav-list>
+  </mat-sidenav>
+</mat-sidenav-container>

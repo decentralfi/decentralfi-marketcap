@@ -1,0 +1,66 @@
+.buttons {
+  .swap-button {
+    height: 35px;
+    font-size: 16px;
+    border-radius: 8px;
+
+    color: white;
+    min-width: unset;
+    .add-wallet-icon {
+      font-size: 1.7rem !important;
+      height: 27px;
+      width: 27px;
+    }
+    .add-wallet-button-label {
+      font-family: "Inner Lato", "Helvetica Neue", sans-serif !important;
+    }
+    &.mat-raised-button {
+      padding: 0 12px;
+    }
+  }
+
+  .add-button {
+    height: 35px;
+    font-size: 16px;
+    border-radius: 8px;
+
+    color: white;
+    margin-left: 0.5rem;
+    min-width: unset;
+    .add-wallet-icon {
+      font-size: 1.7rem !important;
+      height: 27px;
+      width: 27px;
+    }
+    .add-wallet-button-label {
+      font-family: "Inner Lato", "Helvetica Neue", sans-serif !important;
+      margin-left: 5px;
+    }
+    &.mat-raised-button {
+      padding: 0 12px;
+    }
+  }
+
+  .manage-button {
+    height: 35px;
+    font-size: 16px;
+    border-radius: 8px;
+
+    color: white;
+    margin-left: 0.5rem;
+    margin-top: unset !important;
+    margin-bottom: unset !important;
+    min-width: unset;
+    .add-wallet-icon {
+      font-size: 1.8rem !important;
+      height: 30px;
+      width: 27px;
+    }
+    .add-wallet-button-label {
+      font-family: "Inner Lato", "Helvetica Neue", sans-serif !important;
+    }
+    &.mat-raised-button {
+      padding: 0 12px;
+    }
+  }
+}

@@ -1,0 +1,85 @@
+<div class="process-dialog-container">
+  <!--<div class="flex items-end"><{{ estimatedMinutes }} min</div> IMPORTANT-->
+  <div class="dialog-header" fxLayout="row" fxLayoutAlign="center center">
+    {{ "operations.confirm_tx.title.swap" | translate }}
+  </div>
+  <div class="dialog-loader" fxLayout="row" fxLayoutAlign="center center">
+    <mat-spinner diameter="96" *ngIf="txState === 'SUBMITTING'"></mat-spinner>
+    <mat-icon class="result-icon" *ngIf="txState !== 'SUBMITTING'">{{
+      resultIcon
+    }}</mat-icon>
+  </div>
+  <div
+    class="asset"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    *ngIf="txState === 'ERROR'"
+  >
+    <mat-icon>warning</mat-icon>
+    <span class="mt-4">
+      {{ error }}
+    </span>
+  </div>
+  <div
+    class="asset"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    *ngIf="swapData.isSP"
+  >
+    <span class="mt-4">
+      Submitting Transaction {{SPcounter}}
+    </span>
+  </div>
+  <div class="asset" fxLayout="row" fxLayoutAlign="center center">
+    <img
+      src="{{ swapData.sourceAsset.iconPath }}"
+      alt="TOKEN IN"
+      width="24px"
+      onerror='this.src="assets/images/thorchain-logo.svg"'
+    />
+    <span>{{ swapData.sourceAsset.ticker }} {{ swapData.inputValue | number: '1.0-4' }}</span>
+  </div>
+  <div class="arrow" fxLayout="row" fxLayoutAlign="center center">
+    <mat-icon class="down-arrow-icon">arrow_downward</mat-icon>
+  </div>
+  <div class="asset" fxLayout="row" fxLayoutAlign="center center">
+    <img
+      src="{{ swapData.targetAsset.iconPath }}"
+      alt="TOKEN IN"
+      width="24px"
+      onerror='this.src="assets/images/thorchain-logo.svg"'
+    />
+    <span>{{ swapData.targetAsset.ticker }} {{ swapData.isSP? (swapData.outputValue / this.swapData.spQty | number: '1.0-4') : (swapData.outputValue | number: '1.0-4') }}</span>
+  </div>
+  <div
+    class="asset"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    *ngIf="estimatedMinutes"
+  >
+    <span>&#126;{{ "operations.confirm_tx.estimated_minutes" | translate:estimatedMinutes }}</span>
+  </div>
+  <div
+    class="dialog-footer"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    *ngIf="!swapData.isSP && txState === 'SUCCESS'"
+  >
+    <a
+      target="_blank"
+      *ngIf="hash"
+      [href]="binanceExplorerUrl + hash + '?network=' + environment"
+      >{{ "operations.confirm_tx.explorer_link" | translate }}</a
+    >
+  </div>
+  <div
+    class="dialog-actions-row"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="txState !== 'SUBMITTING'"
+  >
+    <button mat-raised-button class="close-button" (click)="closeDialog()">
+      <span class="close-button-label">{{ "operations.confirm_tx.close" | translate }}</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+.td-pool {
+  height: 70px !important;
+}
+
+.div-pool {
+  margin-left: 10px;
+  text-align: initial;
+}
+
+.span-pool {
+  font-size: 12px;
+}
+
+.img-pool {
+  padding-left: 25px !important;
+  padding-right: 15px !important;
+}
+
+.th-depth {
+  padding-right: 10px !important;
+}
+
+.th-roi {
+  padding-right: 40px !important;
+}
+
+@media screen and (max-width: 920px) {
+  .th-stiky-ligth {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    border-right: solid 1px;
+    background: #fff !important;
+  }
+
+  .th-stiky-dark {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    border-right: solid 1px;
+    background: #0b3a4b !important;
+  }
+
+  .td-stiky-dark {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: #0c4f67 !important;
+    border-right: solid 1px;
+    padding-right: 10px !important;
+  }
+
+  .td-stiky-ligth {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: #fff !important;
+    border-right: solid 2px;
+    padding-right: 10px !important;
+  }
+}

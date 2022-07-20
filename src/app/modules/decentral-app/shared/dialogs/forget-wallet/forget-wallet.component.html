@@ -1,0 +1,16 @@
+<div class="wallet-connect-dialog" fxLayout="column">
+  <div class="dialog-exit-button" fxLayout="row wrap" fxLayoutAlign="end start">
+    <a (click)="closeDialog(false)"><mat-icon class="close-icon">close</mat-icon></a>
+  </div>
+  <div class="dialog-header" fxLayout="row" fxLayoutAlign="center center">
+    <h3>Are you sure?</h3>
+  </div>
+  <div class="dialog-actions-row" fxLayout="row wrap" fxLayoutAlign="center center">
+    <button mat-raised-button class="yes-button" (click)="closeDialog(true)">
+      <span class="yes-button-label">Yes</span>
+    </button>
+    <button mat-raised-button class="no-button" (click)="closeDialog(false)">
+      <span class="no-button-label">No</span>
+    </button>
+  </div>
+</div>

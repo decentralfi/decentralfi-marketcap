@@ -1,0 +1,132 @@
+<div fxFlex="100" fxLayout="column">
+  <app-one-input-operation
+    fxLayoutAlign="center center"
+    [operation]="operation"
+    [name]="'send'"
+    [onlyForm]="true"
+    [tokenSelected]="assetSelected"
+    [asset]="assetIn"
+    [inputUsdValue]="inputUsdValueIn"
+    [assetUnit]="assetUnitIn"
+    [balance]="balanceIn"
+    [balanceUSD]="balanceInUSD"
+    [LPUnits]="LPUnits"
+    [addIsValid]="addIsValid"
+    [hasWallet]="hasWallet"
+    (inputValue)="inputValueComing($event)"
+    (percent)="setPercent($event)"
+    (setAssetValue)="setAsset($event)"
+    (setMaxFunction)="setMax()"
+  ></app-one-input-operation>
+
+  <!-- 2 form -->
+
+  <app-one-input-operation
+    fxLayoutAlign="center center"
+    [operation]="operation"
+    [name]="'received'"
+    [onlyForm]="true"
+    [tokenSelected]="runeSelected"
+    [asset]="assetOut"
+    [inputUsdValue]="inputUsdValueOut"
+    [assetUnit]="assetUnitOut"
+    [balance]="balanceOut"
+    [balanceUSD]="balanceOutUSD"
+    [LPUnits]="LPUnits"
+    [addIsValid]="addIsValid"
+    [hasWallet]="hasWallet"
+    (inputValue)="inputValueComing($event)"
+    (percent)="setPercent($event)"
+    (setAssetValue)="setAsset($event)"
+    (setMaxFunction)="setMax()"
+  ></app-one-input-operation>
+
+  <!-- TRANSACTION DETAILS -->
+
+  <div class="fees" fxLayout="row wrap" fxLayoutAlign="center center">
+    <div fxLayout="row" fxLayoutAlign="end center" fxFlex="100">
+      <div fxLayout="row" (click)="toogleFeeDetails()">
+        <a>{{ this.showFeeDetails == false ? ("operations.swap.fee_toggle.view" | translate) : ("operations.swap.fee_toggle.hide" | translate) }}</a>
+        <mat-icon class="expand-icon">expand_more</mat-icon>
+      </div>
+    </div>
+    <div
+      class="details"
+      fxLayout="column"
+      *ngIf="showFeeDetails == true"
+      fxFlex="100"
+      fxFlex.md="80"
+      fxFlex.gt-md="80"
+    >
+      <!-- SLIP -->
+      <div
+        [class]="getFeeClass(slip)"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+        *ngIf="operation !== 'withdraw'"
+      >
+        <div>{{ "operations.swap.fee_resume.slip" | translate }}:</div>
+        <div>{{ slip }}</div>
+      </div>
+
+      <!-- POOL SHARED ESTIMATED -->
+      <div
+        class="fee-item"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+        *ngIf="poolShareEst && operation != 'withdraw'"
+      >
+        <div>{{ "operations.swap.fee_resume.share_estimated" | translate }}:</div>
+        <div>{{ poolShareEst }}</div>
+      </div>
+
+      <!-- LP -->
+      <div
+        class="fee-item"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+        *ngIf="LPUnits && operation == 'withdraw'"
+      >
+        <div>{{ "operations.swap.fee_resume.units" | translate }}:</div>
+        <div>{{ +LPUnits / 100000000 | number: "0.0-2" }}</div>
+      </div>
+
+      <!-- POOL SHARED -->
+      <div
+        class="fee-item"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+        *ngIf="poolShare && operation == 'withdraw'"
+      >
+        <div>{{ "operations.swap.fee_resume.shared" | translate }}:</div>
+        <div>{{ poolShare }}</div>
+      </div>
+
+      <!-- FEE IN -->
+      <div class="fee-item" fxLayout="row" fxLayoutAlign="space-between center">
+        <div>{{ "operations.swap.fee_resume.fee" | translate:assetIn }}:
+        </div>
+        <div>{{ networkFeeIn | number: "0.0-8" }}</div>
+      </div>
+
+      <!-- FEE OUT -->
+      <div class="fee-item" fxLayout="row" fxLayoutAlign="space-between center">
+        <div>
+          {{ "operations.swap.fee_resume.fee" | translate:assetOut }}:
+        </div>
+        <div>{{ networkFeeOut }}</div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div>{{ "operations.swap.fee_resume.total_fee" | translate }}:</div>
+        <div>{{ totalFeeToUSD | currency: "USD":"symbol":"1.0-5" }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button mat-raised-button (click)="confirm()" [class]="getSwapBtnClass()">
+      <span class="swap-label">{{ "operations.swap.buttons." + operation | translate }}</span>
+      <app-operation-icon [type]="operation"></app-operation-icon>
+    </button>
+  </div>
+</div>

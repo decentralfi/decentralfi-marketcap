@@ -1,0 +1,252 @@
+<div class="operations-wrapper">
+  <div class="pending-wrapper" *ngFor="let tx of sortTxs" fxLayout="column">
+    <div class="main-tx" fxLayout="row">
+      <!-- ICONS -->
+      <div class="type_icon" fxFlex="20" fxLayoutAlign="center center">
+        <app-operation-icon
+          [width]="'1.5rem'"
+          [height]="'1.5rem'"
+          [type]="
+            tx.action === 'Add'
+              ? 'add'
+              : tx.action === 'Withdraw'
+              ? 'withdraw'
+              : tx.action === 'Send'
+              ? 'send'
+              : 'swap'
+          "
+        ></app-operation-icon>
+      </div>
+
+      <!-- STATUS TXS -->
+      <div
+        class="main_tx"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+        fxFlex
+        matExpansionPanelContent
+      >
+        <div class="chain-action">
+          {{ "operations.pending.action." + (tx.action | lowercase) | translate }} {{ tx.ticker | uppercase }}
+        </div>
+        <div
+          [class]="getStatusClass(tx.status)"
+          fxLayout="row"
+          fxLayoutAlign="space-evenly center"
+        >
+          <mat-icon *ngIf="tx.status === 'COMPLETE'">check_circle</mat-icon>
+          <mat-icon
+            matTooltip="Transaction Refunded"
+            *ngIf="tx.status === 'REFUNDED'"
+            >undo</mat-icon
+          >
+          <mat-progress-spinner
+            *ngIf="tx.status === 'PENDING'"
+            diameter="12"
+            mode="indeterminate"
+          ></mat-progress-spinner>
+          <div class="status">{{ "operations.pending.status." + (tx.status | uppercase) | translate }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPLORER -->
+    <div class="tx-details-title" fxLayout="row" fxLayoutAlign="center center">
+      {{ "operations.pending.view_tx" | translate }}
+    </div>
+
+    <div
+      class="tx-details-links"
+      fxLayout="row"
+      fxLayoutAlign="space-evenly center"
+    >
+      <div>
+        <a
+          class="asset_explorer"
+          [href]="explorerPath(tx)"
+          target="_blank"
+          fxLayoutAlign="center center"
+        >
+          <img
+            [src]="getChainImg(tx.chain, tx.ticker)"
+            alt="{{ tx.chain }}"
+            onerror='this.src="https://unpkg.com/cryptoicons-cdn@0.1.22/images/RUNE.png"'
+            loading="lazy"
+          />
+          <span> {{ "operations.pending.explorer" | translate }}</span>
+          <mat-icon style="transform: scale(0.4)">open_in_new</mat-icon>
+        </a>
+      </div>
+
+      <div>
+        <a
+          class="asset_explorer"
+          *ngIf="
+            (tx.isThorchainTx && tx.chain !== 'THOR') ||
+            (tx.out_isThorchainTx && tx.out_chain === 'THOR')
+          "
+          href="{{ thorchainExplorerUrl }}/{{ tx.hash }}"
+          target="_blank"
+          fxLayoutAlign="center center"
+        >
+          <img
+            [src]="getChainImg('THOR', 'RUNE')"
+            alt="{{ tx.chain }}"
+            onerror='this.src="https://unpkg.com/cryptoicons-cdn@0.1.22/images/RUNE.png"'
+            loading="lazy"
+          />
+          <span> {{ "operations.pending.explorer" | translate }}</span>
+          <mat-icon style="transform: scale(0.4)">open_in_new</mat-icon>
+        </a>
+      </div>
+    </div>
+
+    <!-- AMOUNT -->
+    <div
+      class="tx_amount"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      fxLayoutGap="6px"
+    >
+      <div>{{ "operations.pending.action_verb." + (tx.action | lowercase) | translate }}</div>
+
+      <div class="amount">
+        {{
+          tx.ticker === "RUNE"
+            ? (tx.out_amount | number: "0.1-4")
+            : (tx.assetAmount | number: "0.1-4")
+        }}
+        {{ tx.ticker }}
+      </div>
+
+      <div>
+        <button
+          *ngIf="tx.action === 'Add'"
+          mat-flat-button
+          (click)="goToLiquidity(tx.chain)"
+          style="background: #ff9500; color: white"
+        >
+          {{ "operations.pending.check_lp" | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div
+      *ngIf="
+        tx.action === 'Add' ||
+        (tx.action === 'Withdraw' && tx.poolTypeOption === 'SYM')
+      "
+      class="tx_amount"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      fxLayoutGap="6px"
+    >
+      <div *ngIf="tx.action === 'Add' || tx.action === 'Withdraw'">{{ "operations.pending.action_verb." + (tx.action | lowercase) | translate }}</div>
+      <div class="amount">
+        {{ tx.out_amount | number: "0.1-4" }}
+        {{ tx.out_ticker }}
+      </div>
+
+      <div>
+        <mat-progress-spinner
+          *ngIf="tx.out_status === 'PENDING'"
+          diameter="12"
+          mode="indeterminate"
+        ></mat-progress-spinner>
+        <div class="status" *ngIf="tx.out_status === 'PENDING'">
+          {{ "operations.pending.status." + (tx.out_status | uppercase) | translate }}
+        </div>
+      </div>
+
+      <div>
+        <button
+          *ngIf="tx.action === 'Add' && tx.out_status !== 'PENDING'"
+          mat-flat-button
+          (click)="goToLiquidity(tx.out_chain)"
+          style="background: #ff9500; color: white"
+        >
+          {{ "operations.pending.check_lp" | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- REFUNDED -->
+    <div class="info">
+      <span *ngIf="tx.status === 'REFUNDED'"
+        >*{{ "operations.pending.refund_msg.p1" | translate }}.<br />{{ "operations.pending.refund_msg.p2" | translate }} <strong>{{ "operations.pending.refund_msg.p3" | translate }}</strong>.</span
+      >
+    </div>
+  </div>
+
+  <!-- PAGINATION -->
+  <!--
+  This code is setting the paginator page size to 10 50 or 100 The code block below
+  sets the class of each button based on whether it\'s active or not If you click a
+  button that isn\'t active then all buttons are set to inactive and only that one
+  becomes active
+  - generated by stenography autopilot [ 🚗👩‍✈️ ]
+  -->
+  <div *ngIf="sortTxs.length > 1" style="margin-top: 12px">
+    <div class="paginator-pagesize">
+      <span>{{ "operations.pending.paginator" | translate }}: &nbsp;&nbsp;</span>
+      <button
+        mat-icon-button
+        [class]="getPaginatorClass(5)"
+        (click)="setPaginatorPageSize(5)"
+      >
+        5
+      </button>
+      <button
+        mat-icon-button
+        [class]="getPaginatorClass(10)"
+        (click)="setPaginatorPageSize(10)"
+      >
+        10
+      </button>
+      <button
+        mat-icon-button
+        [class]="getPaginatorClass(20)"
+        (click)="setPaginatorPageSize(20)"
+      >
+        20
+      </button>
+      <button
+        mat-icon-button
+        [class]="getPaginatorClass(50)"
+        (click)="setPaginatorPageSize(50)"
+      >
+        50
+      </button>
+      <button
+        mat-icon-button
+        [class]="getPaginatorClass(100)"
+        (click)="setPaginatorPageSize(100)"
+      >
+        100
+      </button>
+    </div>
+    <div style="margin-top: 5px">
+      <mat-paginator
+        hidePageSize
+        showFirstLastButtons
+        (page)="onPageChange($event)"
+        [length]="txs.length"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 20, 50, 100]"
+        style="border-radius: 15px"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+
+  <!-- NO PENDING -->
+  <div
+    class="pending-wrapper"
+    *ngIf="!sortTxs || (sortTxs && sortTxs.length < 1)"
+    fxLayout="column"
+  >
+    <div class="main-tx" fxLayout="row" fxLayoutAlign="center center">
+      <div class="chain-action">{{ "operations.pending.no_pending" | translate }}</div>
+    </div>
+  </div>
+</div>

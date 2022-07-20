@@ -1,0 +1,581 @@
+<div class="wallet-connect-dialog" fxLayout="column">
+  <div
+    class="dialog-exit-button"
+    fxLayout="row wrap"
+    fxLayoutAlign="end start"
+    *ngIf="
+      !showKeyStoreForm &&
+      !showManualInput &&
+      !showXDEFIForm &&
+      !showWCForm &&
+      !showKeystoreChainForm &&
+      !showKeystorePhrasecreateForm &&
+      !showKeystoreFilecreateForm
+    "
+  >
+    <a (click)="closeDialog()"><mat-icon class="close-icon">close</mat-icon></a>
+  </div>
+  <div
+    class="dialog-exit-button"
+    fxLayout="row wrap"
+    fxLayoutAlign="space-between start"
+    *ngIf="
+      showKeyStoreForm ||
+      showManualInput ||
+      showXDEFIForm ||
+      showWCForm ||
+      showKeystoreChainForm ||
+      showKeystoreFilecreateForm ||
+      showKeystorePhrasecreateForm
+    "
+  >
+    <a (click)="back()"><mat-icon class="close-icon">arrow_back</mat-icon></a>
+    <a (click)="closeDialog()"><mat-icon class="close-icon">close</mat-icon></a>
+  </div>
+
+  <div class="dialog-header" fxLayout="row" fxLayoutAlign="center center">
+    <h3>{{ "operations.wallet_connect.title" | translate }}</h3>
+  </div>
+
+  <div
+    class="dialog-content-row"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="
+      showWalletConnect === true &&
+      !showKeyStoreForm &&
+      !showManualInput &&
+      !showXDEFIForm &&
+      !showWCForm &&
+      !showKeystorePhrasecreateForm &&
+      !showKeystoreFilecreateForm &&
+      !showKeystoreChainForm
+    "
+  >
+    <a
+      (click)="walletConnect('walletconnect')"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+    >
+      <img src="../../../../../assets/icons/walletconnect.png" alt="wc" />
+      <span>Wallet Connect</span>
+    </a>
+  </div>
+
+  <div
+    class="dialog-content-row"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="
+      showXDefi == true &&
+      !showKeyStoreForm &&
+      !showManualInput &&
+      !showXDEFIForm &&
+      !showWCForm &&
+      !showKeystorePhrasecreateForm &&
+      !showKeystoreFilecreateForm &&
+      !showKeystoreChainForm
+    "
+  >
+    <a
+      (click)="walletConnect('xdefi')"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+    >
+      <img src="../../../../../assets/icons/xdefi.png" alt="xfi" />
+      <span>{{ XDEFIlabel }}</span>
+    </a>
+  </div>
+
+  <div
+    class="dialog-content-row"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="
+      showKeystore == true &&
+      !showKeyStoreForm &&
+      !showManualInput &&
+      !showXDEFIForm &&
+      !showWCForm &&
+      !showKeystorePhrasecreateForm &&
+      !showKeystoreFilecreateForm &&
+      !showKeystoreChainForm
+    "
+  >
+    <a
+      (click)="walletConnect('keystore')"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+    >
+      <mat-icon>vpn_key</mat-icon>
+      <span>{{ "operations.wallet_connect.main_menu.keystore" | translate }}</span>
+    </a>
+  </div>
+
+  <div
+    class="dialog-content-row"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="
+      showKeystoreFilecreate == true &&
+      !showKeyStoreForm &&
+      !showManualInput &&
+      !showXDEFIForm &&
+      !showWCForm &&
+      !showKeystorePhrasecreateForm &&
+      !showKeystoreFilecreateForm &&
+      !showKeystoreChainForm
+    "
+  >
+    <a
+      (click)="walletConnect('keystorefilecreate')"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+    >
+      <mat-icon>folder_open</mat-icon>
+      <span>{{ "operations.wallet_connect.main_menu.create_keystore" | translate }}</span>
+    </a>
+  </div>
+  <div
+    class="dialog-content-row"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="
+      showKeystorePhrasecreate == true &&
+      !showKeyStoreForm &&
+      !showManualInput &&
+      !showXDEFIForm &&
+      !showWCForm &&
+      !showKeystorePhrasecreateForm &&
+      !showKeystoreFilecreateForm &&
+      !showKeystoreChainForm
+    "
+  >
+    <a
+      (click)="walletConnect('keystorephrasecreate')"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+    >
+      <mat-icon>password</mat-icon>
+      <span>{{ "operations.wallet_connect.main_menu.phrase_import" | translate }}</span>
+    </a>
+  </div>
+
+  <div
+    class="dialog-content-row"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="
+      showManual == true &&
+      !showKeyStoreForm &&
+      !showManualInput &&
+      !showXDEFIForm &&
+      !showWCForm &&
+      !showKeystorePhrasecreateForm &&
+      !showKeystoreFilecreateForm &&
+      !showKeystoreChainForm
+    "
+  >
+    <a
+      (click)="walletConnect('manual')"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+    >
+      <mat-icon>keyboard</mat-icon>
+      <span>{{ "operations.wallet_connect.main_menu.manual" | translate }}</span>
+    </a>
+  </div>
+
+  <br
+    *ngIf="
+      !showKeyStoreForm &&
+      !showManualInput &&
+      !showXDEFIForm &&
+      !showWCForm &&
+      !showKeystorePhrasecreateForm &&
+      !showKeystoreFilecreateForm &&
+      !showKeystoreChainForm
+    "
+  />
+  <br
+    *ngIf="
+      !showKeyStoreForm &&
+      !showManualInput &&
+      !showXDEFIForm &&
+      !showWCForm &&
+      !showKeystorePhrasecreateForm &&
+      !showKeystoreFilecreateForm &&
+      !showKeystoreChainForm
+    "
+  />
+
+  <div
+    class="keystore-form"
+    fxLayout="column wrap"
+    fxLayoutAlign="center center"
+    *ngIf="showKeyStoreForm"
+  >
+    <input
+      #keystoreInput
+      hidden="true"
+      type="file"
+      onclick="this.value=null"
+      accept=".txt,text/plain"
+      (change)="onKeystoreFileChange($event)"
+      [disabled]="keystoreFileExist"
+    />
+    <button
+      class="uni-input uni-input--file"
+      (click)="keystoreInput.click()"
+      [disabled]="keystoreFileExist"
+      matRipple
+    >
+      <div
+        fxLayout="row"
+        fxLayoutAlign="center center"
+        *ngIf="!keystoreFileSelected"
+      >
+        {{ "operations.wallet_connect.keystore.upload_file" | translate }} &nbsp;<mat-icon>vpn_key</mat-icon>
+      </div>
+      <div
+        fxLayout="row"
+        fxLayoutAlign="center center"
+        *ngIf="keystoreFileSelected"
+      >
+        {{ fileName }} <mat-icon [ngStyle]="{ color: 'green' }">check</mat-icon>
+      </div>
+    </button>
+    <div class="uni-input password" fxLayout="row" fxLayoutAlign="start center">
+      <input
+        [(ngModel)]="keystorePassword"
+        name="keystore-password"
+        [placeholder]="translation.wallet_connect.keystore.password"
+        [type]="keystorePasswordHide ? 'password' : 'text'"
+      />
+      <mat-icon (click)="keystorePasswordHide = !keystorePasswordHide">{{
+        keystorePasswordHide ? "visibility_off" : "visibility"
+      }}</mat-icon>
+    </div>
+  </div>
+
+  <div
+    class="keystore-form"
+    fxLayout="column wrap"
+    fxLayoutAlign="center center"
+    *ngIf="showKeystoreFilecreateForm"
+  >
+    <div>
+      <h5>{{ "operations.wallet_connect.keystore_create.sub_title" | translate }}:</h5>
+    </div>
+    <div class="uni-input password" fxLayout="row" fxLayoutAlign="start center">
+      <input
+        [(ngModel)]="createkeystorePassword"
+        name="create-keystore-password"
+        [placeholder]="translation.wallet_connect.keystore_create.password"
+        [type]="createPasswordHide ? 'password' : 'text'"
+      />
+      <mat-icon (click)="createPasswordHide = !createPasswordHide">{{
+        createPasswordHide ? "visibility_off" : "visibility"
+      }}</mat-icon>
+    </div>
+    <div class="uni-input password" fxLayout="row" fxLayoutAlign="start center">
+      <input
+        [(ngModel)]="createkeystorePasswordConfirm"
+        name="create-keystore-password-confirm"
+        [placeholder]="translation.wallet_connect.keystore_create.confirm_password"
+        [type]="createConfirmPasswordHide ? 'password' : 'text'"
+      />
+      <mat-icon
+        (click)="createConfirmPasswordHide = !createConfirmPasswordHide"
+        >{{
+          createConfirmPasswordHide ? "visibility_off" : "visibility"
+        }}</mat-icon
+      >
+    </div>
+  </div>
+
+  <div
+    class="keystore-form"
+    fxLayout="column wrap"
+    fxLayoutAlign="center center"
+    *ngIf="showKeystorePhrasecreateForm"
+  >
+    <div>
+      <h5>
+        {{ "operations.wallet_connect.phrase_import.sub_title" | translate }}:
+      </h5>
+    </div>
+    <div class="uni-input password" fxLayout="row" fxLayoutAlign="start center">
+      <input
+        [(ngModel)]="secretPhrase"
+        name="create-keystore-password"
+        [placeholder]="translation.wallet_connect.phrase_import.phrase"
+        [type]="secretPhraseHide ? 'password' : 'text'"
+      />
+      <mat-icon (click)="secretPhraseHide = !secretPhraseHide">{{
+        secretPhraseHide ? "visibility_off" : "visibility"
+      }}</mat-icon>
+    </div>
+    <div class="uni-input password" fxLayout="row" fxLayoutAlign="start center">
+      <input
+        [(ngModel)]="phrasekeystorePassword"
+        name="create-keystore-password"
+        [placeholder]="translation.wallet_connect.phrase_import.password"
+        [type]="phrasePasswordHide ? 'password' : 'text'"
+      />
+      <mat-icon (click)="phrasePasswordHide = !phrasePasswordHide">{{
+        phrasePasswordHide ? "visibility_off" : "visibility"
+      }}</mat-icon>
+    </div>
+    <div class="uni-input password" fxLayout="row" fxLayoutAlign="start center">
+      <input
+        [(ngModel)]="phrasekeystorePasswordConfirm"
+        name="create-keystore-password-confirm"
+        [placeholder]="translation.wallet_connect.phrase_import.confirm_password"
+        [type]="phraseConfirmPasswordHide ? 'password' : 'text'"
+      />
+      <mat-icon
+        (click)="phraseConfirmPasswordHide = !phraseConfirmPasswordHide"
+        >{{
+          phraseConfirmPasswordHide ? "visibility_off" : "visibility"
+        }}</mat-icon
+      >
+    </div>
+  </div>
+
+  <div
+    class="keystore-form"
+    fxLayout="column wrap"
+    fxLayoutAlign="center center"
+    *ngIf="showKeystoreChainForm"
+  >
+    <div>
+      <h5>{{ "operations.wallet_connect.keystore.sub_title" | translate }}:</h5>
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <mat-checkbox
+        class="remember"
+        [indeterminate]="someSelected(keystoreChains, 'keystore')"
+        [checked]="allKeystoreSelected"
+        *ngIf="keystoreChains"
+        (change)="selectAllChains('keystore', $event.checked)"
+        >{{ "operations.wallet_connect.keystore.select_all" | translate }}</mat-checkbox
+      >
+      <mat-checkbox
+        class="remember"
+        *ngFor="let chain of keystoreChains"
+        [disabled]="!chain.enabled"
+        [(ngModel)]="chain.selected"
+        (ngModelChange)="validateAll(keystoreChains, 'xdefi')"
+        >{{ chain.asset.fullChainName | titlecase
+        }}{{ getAsterisk(chain) }}</mat-checkbox
+      >
+    </div>
+
+    <div
+      fxLayoutAlign="center center"
+      fxFlex="95"
+      fxFlex.gt-md="80"
+      fxFlex.md="80"
+      fxLayout="column"
+      *ngIf="
+        validateIsSelected(xdefiChains) == true ||
+        validateIsDisabled(xdefiChains) == true
+      "
+    >
+      <h5 *ngIf="validateIsSelected(keystoreChains) == true">
+        *{{ "operations.wallet_connect.keystore.already_imported" | translate }}.
+      </h5>
+    </div>
+  </div>
+  <div
+    class="dialog-actions-row"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="showKeystoreChainForm"
+  >
+    <button mat-raised-button class="no-button" (click)="back()">
+      <span class="no-button-label">{{ "operations.wallet_connect.buttons.back" | translate }}</span>
+    </button>
+    <button mat-raised-button class="yes-button" (click)="viewKeystoreForm()">
+      <span class="yes-button-label">{{ "operations.wallet_connect.buttons.next" | translate }}</span>
+    </button>
+  </div>
+
+  <div
+    class="keystore-form"
+    fxLayout="column wrap"
+    fxLayoutAlign="center center"
+    *ngIf="showXDEFIForm"
+  >
+    <div>
+      <h5>{{ "operations.wallet_connect.xdefi.sub_title" | translate }}:</h5>
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <mat-checkbox
+        class="remember"
+        [indeterminate]="someSelected(xdefiChains, 'xdefi')"
+        [checked]="allXdefiSelected"
+        *ngIf="xdefiChains"
+        (change)="selectAllChains('xdefi', $event.checked)"
+        >{{ "operations.wallet_connect.xdefi.select_all" | translate }}</mat-checkbox
+      >
+      <mat-checkbox
+        class="remember"
+        *ngFor="let chain of xdefiChains"
+        [disabled]="!chain.enabled"
+        [(ngModel)]="chain.selected"
+        (ngModelChange)="validateAll(xdefiChains, 'xdefi')"
+        >{{ chain.asset.fullChainName | titlecase
+        }}{{ getAsterisk(chain) }}</mat-checkbox
+      >
+    </div>
+
+    <div
+      fxLayoutAlign="center center"
+      fxFlex="95"
+      fxFlex.gt-md="80"
+      fxFlex.md="80"
+      fxLayout="column"
+      *ngIf="
+        validateIsSelected(xdefiChains) == true ||
+        validateIsDisabled(xdefiChains) == true
+      "
+    >
+      <h5 *ngIf="validateIsSelected(xdefiChains) == true">
+        *{{ "operations.wallet_connect.xdefi.already_imported" | translate }}.
+      </h5>
+      <h5 *ngIf="validateIsDisabled(xdefiChains) == true">
+        **{{ "operations.wallet_connect.xdefi.msg" | translate }}
+      </h5>
+    </div>
+  </div>
+
+  <div
+    class="keystore-form"
+    fxLayout="column wrap"
+    fxLayoutAlign="center center"
+    *ngIf="showWCForm"
+  >
+    <div>
+      <h5>Please select the wallets you want to import:</h5>
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <mat-checkbox
+        class="remember"
+        [indeterminate]="someSelected(wcChains, 'walletconnect')"
+        [(ngModel)]="allWCSelected"
+        *ngIf="wcChains"
+        (change)="selectAllChains('walletconnect', $event.checked)"
+        >Select All Chains</mat-checkbox
+      >
+      <mat-checkbox
+        class="remember"
+        *ngFor="let chain of wcChains"
+        [disabled]="!chain.enabled"
+        [(ngModel)]="chain.selected"
+        (ngModelChange)="validateAll(wcChains, 'walletconnect')"
+        >{{ chain.asset.fullChainName | titlecase
+        }}{{ getAsterisk(chain) }}</mat-checkbox
+      >
+    </div>
+
+    <div
+      fxLayoutAlign="center center"
+      fxFlex="95"
+      fxFlex.gt-md="80"
+      fxFlex.md="80"
+      *ngIf="validateIsSelected(wcChains) == true"
+    >
+      <h5 *ngIf="validateIsSelected(wcChains) == true">
+        *This wallet is already imported.
+      </h5>
+    </div>
+  </div>
+
+  <div
+    class="keystore-form"
+    fxLayout="column wrap"
+    fxLayoutAlign="center center"
+    *ngIf="showManualInput"
+  >
+    <div class="uni-input-wrapper" fxLayoutAlign="center center">
+      <div class="uni-input password">
+        <input
+          [(ngModel)]="manualWallet"
+          name="wallet"
+          [placeholder]="translation.wallet_connect.manual.wallet"
+          type="text"
+        />
+      </div>
+    </div>
+    <div fxFlex>
+      <mat-checkbox class="remember" (click)="rememberWalletFn()"
+        >{{ "operations.wallet_connect.manual.remember" | translate }}</mat-checkbox
+      >
+    </div>
+  </div>
+  <div
+    class="error-msg"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="
+      keystoreError &&
+      (showKeyStoreForm == true ||
+        showKeystorePhrasecreateForm == true ||
+        showKeystoreFilecreateForm == true)
+    "
+  >
+    {{ keystoreErrorMsg }}
+  </div>
+  <div
+    class="error-msg"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="manualInputError && showManualInput"
+  >
+    {{ manualInputErrorMsg }}
+  </div>
+  <div
+    class="dialog-actions-row"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="keystoreConnecting"
+  >
+    <mat-spinner diameter="32"></mat-spinner>
+  </div>
+  <div
+    class="dialog-actions-row"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="
+      (showKeyStoreForm ||
+        showManualInput ||
+        showXDEFIForm ||
+        showWCForm ||
+        showKeystoreFilecreateForm ||
+        showKeystorePhrasecreateForm) &&
+      !keystoreConnecting
+    "
+  >
+    <button mat-raised-button class="no-button" (click)="back()">
+      <span class="no-button-label">{{ "operations.wallet_connect.buttons.back" | translate }}</span>
+    </button>
+    <button
+      mat-raised-button
+      class="yes-button"
+      (click)="keystoreUnlockClicked()"
+      [disabled]="keystoreConnecting"
+    >
+      <span class="yes-button-label" *ngIf="!showKeystorePhrasecreateForm &&
+        showKeystoreFilecreateForm">{{ "operations.wallet_connect.buttons.create" | translate }}</span>
+      <span class="yes-button-label" *ngIf="showKeystorePhrasecreateForm &&
+        !showKeystoreFilecreateForm">{{ "operations.wallet_connect.buttons.import" | translate }}</span>
+      <span class="yes-button-label" *ngIf="!showKeystorePhrasecreateForm &&
+        !showKeystoreFilecreateForm">{{ "operations.wallet_connect.buttons.connect" | translate }}</span>
+    </button>
+  </div>
+</div>

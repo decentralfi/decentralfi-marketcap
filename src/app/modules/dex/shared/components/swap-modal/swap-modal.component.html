@@ -1,0 +1,567 @@
+<div class="operations-wrapper" fxFlex="100" fxLayout="column">
+  <!-- Main -->
+  <div
+    fxLayout="column"
+    *ngIf="!showConfirm && !swapConfirmed && !showSPConfirm"
+  >
+    <!-- SEND -->
+
+    <div
+      class="send-usd-value"
+      fxLayout="row"
+      fxLayoutAlign="space-between end"
+    >
+      <div fxLayout="row" fxLayoutAlign="start end">
+        <div class="title_modal">{{ "operations.swap.send" | translate }}</div>
+        <div class="text_currency">
+          {{ inputUsdValueIn | currency }}
+        </div>
+      </div>
+      <div class="title_modal">{{ assetUnitInHint }}</div>
+      <div>
+        <div fxLayout="column" fxLayoutAlign="end end">
+          <span class="title_modal"
+            >{{ "operations.swap.balance" | translate }}:
+            {{
+              balanceIn != null
+                ? (balanceIn | number: "0.0-4")
+                : (0 | number: "0.0-4")
+            }}</span
+          >
+          <!--<span class="title_modal"> Aprox {{ balanceInUSD | currency }} </span>-->
+        </div>
+      </div>
+    </div>
+    <div class="select-amount-wrapper">
+      <div class="select-field" fxLayout="column">
+        <button mat-raised-button class="asset-button" (click)="setAsset('in')">
+          <img
+            src="{{ assetIn.iconPath }}"
+            alt="TOKEN IN"
+            width="32px"
+            onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+          />
+          <mat-icon class="expand-icon">expand_more</mat-icon>
+        </button>
+      </div>
+
+      <div class="amount-field" fxFlex fxLayout="column wrap">
+        <!-- SEND FORM -->
+
+        <form
+          class="content_input-amount"
+          fxLayoutAlign="center center"
+          [formGroup]="assetUnitInForm"
+        >
+          <input
+            class="input_assets-amount"
+            name="send"
+            fxFlex="100"
+            type="text"
+            maxlength="14"
+            (ngModelChange)="updateAssetUnits($event)"
+            [(ngModel)]="assetUnitInLabel"
+            currencyMask
+            formControlName="amount"
+            [options]="assetInOptions"
+          />
+          <!--            [(ngModel)]="assetUnitInLabel"
+              (ngModelChange)="updateAssetUnits($event)"-->
+          <button mat-raised-button class="max-button" (click)="setMax()">
+            MAX
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!--SLIDER AND SWITCH -->
+
+    <div
+      class="switch-slider"
+      fxFlex="100"
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between center"
+    >
+      <div fxFlex="70" fxLayout="column">
+        <!-- SLIDER -->
+
+        <!-- <mat-slider
+          max="100"
+          min="0"
+          step="1"
+          thumbLabel="true"
+          aria-label="unit(s)"
+          [displayWith]="formatLabel"
+          [(ngModel)]="assetUnitInPerc"
+          (click)="calculateAssetUnits(assetUnitInPerc)"
+        ></mat-slider> -->
+
+        <app-slider
+          [valueToBind]="assetUnitInPerc"
+          (sliderValueChanged)="calculateAssetUnits($event)"
+        ></app-slider>
+
+        <div class="switch-percent" fxLayoutAlign="space-between center">
+          <div>0%</div>
+          <div>100%</div>
+        </div>
+
+        <div class="send-usd-value" fxLayout="row" fxLayoutAlign="start end">
+          <div class="title_modal">{{ "operations.swap.recieve" | translate }}</div>
+          <div class="text_currency">
+            {{ inputUsdValueOut | currency }}
+          </div>
+          <div class="recieve" *ngIf="walletSendAsset">
+            {{ "operations.swap.in" | translate }} &nbsp;
+            <button
+              mat-raised-button
+              class="recieve-btn"
+              (click)="addRecieveWallet(assetOut.chain)"
+            >
+              {{
+                walletReceiveAsset != null
+                  ? walletReceiveAsset.mask
+                  : "Add recieve wallet"
+              }}
+              <mat-icon [inline]="true">border_color</mat-icon>
+            </button>
+          </div>
+          <!--<div fxLayout="column" fxLayoutAlign="end end">
+              <span class="title_modal">Balance: {{ balanceOut }}</span>
+              <span class="title_modal">
+                Aprox: {{ balanceOutUSD | currency }}
+              </span>
+            </div>-->
+        </div>
+      </div>
+
+      <!--BUTTON SWITCH -->
+
+      <div fxFlex="25" fxLayout="column" fxLayoutAlign="center center">
+        <button
+          mat-button
+          class="switch"
+          (click)="assetSwap()"
+          fxLayoutAlign="center center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="64 64 896 896"
+            focusable="false"
+            data-icon="swap"
+            aria-hidden="true"
+            class="asset-swap"
+          >
+            <path
+              d="M847.9 592H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h605.2L612.9 851c-4.1 5.2-.4 13 6.3 13h72.5c4.9 0 9.5-2.2 12.6-6.1l168.8-214.1c16.5-21 1.6-51.8-25.2-51.8zM872 356H266.8l144.3-183c4.1-5.2.4-13-6.3-13h-72.5c-4.9 0-9.5 2.2-12.6 6.1L150.9 380.2c-16.5 21-1.6 51.8 25.1 51.8h696c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z"
+            />
+          </svg>
+        </button>
+        <span class="title_modal"
+          >{{ "operations.swap.balance" | translate }}:
+          {{
+            balanceOut != null
+              ? (balanceOut | number: "0.0-4")
+              : (0 | number: "0.0-4")
+          }}</span
+        >
+      </div>
+    </div>
+
+    <!-- RECIEVE -->
+
+    <div class="select-amount-wrapper" fxLayout="row">
+      <div class="select-field" fxLayout="column">
+        <button
+          mat-raised-button
+          class="asset-button"
+          (click)="setAsset('out')"
+        >
+          <img
+            src="{{ assetOut.iconPath }}"
+            alt="TOKEN OUT"
+            width="32px"
+            onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+          />
+          <mat-icon class="expand-icon">expand_more</mat-icon>
+        </button>
+      </div>
+
+      <!-- RECEIVE FORM -->
+
+      <div class="amount-field" fxLayout="column">
+        <!-- <h4 class="text_modal">Out (Want)</h4> -->
+        <form class="content_input-amount" [formGroup]="assetUnitOutForm">
+          <input
+            class="input_assets-amount"
+            name="recived"
+            [(ngModel)]="assetUnitOutLabel"
+            currencyMask
+            formControlName="amount"
+            [options]="assetOutOptions"
+            readonly
+          />
+        </form>
+        <!-- <span class="hint text_modal">&nbsp;</span> -->
+      </div>
+    </div>
+
+    <!-- TRANSACTION DETAILS -->
+
+    <div class="fees" fxLayout="row wrap" fxLayoutAlign="center center">
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="100">
+        <div>{{ "operations.swap.eq_after_fees" | translate }}</div>
+        <div fxLayout="row" (click)="toogleFeeDetails()">
+          <a
+            >{{ this.showFeeDetails == false ? ("operations.swap.fee_toggle.view" | translate) : ("operations.swap.fee_toggle.hide" | translate) }}</a
+          >
+          <mat-icon class="expand-icon">expand_more</mat-icon>
+        </div>
+      </div>
+
+      <div
+        class="details"
+        fxLayout="column"
+        *ngIf="showFeeDetails === true"
+        fxFlex="100"
+        fxFlex.md="80"
+        fxFlex.gt-md="80"
+      >
+        <!-- SLIP -->
+        <div
+          [class]="getFeeClass(slip)"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+        >
+          <div>{{ "operations.swap.fee_resume.slip" | translate }}:</div>
+          <div>{{ slip | percent: "0.2-4" }}</div>
+        </div>
+
+        <!-- FEE IN -->
+        <div
+          class="fee-item"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+        >
+          <div>{{ "operations.swap.fee_resume.fee" | translate:assetIn }}:</div>
+          <div>
+            {{ networkFeeIn | number: "0.0-6" }}
+            {{
+              assetIn.ticker === "RUNE"
+                ? assetIn.ticker
+                : assetIn.chain
+            }}
+          </div>
+        </div>
+
+        <!-- FEE OUT -->
+        <div
+          class="fee-item"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+        >
+          <div>{{ "operations.swap.fee_resume.fee" | translate:assetOut }}:</div>
+          <div>
+            {{ networkFeeOut | number: "0.0-6" }}
+            {{
+              assetOut.ticker === "RUNE"
+                ? assetOut.ticker
+                : assetOut.chain
+            }}
+          </div>
+        </div>
+
+        <!-- AFFILIATE FEE -->
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <div>{{ "operations.swap.fee_resume.aff_fee" | translate:assetIn }} (0.15% of tx):</div>
+          <div>
+            <!--{{ affiliateFee | number: "0.0-6" }} {{ assetOut.ticker }}-->FREE
+          </div>
+        </div>
+
+        <!-- TOTAL FEE IN USD -->
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <div>{{ "operations.swap.fee_resume.total_fee" | translate:assetIn }}:</div>
+          <div>{{ totalFeeUSD | currency: "USD":"symbol":"0.1-6" }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      *ngIf="dcfEnvironment != 'chaosnet'"
+    >
+      <mat-checkbox class="remember" [(ngModel)]="useSPProtection"
+        >{{ "operations.swap.slippage_check" | translate }}.
+      </mat-checkbox>
+      <!-- &nbsp;<a class="learn-more" href="#"><strong>Learn more.</strong></a> -->
+    </div>
+
+    <!-- SWAP BUTTON -->
+
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start">
+      <button
+        mat-raised-button
+        [class]="getSwapBtnClass()"
+        (click)="confirmSwap()"
+      >
+        <span class="swap-label">{{ "operations.swap.buttons.swap" | translate }}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="64 64 896 896"
+          focusable="false"
+          data-icon="swap"
+          width="1.5rem"
+          height="1.5rem"
+          aria-hidden="true"
+        >
+          <path
+            d="M847.9 592H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h605.2L612.9 851c-4.1 5.2-.4 13 6.3 13h72.5c4.9 0 9.5-2.2 12.6-6.1l168.8-214.1c16.5-21 1.6-51.8-25.2-51.8zM872 356H266.8l144.3-183c4.1-5.2.4-13-6.3-13h-72.5c-4.9 0-9.5 2.2-12.6 6.1L150.9 380.2c-16.5 21-1.6 51.8 25.1 51.8h696c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- SLIPPAGE TOLERACE -->
+  <div
+    fxLayout="column"
+    *ngIf="!showConfirm && !swapConfirmed && showSPConfirm"
+  >
+    <div fxLayout="column" fxLayoutAlign="center center" class="sp-resume">
+      <img
+        src="../../../../../../assets/images/loader/decentralfi-dark.svg"
+        width="300px"
+        alt="loader"
+        *ngIf="SPLoading"
+      />
+      <div *ngIf="SPLoading">{{"operations.swap.slippage_bot.calculate_msg" | translate}}...</div>
+      <div
+        class="sp-msg"
+        *ngIf="!SPLoading"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+      >
+        <h4>{{ spDataRes.applies ? ( "operations.swap.slippage_bot.msg.applies" | translate ) : ( "operations.swap.slippage_bot.msg.not_applies" | translate ) }}</h4>
+        <div
+          *ngIf="spDataRes.applies"
+          class="resume-row"
+          fxLayoutAlign="center center"
+        >
+          <div>{{"operations.swap.slippage_bot.sp_resume.title" | translate}}:</div>
+        </div>
+        <div
+          *ngIf="spDataRes.applies"
+          fxLayout="column wrap"
+          class="resume-row"
+          fxFlex
+        >
+          <div
+            fxLayout="row wrap"
+            fxFlex
+            fxLayoutAlign="space-between center"
+            class="wout-protection"
+          >
+            <div>{{"operations.swap.slippage_bot.sp_resume.wout_protection" | translate}}:</div>
+            <div>{{ spDataRes.slip_percentage_global }} %</div>
+          </div>
+          <div
+            fxLayout="row wrap"
+            fxFlex
+            fxLayoutAlign="space-between center"
+            class="w-protection"
+          >
+            <div>{{"operations.swap.slippage_bot.sp_resume.w_protection" | translate}}:</div>
+            <div>{{ spDataRes.slip_percentage_division }} %</div>
+          </div>
+        </div>
+        <h3 *ngIf="spDataRes.applies" class="w-protection">
+          {{"operations.swap.slippage_bot.sp_resume.total_saving" | translate}}: {{ spDataRes.total_savings_calculation | currency }}
+        </h3>
+      </div>
+
+      <!-- CONTROLS -->
+
+      <div
+        class="confirm-swap-button"
+        fxFlex="100"
+        fxLayout="row wrap"
+        fxLayoutAlign="center start"
+        fxLayoutGap="25px"
+      >
+        <button
+          mat-raised-button
+          class="back button_modal"
+          (click)="backSwap()"
+          *ngIf="!SPLoading || spDataResMsg != undefined"
+        >
+          <span class="swap-label">{{ "operations.swap.buttons.back" | translate }}</span>
+        </button>
+        <button
+          mat-raised-button
+          class="swap button_modal"
+          (click)="SPswap()"
+          *ngIf="!SPLoading && spDataRes.applies"
+        >
+          <span class="swap-label">{{ "operations.swap.buttons.confirm.swap" | translate }}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="64 64 896 896"
+            focusable="false"
+            data-icon="swap"
+            width="1.5rem"
+            height="1.5rem"
+            aria-hidden="true"
+          >
+            <path
+              d="M847.9 592H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h605.2L612.9 851c-4.1 5.2-.4 13 6.3 13h72.5c4.9 0 9.5-2.2 12.6-6.1l168.8-214.1c16.5-21 1.6-51.8-25.2-51.8zM872 356H266.8l144.3-183c4.1-5.2.4-13-6.3-13h-72.5c-4.9 0-9.5 2.2-12.6 6.1L150.9 380.2c-16.5 21-1.6 51.8 25.1 51.8h696c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 STEP -->
+
+  <div
+    fxLayout="column"
+    *ngIf="showConfirm && !swapConfirmed && !showSPConfirm"
+  >
+    <div class="send-usd-value" fxLayout="row" fxLayoutAlign="start end">
+      <div class="title_modal">{{ "operations.swap.send" | translate }}</div>
+    </div>
+    <div class="select-amount-wrapper">
+      <div class="select-field" fxLayout="column">
+        <button mat-raised-button class="asset-button">
+          <img
+            src="{{ assetIn.iconPath }}"
+            alt="TOKEN IN"
+            width="32px"
+            onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+          />
+        </button>
+      </div>
+
+      <div class="amount-field" fxFlex fxLayout="column wrap">
+        <!-- SEND FORM -->
+        <form class="content_input-amount" fxLayoutAlign="center center">
+          <input
+            class="input_assets-amount"
+            type="text"
+            name="send"
+            fxFlex="100"
+            maxlength="30"
+            [(ngModel)]="assetUnitInLabel"
+            readonly
+          />
+        </form>
+
+        <!--<span class="hint text_modal">{{ assetUnitInHint }}</span>-->
+      </div>
+    </div>
+
+    <div class="arrow-row" fxLayout="row wrap" fxLayoutAlign="center center">
+      <mat-icon class="down-arrow-icon">arrow_downward</mat-icon>
+    </div>
+
+    <!-- RECEIVE -->
+    <div class="send-usd-value" fxLayout="row" fxLayoutAlign="start end">
+      <div class="title_modal">{{ "operations.swap.recieve" | translate }}</div>
+    </div>
+    <div class="select-amount-wrapper" fxLayout="row">
+      <div class="select-field" fxLayout="column">
+        <button mat-raised-button class="asset-button">
+          <img
+            src="{{ assetOut.iconPath }}"
+            alt="TOKEN OUT"
+            width="32px"
+            onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+          />
+        </button>
+      </div>
+
+      <!-- RECIVE FORM -->
+
+      <div class="amount-field" fxLayout="column">
+        <!-- <h4 class="text_modal">Out (Want)</h4> -->
+        <form class="content_input-amount">
+          <input
+            class="input_assets-amount"
+            name="recived"
+            [(ngModel)]="assetUnitOutLabel"
+            readonly
+          />
+        </form>
+        <!-- <span class="hint text_modal">&nbsp;</span> -->
+      </div>
+    </div>
+
+    <!-- TOTAL FEE -->
+
+    <div
+      class="fee-detail"
+      fxLayout="column"
+      fxLayoutAlign="space-evenly center"
+    >
+      <div class="title">{{ "operations.swap.fee_resume.total_fee" | translate }}</div>
+      <div class="detail">
+        <span>
+          {{ networkFeeIn | number: "0.0-6" }}
+          {{ assetIn.ticker === "RUNE" ? assetIn.ticker : assetIn.chain }} +
+          {{ networkFeeOut | number: "0.0-6" }}
+          {{ assetOut.ticker === "RUNE" ? assetOut.ticker : assetOut.chain }}
+          <!--+
+            {{ affiliateFee | number: "0.0-6" }}
+            {{ assetOut.ticker }}-->
+        </span>
+      </div>
+    </div>
+
+    <!-- SLIP -->
+
+    <div
+      class="fee-detail"
+      fxLayout="column"
+      fxLayoutAlign="space-evenly center"
+    >
+      <div class="title">{{ "operations.swap.fee_resume.slip" | translate }}</div>
+      <div class="detail">
+        <span>
+          {{ slip | percent: "0.2-4" }}
+        </span>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+
+    <div
+      class="confirm-swap-button"
+      fxFlex="100"
+      fxLayout="row wrap"
+      fxLayoutAlign="center start"
+      fxLayoutGap="25px"
+    >
+      <button mat-raised-button class="back button_modal" (click)="backSwap()">
+        <span class="swap-label">{{ "operations.swap.buttons.back" | translate }}</span>
+      </button>
+      <button mat-raised-button class="swap button_modal" (click)="swap()">
+        <span class="swap-label">{{ "operations.swap.buttons.confirm.swap" | translate }}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="64 64 896 896"
+          focusable="false"
+          data-icon="swap"
+          width="1.5rem"
+          height="1.5rem"
+          aria-hidden="true"
+        >
+          <path
+            d="M847.9 592H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h605.2L612.9 851c-4.1 5.2-.4 13 6.3 13h72.5c4.9 0 9.5-2.2 12.6-6.1l168.8-214.1c16.5-21 1.6-51.8-25.2-51.8zM872 356H266.8l144.3-183c4.1-5.2.4-13-6.3-13h-72.5c-4.9 0-9.5 2.2-12.6 6.1L150.9 380.2c-16.5 21-1.6 51.8 25.1 51.8h696c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

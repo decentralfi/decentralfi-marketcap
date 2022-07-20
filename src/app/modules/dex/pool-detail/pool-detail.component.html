@@ -1,0 +1,619 @@
+<div fxLayout="row wrap" class="decentral-row" fxLayoutAlign="center center">
+  <div fxFlex="85" fxLayoutAlign="start center">
+    <button class="master-go-back-button" matRipple (click)="goBack()">
+      <div
+        class="btn-wrapper"
+        fxLayout="row wrap"
+        fxLayoutAlign="center center"
+      >
+        <div class="bnt-icon" fxFlex="32px" fxLayoutAlign="center center">
+          <mat-icon>arrow_back</mat-icon>
+        </div>
+        <div class="btn-text" fxFlex>{{ "pool_details.go_back" | translate }}</div>
+      </div>
+    </button>
+  </div>
+</div>
+
+<div fxLayout="row wrap" class="decentral-row" fxLayoutAlign="center start">
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="space-between start"
+    fxFlex="100"
+    fxFlex.gt-md="85"
+    fxFlex.md="85"
+  >
+    <div fxFlex="100" fxFlex.gt-md="12" fxFlex.md="12" class="mini-card">
+      <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+        <fa-icon [icon]="faQuestionCircle" matTooltip="Total Volumes"></fa-icon>
+      </mat-card-title>
+      <mat-card-subtitle fxLayoutAlign="center start"
+        >{{ "pool_details.volumes" | translate }}</mat-card-subtitle
+      >
+      <h1 fxLayoutAlign="center start">
+        {{ this.getSimbol() }}{{ totalVolume / 100000000 | roundedValue }}
+      </h1>
+    </div>
+    <div fxFlex="45" fxFlex.gt-md="12" fxFlex.md="12" class="mini-card">
+      <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+        <fa-icon [icon]="faQuestionCircle" matTooltip="Total Depth"></fa-icon>
+      </mat-card-title>
+      <mat-card-subtitle fxLayoutAlign="center start"
+        >{{ "pool_details.depth" | translate }}</mat-card-subtitle
+      >
+      <h1 fxLayoutAlign="center start">
+        {{ this.getSimbol() }}{{ totalDepth / 100000000 | roundedValue }}
+      </h1>
+    </div>
+    <div fxFlex="45" fxFlex.gt-md="12" fxFlex.md="12" class="mini-card">
+      <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+        <fa-icon [icon]="faQuestionCircle" matTooltip="Swaps count"></fa-icon>
+      </mat-card-title>
+      <mat-card-subtitle fxLayoutAlign="center start"
+        >{{ "pool_details.swaps" | translate }}</mat-card-subtitle
+      >
+      <h1 fxLayoutAlign="center start">{{ totalSwaps }}</h1>
+    </div>
+    <div fxFlex="45" fxFlex.gt-md="12" fxFlex.md="12" class="mini-card">
+      <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+        <fa-icon [icon]="faQuestionCircle" matTooltip="Volume Buys"></fa-icon>
+      </mat-card-title>
+      <mat-card-subtitle fxLayoutAlign="center start"
+        >{{ "pool_details.buys" | translate }}</mat-card-subtitle
+      >
+      <h1 fxLayoutAlign="center start">
+        {{ this.getSimbol() }}{{ totalBuys / 100000000 | roundedValue }}
+      </h1>
+    </div>
+    <div fxFlex="45" fxFlex.gt-md="12" fxFlex.md="12" class="mini-card">
+      <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+        <fa-icon [icon]="faQuestionCircle" matTooltip="Volume Sells"></fa-icon>
+      </mat-card-title>
+      <mat-card-subtitle fxLayoutAlign="center start"
+        >{{ "pool_details.sells" | translate }}</mat-card-subtitle
+      >
+      <h1 fxLayoutAlign="center start">
+        {{ this.getSimbol() }}{{ totalSells / 100000000 | roundedValue }}
+      </h1>
+    </div>
+    <div fxFlex="45" fxFlex.gt-md="12" fxFlex.md="12" class="mini-card">
+      <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+        <fa-icon [icon]="faQuestionCircle" matTooltip="Avg swap size"></fa-icon>
+      </mat-card-title>
+      <mat-card-subtitle fxLayoutAlign="center start"
+        >{{ "pool_details.swap_size" | translate }}</mat-card-subtitle
+      >
+      <h1 fxLayoutAlign="center start">
+        {{ this.getSimbol() }}{{ totalAvgSwapSize / 100000000 | roundedValue }}
+      </h1>
+    </div>
+    <div fxFlex="45" fxFlex.gt-md="12" fxFlex.md="12" class="mini-card">
+      <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+        <fa-icon [icon]="faQuestionCircle" matTooltip="Avg swap fee"></fa-icon>
+      </mat-card-title>
+      <mat-card-subtitle fxLayoutAlign="center start"
+        >{{ "pool_details.swap_fee" | translate }}</mat-card-subtitle
+      >
+      <h1 fxLayoutAlign="center start">
+        {{ totalAvgSwapFee | roundedValue }}%
+      </h1>
+    </div>
+  </div>
+</div>
+
+<div
+  fxLayout="row wrap"
+  class="decentral-row"
+  fxLayoutAlign="center center"
+  *ngIf="poolList.length == 0"
+>
+  <div
+    fxFlex="85"
+    fxFlex.gt-md="18"
+    fxFlex.md="18"
+    class="table-loader"
+    fxLayoutAlign="center center"
+  >
+    <img
+      src="../../../../assets/images/loader/decentralfi-light.svg"
+      alt="loader"
+    />
+  </div>
+</div>
+
+<div
+  id="table-id"
+  fxLayout="row wrap"
+  class="decentral-row full-height"
+  fxLayoutAlign="center start"
+  *ngIf="poolList.length > 0"
+>
+  <div
+    fxLayout="row"
+    fxFlex="100"
+    fxFlex.gt-md="85"
+    fxFlex.md="85"
+    fxLayoutAlign="end center"
+    class="header-period-chips"
+  >
+    <div class="periods" fxLayoutAlign="space-between center">
+      <mat-chip-list aria-label="period">
+        <mat-chip
+          *ngFor="let period of periods"
+          [color]="setColor(period.label)"
+          (click)="getPeriod(period.api, period.label)"
+          selected
+        >
+          {{ period.label }}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+  <div fxLayout="row wrap" fxFlex="100" fxFlex.gt-md="85" fxFlex.md="85">
+    <div
+      fxLayout="row wrap"
+      class="buttons detail style-buttons"
+      fxLayoutAlign="space-evenly center"
+      fxFlex="100"
+      fxFlex.gt-md="18"
+      fxFlex.md="18"
+    >
+      <button
+        mat-raised-button
+        class="swap-button detail"
+        #tooltip="matTooltip"
+        [matTooltip]="translation.tx_buttons.swap"
+        matTooltipPosition="below"
+        matTooltipHideDelay="100"
+        fxFlex="20"
+        fxFlex.gt-md="10"
+        fxFlex.md="10"
+        (click)="
+          openSwapModal(
+            poolList[0].chain,
+            poolList[0].asset.ticker,
+            poolList[0].asset.fullname,
+            'swap',
+            poolList[0].status
+          )
+        "
+      >
+        <img src="../../../../../assets/icons/swap.svg" width="16px" />
+      </button>
+      <button
+        mat-raised-button
+        class="add-button detail"
+        #tooltip="matTooltip"
+        [matTooltip]="translation.tx_buttons.add"
+        matTooltipPosition="below"
+        matTooltipHideDelay="100"
+        fxFlex="20"
+        fxFlex.gt-md="10"
+        fxFlex.md="10"
+        (click)="
+          openSwapModal(
+            poolList[0].chain,
+            poolList[0].asset.ticker,
+            poolList[0].asset.fullname,
+            'add',
+            poolList[0].status
+          )
+        "
+      >
+        <img src="../../../../../assets/icons/add.svg" width="16px" />
+      </button>
+      <button
+        mat-raised-button
+        class="manage-button detail"
+        #tooltip="matTooltip"
+        [matTooltip]="translation.tx_buttons.withdraw"
+        matTooltipPosition="below"
+        matTooltipHideDelay="100"
+        fxFlex="20"
+        fxFlex.gt-md="10"
+        fxFlex.md="10"
+        (click)="
+          openSwapModal(
+            poolList[0].chain,
+            poolList[0].asset.ticker,
+            poolList[0].asset.fullname,
+            'withdraw',
+            poolList[0].status
+          )
+        "
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="64 64 896 896"
+          focusable="false"
+          data-icon="withdraw"
+          width="1rem"
+          height="1rem"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            d="M868 732h-70.3c-4.8 0-9.3 2.1-12.3 5.8-7 8.5-14.5 16.7-22.4 24.5a353.84 353.84 0 01-112.7 75.9A352.8 352.8 0 01512.4 866c-47.9 0-94.3-9.4-137.9-27.8a353.84 353.84 0 01-112.7-75.9 353.28 353.28 0 01-76-112.5C167.3 606.2 158 559.9 158 512s9.4-94.2 27.8-137.8c17.8-42.1 43.4-80 76-112.5s70.5-58.1 112.7-75.9c43.6-18.4 90-27.8 137.9-27.8 47.9 0 94.3 9.3 137.9 27.8 42.2 17.8 80.1 43.4 112.7 75.9 7.9 7.9 15.3 16.1 22.4 24.5 3 3.7 7.6 5.8 12.3 5.8H868c6.3 0 10.2-7 6.7-12.3C798 160.5 663.8 81.6 511.3 82 271.7 82.6 79.6 277.1 82 516.4 84.4 751.9 276.2 942 512.4 942c152.1 0 285.7-78.8 362.3-197.7 3.4-5.3-.4-12.3-6.7-12.3zm88.9-226.3L815 393.7c-5.3-4.2-13-.4-13 6.3v76H488c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h314v76c0 6.7 7.8 10.5 13 6.3l141.9-112a8 8 0 000-12.6z"
+          />
+        </svg>
+        <!-- <span class="add-wallet-button-label">Withdraw</span> -->
+      </button>
+      <button
+        mat-raised-button
+        class="manage-button detail"
+        #tooltip="matTooltip"
+        [matTooltip]="translation.tx_buttons.send"
+        matTooltipPosition="below"
+        matTooltipHideDelay="100"
+        fxFlex="20"
+        fxFlex.gt-md="10"
+        fxFlex.md="10"
+        (click)="
+          openSwapModal(
+            poolList[0].chain,
+            poolList[0].asset.ticker,
+            poolList[0].asset.fullname,
+            'send',
+            poolList[0].status
+          )
+        "
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="64 64 896 896"
+          focusable="false"
+          data-icon="send"
+          width="1rem"
+          height="1rem"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            d="M931.4 498.9L94.9 79.5c-3.4-1.7-7.3-2.1-11-1.2a15.99 15.99 0 00-11.7 19.3l86.2 352.2c1.3 5.3 5.2 9.6 10.4 11.3l147.7 50.7-147.6 50.7c-5.2 1.8-9.1 6-10.3 11.3L72.2 926.5c-.9 3.7-.5 7.6 1.2 10.9 3.9 7.9 13.5 11.1 21.5 7.2l836.5-417c3.1-1.5 5.6-4.1 7.2-7.1 3.9-8 .7-17.6-7.2-21.6zM170.8 826.3l50.3-205.6 295.2-101.3c2.3-.8 4.2-2.6 5-5 1.4-4.2-.8-8.7-5-10.2L221.1 403 171 198.2l628 314.9-628.2 313.2z"
+          ></path>
+        </svg>
+        <!-- <span class="add-wallet-button-label">Withdraw</span> -->
+      </button>
+    </div>
+
+    <!-- SEARCH -->
+    <mat-form-field
+      class="table-search"
+      fxFlex="100"
+      fxFlex.gt-md="82"
+      fxFlex.md="82"
+    >
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        type="search"
+        matInput
+        [placeholder]="translation.search_placeholder"
+        [formControl]="myControl"
+        [matAutocomplete]="auto"
+      />
+
+      <mat-autocomplete #auto="matAutocomplete" [class]="autocompleteClass">
+        <mat-option
+          *ngFor="let option of filteredOptions | async"
+          [value]="option.asset"
+          (click)="goToPool(option.fullname)"
+        >
+          {{ option.asset }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <!-- TABLE CONTENTS -->
+  <div
+    class="assets-table-wrapper"
+    fxLayoutAlign="start start"
+    fxLayoutAlign.gt-md="center start"
+    fxLayoutAlign.md="center start"
+    fxFlex="100"
+    fxFlex.gt-md="85"
+    fxFlex.md="85"
+  >
+    <table
+      mat-table
+      fxFlex="100"
+      [dataSource]="dataSource"
+      matSort
+      (matSortChange)="sortData($event)"
+      class="assets-table"
+    >
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th class="th-stiky1" mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "pool_details.table.headers.asset" | translate }}
+        </th>
+        <td [class]="tdColorOne()" mat-cell *matCellDef="let element">
+          <div class="name-logo" fxLayout="row" fxLayoutAlign="center center">
+            <div class="name-logo-img">
+              <img
+                src="{{ element.asset.iconPath }}"
+                alt="{{ element.asset.symbol }}"
+                onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+                loading="lazy"
+              />
+            </div>
+            <div class="name-logo-asset">
+              <span class="span-asset"> {{ element.asset.chain }} </span><br />
+              <span>
+                {{ element.asset.ticker }}
+              </span>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Chain Column -->
+      <ng-container matColumnDef="chain">
+        <th
+          class="delete-column"
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Ticker
+        </th>
+        <td class="delete-column" mat-cell *matCellDef="let element">
+          {{ element.chain }}.{{ element.asset.ticker }}
+        </td>
+      </ng-container>
+
+      <!-- Price Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "pool_details.table.headers.price" | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="element.price"
+            >{{ this.getSimbol() }}{{ +element.price | roundedValue }}</span
+          >
+        </td>
+      </ng-container>
+
+      <!-- Depth Column -->
+      <ng-container matColumnDef="depth">
+        <th
+          class="column-padding"
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          {{ "pool_details.table.headers.depth" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ this.getSimbol() }}{{ element.depth / 100000000 | roundedValue }}
+        </td>
+      </ng-container>
+
+      <!-- Volume Column -->
+      <ng-container matColumnDef="volume">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "pool_details.table.headers.volume" | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          {{ this.getSimbol() }}{{ element.volume / 100000000 | roundedValue }}
+        </td>
+      </ng-container>
+
+      <!-- Percentage Column -->
+      <ng-container matColumnDef="perc">
+        <th
+          class="column-padding"
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          24h %
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <div
+            *ngIf="element.isLoading == true"
+            fxLayout="row"
+            fxLayoutAlign="center center"
+          >
+            <mat-spinner diameter="32"></mat-spinner>
+          </div>
+          <span
+            [class]="getPercClass(element.perc)"
+            *ngIf="element.isLoading == false"
+            >{{ element.perc | number: "1.2" }}%</span
+          >
+        </td>
+      </ng-container>
+
+      <!-- weeklyChange Column -->
+      <ng-container matColumnDef="weeklyChange">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>7d %</th>
+        <td mat-cell *matCellDef="let element">
+          <div
+            *ngIf="element.isLoading == true"
+            fxLayout="row"
+            fxLayoutAlign="center center"
+          >
+            <mat-spinner diameter="32"></mat-spinner>
+          </div>
+          <span
+            [class]="getPercClass(element.weeklyChange)"
+            *ngIf="element.isLoading == false"
+            >{{ element.weeklyChange | number: "1.2" }}%</span
+          >
+        </td>
+      </ng-container>
+
+      <!-- Graph Column -->
+      <ng-container matColumnDef="graph">
+        <th mat-header-cell *matHeaderCellDef>7d</th>
+        <td mat-cell *matCellDef="let element">
+          <div
+            *ngIf="element.isLoading == true"
+            fxLayout="row"
+            fxLayoutAlign="center center"
+          >
+            <mat-spinner diameter="32"></mat-spinner>
+          </div>
+          <div
+            echarts
+            [options]="element.graph"
+            class="market-chart"
+            *ngIf="element.isLoading == false"
+          ></div>
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "pool_details.table.headers.status" | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          <div fxLayoutAlign="center center">
+            <div
+              [class]="getStatusClass(element.status)"
+              matTooltip="{{ element.status | titlecase }}"
+            ></div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+  <!-- PAGINATOR -->
+  <div
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+    fxFlex="100"
+    fxFlex.gt-md="85"
+    fxFlex.md="85"
+    *ngIf="dataSource.data.length > 1"
+  >
+    <div class="paginator-pagesize">
+      <span>{{ "pool_details.table.paginator" | translate }}: &nbsp;&nbsp;</span>
+      <button
+        mat-icon-button
+        [class]="getPaginatorClass(10)"
+        (click)="setPaginatorPageSize(10)"
+      >
+        10
+      </button>
+      <button
+        mat-icon-button
+        [class]="getPaginatorClass(50)"
+        (click)="setPaginatorPageSize(50)"
+      >
+        50
+      </button>
+      <button
+        mat-icon-button
+        [class]="getPaginatorClass(100)"
+        (click)="setPaginatorPageSize(100)"
+      >
+        100
+      </button>
+    </div>
+    <div>
+      <mat-paginator
+        showFirstLastButtons
+        hidePageSize
+        [length]="dataSource.data.length"
+        [pageSize]="poolRatesTablePageSize"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+
+  <!-- Portfolio Values -->
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    fxFlex="100"
+    class="marketcap-last-section"
+  >
+    <div
+      fxLayout="row wrap"
+      fxLayoutAlign="space-evenly center"
+      fxFlex="100"
+      fxFlex.gt-md="85"
+      fxFlex.md="85"
+      class="section-wrapper"
+    >
+      <div
+        fxFlex="100"
+        fxLayout="row wrap"
+        fxLayoutAlign="space-between center"
+        fxLayoutAlign.gt-md="end center"
+        fxLayoutAlign.md="end center"
+      >
+        <mat-card
+          fxFlex="30"
+          fxFlex.gt-md="10"
+          fxFlex.md="10"
+          class="asset-price"
+        >
+          <mat-card-subtitle fxLayoutAlign="center center"
+            >{{ "pool_details.details.price" | translate }}</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center center">
+            {{ this.getSimbol() }}{{ price | roundedValue }}
+          </h1>
+        </mat-card>
+        <mat-card fxFlex="30" fxFlex.gt-md="10" fxFlex.md="10" class="roi-pool">
+          <mat-card-subtitle fxLayoutAlign="center center"
+            >{{ "pool_details.details.pool_apy" | translate }}</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center center">
+            {{ apy * 100 | roundedValue }} %
+          </h1>
+        </mat-card>
+        <mat-card
+          fxFlex="30"
+          fxFlex.gt-md="10"
+          fxFlex.md="10"
+          class="asset-price"
+        >
+          <mat-card-subtitle fxLayoutAlign="center center"
+            >{{ "pool_details.details.members" | translate }}</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center center">{{ members }}</h1>
+        </mat-card>
+      </div>
+      <!--<div
+        fxLayout="row wrap"
+        class="decentral-row"
+        fxLayoutAlign="center center"
+        *ngIf="assetPriceOptions"
+      >
+        <mat-slide-toggle (click)="showMA5()">MA5</mat-slide-toggle>
+      </div>-->
+      <div
+        fxLayout="row wrap"
+        class="decentral-row"
+        fxLayoutAlign="center center"
+        *ngIf="!assetPriceOptions"
+      >
+        <div
+          fxFlex="85"
+          fxFlex.gt-md="18"
+          fxFlex.md="18"
+          class="detail-table-loader"
+          fxLayoutAlign="center center"
+        >
+          <img [src]="loaderFile" alt="loader" />
+        </div>
+      </div>
+      <div
+        class="asset-chart"
+        fxFlex="85"
+        fxFlex.gt-md="100"
+        fxFlex.md="100"
+        *ngIf="assetPriceOptions"
+      >
+        <div
+          echarts
+          [options]="assetPriceOptions"
+          class="dex-price-chart"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>

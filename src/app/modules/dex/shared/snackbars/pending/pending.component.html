@@ -1,0 +1,231 @@
+<div fxLayout="row" fxLayoutAlign="end center">
+  <button mat-mini-fab class="close-snackbar" (click)="close()">
+    <mat-icon>cancel</mat-icon>
+  </button>
+</div>
+
+<mat-accordion multi="true">
+  <mat-expansion-panel
+    (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false"
+    *ngFor="let tx of txs"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title fxLayout="row wrap">
+        <!-- ICONS -->
+        <div class="type_icon" fxFlex="20" fxLayoutAlign="center center">
+          <app-operation-icon
+            [width]="'1.5rem'"
+            [height]="'1.5rem'"
+            [type]="
+              tx.action === 'Add'
+                ? 'add'
+                : tx.action === 'Withdraw'
+                ? 'withdraw'
+                : tx.action === 'Send'
+                ? 'send'
+                : 'swap'
+            "
+          ></app-operation-icon>
+        </div>
+
+        <!-- STATUS TXS -->
+        <div
+          class="main_tx"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+          fxFlex
+          matExpansionPanelContent
+        >
+          <div class="chain-action">
+            {{ "operations.pending.action." + (tx.action | lowercase) | translate }} {{ tx.ticker | uppercase }}
+          </div>
+          <div
+            [class]="getStatusClass(tx.status)"
+            fxLayout="row"
+            fxLayoutAlign="space-evenly center"
+          >
+            <mat-icon *ngIf="tx.status === 'COMPLETE'">check_circle</mat-icon>
+            <mat-icon
+              matTooltip="Transaction Refunded"
+              *ngIf="tx.status === 'REFUNDED'"
+              >undo</mat-icon
+            >
+            <mat-progress-spinner
+              *ngIf="tx.status === 'PENDING'"
+              diameter="12"
+              mode="indeterminate"
+            ></mat-progress-spinner>
+            <div class="status">{{ "operations.pending.status." + (tx.status | uppercase) | translate }}</div>
+          </div>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <!-- EXPLORER -->
+    <section>
+      <div
+        class="tx-details-title"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+      >
+        {{ "operations.pending.view_tx" | translate }}
+      </div>
+
+      <!-- FIRST EXPLORER -->
+      <div
+        class="tx-details-links"
+        fxLayout="row"
+        fxLayoutAlign="space-evenly center"
+      >
+        <div>
+          <a
+            class="asset_explorer"
+            [href]="explorerPath(tx.chain, tx.hash)"
+            target="_blank"
+            fxLayoutAlign="center center"
+          >
+            <img
+              [src]="getChainImg(tx.chain, tx.ticker)"
+              alt="{{ tx.chain }}"
+              onerror='this.src="https://unpkg.com/cryptoicons-cdn@0.1.22/images/RUNE.png"'
+              loading="lazy"
+            />
+            <span> {{ "operations.pending.explorer" | translate }}</span>
+            <mat-icon style="transform: scale(0.4)">open_in_new</mat-icon>
+          </a>
+        </div>
+        <!-- SECOND EXPLORER -->
+        <div>
+          <a
+            class="asset_explorer"
+            *ngIf="
+              (tx.action === 'Add' &&
+                tx.poolTypeOption === 'SYM' &&
+                tx.isThorchainTx &&
+                tx.chain !== 'THOR') ||
+              (tx.out_isThorchainTx && tx.out_chain === 'THOR')
+            "
+            [href]="explorerPath(tx.out_chain, tx.out_hash)"
+            target="_blank"
+            fxLayoutAlign="center center"
+          >
+            <img
+              [src]="getChainImg('THOR', 'RUNE')"
+              alt="{{ tx.chain }}"
+              onerror='this.src="https://unpkg.com/cryptoicons-cdn@0.1.22/images/RUNE.png"'
+              loading="lazy"
+            />
+            <span> {{ "operations.pending.explorer" | translate }}</span>
+            <mat-icon style="transform: scale(0.4)">open_in_new</mat-icon>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- AMOUNT -->
+    <div
+      class="tx_amount"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      fxLayoutGap="6px"
+    >
+      <div>{{ "operations.pending.action_verb." + (tx.action | lowercase) | translate }}</div>
+
+      <!-- FIRST AMOUNT TRANSACTION -->
+      <div class="amount">
+        {{
+          tx.ticker !== "RUNE"
+            ? (tx.assetAmount | number: "0.1-4")
+            : tx.chain === "THOR" && tx.ticker === "RUNE"
+            ? (tx.assetAmount | number: "0.1-4")
+            : (tx.out_amount | number: "0.1-4")
+        }}
+        {{ tx.ticker }}
+      </div>
+
+      <div>
+        <button
+          *ngIf="tx.action === 'Add' && tx.status === 'COMPLETE'"
+          mat-flat-button
+          (click)="goToLiquidity(tx.chain)"
+          style="background: #ff9500; color: white"
+        >
+          {{ "operations.pending.check_lp" | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- SECOND AMOUNT TRANSACTION -->
+    <div
+      *ngIf="
+        (tx.action === 'Add' || tx.action === 'Withdraw') &&
+        tx.poolTypeOption === 'SYM'
+      "
+      class="tx_amount"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      fxLayoutGap="6px"
+    >
+      <div *ngIf="tx.action === 'Add' || tx.action === 'Withdraw'">{{ "operations.pending.action_verb." + (tx.action | lowercase) | translate }}</div>
+      <div class="amount">
+        {{ tx.out_amount | number: "0.1-4" }}
+        {{ tx.out_ticker }}
+      </div>
+
+      <section>
+        <mat-progress-spinner
+          *ngIf="tx.out_status === 'PENDING'"
+          diameter="12"
+          mode="indeterminate"
+        ></mat-progress-spinner>
+        <div class="status" *ngIf="tx.out_status === 'PENDING'">
+          {{ "operations.pending.status." + (tx.out_status | uppercase) | translate }}
+        </div>
+      </section>
+
+      <section>
+        <button
+          *ngIf="tx.action === 'Add' && tx.out_status === 'COMPLETE'"
+          mat-flat-button
+          (click)="goToLiquidity(tx.out_chain)"
+          style="background: #ff9500; color: white"
+        >
+          {{ "operations.pending.check_lp" | translate }}
+        </button>
+      </section>
+    </div>
+
+    <!-- REFUNDED -->
+    <div class="info">
+      <span *ngIf="tx.status === 'REFUNDED'"
+        >*{{ "operations.pending.refund_msg.p1" | translate }}.<br />{{ "operations.pending.refund_msg.p2" | translate }} <strong>{{ "operations.pending.refund_msg.p3" | translate }}</strong>.</span>
+    </div>
+  </mat-expansion-panel>
+
+  <!-- NO PENDING -->
+  <mat-expansion-panel
+    (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false"
+    *ngIf="!txs || (txs && txs.length < 1)"
+    disabled="true"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title fxLayout="row wrap">
+        <div
+          class="main_tx"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+          fxFlex
+          matExpansionPanelContent
+        >
+          <div class="chain-action">{{ "operations.pending.no_pending" | translate }}</div>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="tx-details-title" fxLayout="row" fxLayoutAlign="center center">
+      {{ "operations.pending.no_pending" | translate }}
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

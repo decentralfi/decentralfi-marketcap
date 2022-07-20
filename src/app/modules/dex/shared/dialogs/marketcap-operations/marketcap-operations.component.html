@@ -1,0 +1,299 @@
+<div class="wallet-connect-dialog container transac" fxLayout="column">
+  <!-- HEADER -->
+  <mat-dialog-actions
+    class="header_container"
+    fxLayoutAlign="space-between center"
+  >
+    <div fxLayout="row wrap" fxLayoutAlign="start center">
+      <button
+        mat-button
+        [ngClass]="
+          data.operationType === 'swap'
+            ? 'button_header_icon_active'
+            : 'button_header_icon'
+        "
+        (click)="changeOperation('swap')"
+        [matTooltip]="translation.buttons.swap"
+      >
+        <app-operation-icon [type]="'swap'"></app-operation-icon>
+      </button>
+
+      <button
+        mat-button
+        [ngClass]="
+          data.operationType === 'add'
+            ? 'button_header_icon_active'
+            : 'button_header_icon'
+        "
+        (click)="changeOperation('add')"
+        [matTooltip]="translation.buttons.add"
+      >
+        <app-operation-icon [type]="'add'"></app-operation-icon>
+      </button>
+
+      <!--<button
+        mat-button
+        [ngClass]="
+          data.operationType === 'manage'
+            ? 'button_header_icon_active'
+            : 'button_header_icon'
+        "
+        (click)="changeOperation('manage')"
+      >
+        <app-operation-icon [type]="'manage'"></app-operation-icon>
+      </button>-->
+
+      <button
+        mat-button
+        [ngClass]="
+          data.operationType === 'withdraw'
+            ? 'button_header_icon_active'
+            : 'button_header_icon'
+        "
+        (click)="changeOperation('withdraw')"
+        [matTooltip]="translation.buttons.withdraw"
+      >
+        <app-operation-icon [type]="'withdraw'"></app-operation-icon>
+      </button>
+
+      <button
+        mat-button
+        [ngClass]="
+          data.operationType === 'pending'
+            ? 'button_header_icon_active'
+            : 'button_header_icon'
+        "
+        (click)="changeOperation('pending')"
+        [matTooltip]="translation.buttons.pending"
+      >
+        <app-operation-icon [type]="'pending'"></app-operation-icon>
+      </button>
+
+      <button
+        mat-button
+        [ngClass]="
+          data.operationType === 'send'
+            ? 'button_header_icon_active'
+            : 'button_header_icon'
+        "
+        (click)="changeOperation('send')"
+        [matTooltip]="translation.buttons.send"
+      >
+        <app-operation-icon [type]="'send'"></app-operation-icon>
+      </button>
+    </div>
+
+    <!-- CLOSE  BUTTON -->
+
+    <button
+      class="dialog-exit-button button_close-modal"
+      mat-dialog-close
+      cdkFocusInitial
+    >
+      <mat-icon mat-dialog-close cdkFocusInitial>cancel</mat-icon>
+    </button>
+  </mat-dialog-actions>
+
+  <!-- WALLET LIST -->
+
+  <div
+    class="wallet-list"
+    fxLayout="column wrap"
+    fxLayoutAlign="center center"
+    *ngIf="addresses.length > 0"
+  >
+    <mat-form-field
+      fxFlex="80"
+      class="wallet-select"
+      appearance="outline"
+      color="accent"
+    >
+      <mat-select
+        [value]="addresses[0].address"
+        [panelClass]="getWalletPanelClass()"
+        disableRipple
+        [disabled]="isDisabled"
+      >
+        <mat-select-trigger>
+          <div
+            class="address-template"
+            fxLayout="column wrap"
+            fxLayoutAlign="center start"
+            fxFlex="100"
+            *ngIf="selectedAddress"
+          >
+            <div
+              class="chain-title"
+              fxLayout="row wrap"
+              fxLayoutAlign="start center"
+            >
+              <div
+                fxFlex="20"
+                fxFlex.md="10"
+                fxFlex.gt-md="10"
+                fxLayoutAlign="center center"
+              >
+                <img
+                  src="../../../../../assets/icons/walletconnect.png"
+                  alt="walletconnect"
+                  width="14"
+                  *ngIf="selectedAddress.type == 'walletconnect'"
+                  matTooltip="walletconnect"
+                />
+                <img
+                  src="../../../../../assets/icons/xdefi.png"
+                  alt="xdefi"
+                  *ngIf="selectedAddress.type == 'xdefi'"
+                  matTooltip="xDefi Wallet"
+                />
+                <mat-icon
+                  *ngIf="selectedAddress.type == 'keystore'"
+                  matTooltip="Keystore File"
+                  >vpn_key</mat-icon
+                >
+              </div>
+              <div fxFlex>{{ "operations.select.address" | translate:selectedAddress }}</div>
+            </div>
+            <div
+              class="address-label"
+              fxLayout="row wrap"
+              fxLayoutAlign="start center"
+            >
+              <div
+                fxFlex="20"
+                fxFlex.md="10"
+                fxFlex.gt-md="10"
+                fxLayoutAlign="center center"
+              >
+                <img
+                  src="{{ selectedAddress.logo }}"
+                  alt="{{ selectedAddress.chain }}"
+                  onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+                  loading="lazy"
+                />
+              </div>
+              <div class="address" fxFlex>
+                {{ addressMask }}
+              </div>
+            </div>
+          </div>
+        </mat-select-trigger>
+
+        <mat-option
+          *ngFor="let address of addresses"
+          value="{{ address.address }}"
+        >
+          <div
+            class="address-template"
+            fxLayout="column"
+            fxLayoutAlign="center start"
+            fxFlex="100"
+            (click)="selectWallet(address)"
+          >
+            <div
+              class="chain-title"
+              fxLayout="row"
+              fxLayoutAlign="start center"
+            >
+              <img
+                src="../../../../../assets/icons/xdefi.png"
+                alt="xfi"
+                width="14"
+                *ngIf="address.type == 'xdefi'"
+                matTooltip="xDefi Wallet"
+              />
+              <mat-icon
+                *ngIf="address.type == 'keystore'"
+                matTooltip="Keystore File"
+                >vpn_key</mat-icon
+              >
+              <mat-icon
+                *ngIf="address.type == 'manual'"
+                matTooltip="Manual input"
+                >keyboard</mat-icon
+              >
+              <img
+                src="../../../../../assets/icons/walletconnect.png"
+                alt="walletconnect"
+                width="14"
+                *ngIf="address.type == 'walletconnect'"
+                matTooltip="walletconnect"
+              />
+              &nbsp;{{ "operations.select.address" | translate:selectedAddress }}
+            </div>
+
+            <div
+              class="address-label"
+              fxLayout="row"
+              fxLayoutAlign="center center"
+            >
+              <img
+                src="{{ address.logo }}"
+                alt="{{ address.chain }}"
+                onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+                loading="lazy"
+              />
+              <div class="address">{{ address.mask }}</div>
+            </div>
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- MAIN CONTENT -->
+
+  <div
+    class="network-msg"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="net.includes('chaosnet') || net.includes('stagenet')"
+  >
+    <div fxFlex="80" fxLayout="column" fxLayoutAlign="center center">
+      <div>{{ "operations.msg.chaosnet.p1" | translate:selectedAddress }}</div>
+      <div>{{ "operations.msg.chaosnet.p3" | translate:selectedAddress }}</div>
+      <div>
+        {{ "operations.msg.chaosnet.p3" | translate:selectedAddress }}
+        <a href="https://forms.gle/fGKfWzatzdodjaEq8">{{ "operations.msg.chaosnet.p4" | translate:selectedAddress }}</a>. {{ "operations.msg.chaosnet.p5" | translate:selectedAddress }} <a href="https://dev.decentralfi.io">{{ "operations.msg.chaosnet.p4" | translate:selectedAddress }}</a>.
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="network-msg"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="net.includes('testnet')"
+  >
+    <div fxFlex="80" fxLayout="column" fxLayoutAlign="center center">
+      <div>{{ "operations.msg.testnet" | translate:selectedAddress }}</div>
+    </div>
+  </div>
+
+  <!-- SWAP -->
+  <app-swap-modal
+    *ngIf="data.operationType === 'swap'"
+    (isDisabled)="setDisabled($event)"
+    (isCompleted)="setCompleted($event)"
+  ></app-swap-modal>
+
+  <!-- ADD -->
+  <app-add-modal
+    *ngIf="data.operationType === 'add'"
+    (isDisabled)="setDisabled($event)"
+  ></app-add-modal>
+
+  <!-- WITHDRAW -->
+  <app-withdraw-modal
+    *ngIf="data.operationType === 'withdraw'"
+    (isDisabled)="setDisabled($event)"
+  ></app-withdraw-modal>
+
+  <!-- PENDING -->
+  <app-pending-modal
+    *ngIf="data.operationType === 'pending'"
+  ></app-pending-modal>
+
+  <!-- SEND -->
+  <app-send-modal *ngIf="data.operationType === 'send'"></app-send-modal>
+</div>

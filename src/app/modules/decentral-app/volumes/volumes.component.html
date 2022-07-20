@@ -1,0 +1,503 @@
+<div class="auxiliar-background">
+  <div
+    class="dcf-main-container"
+    fxLayout="column"
+    fxLayoutAlign="start center"
+  >
+    <div
+      fxLayout="row wrap"
+      class="decentral-row"
+      fxLayoutAlign="end center"
+      fxFlex="100"
+    >
+      <div class="last-updated">
+        Last Updated: {{ lastUpdatedLabel | date: "MM/dd/yyyy HH:mm (zzzz)" }}
+      </div>
+    </div>
+
+    <div
+      fxLayout="row wrap"
+      class="decentral-row"
+      fxLayoutAlign="space-between start"
+      fxFlex="100"
+    >
+      <h2 class="module-title">Volumes</h2>
+    </div>
+
+    <div fxLayout="row" class="decentral-row desktop">
+      <div
+        fxLayout="row wrap"
+        fxFlex="100"
+        fxLayoutAlign="space-between center"
+        class="chart-bottom-data"
+      >
+        <!-- TOTAL VOLUME -->
+
+        <div
+          fxFlex="100"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('volume')"
+          (click)="paramSelect('volume', 'Volumes')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.volume.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Total Volume</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ +volumesModule.volume.total | roundedValue }}
+          </h1>
+        </div>
+
+        <!-- TOTAL DEPTH -->
+
+        <div
+          fxFlex="40"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('depth')"
+          (click)="paramSelect('depth', 'Total Depth')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.depth.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Total Depth</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ +volumesModule.depth.total | roundedValue }}
+          </h1>
+        </div>
+
+        <!-- TOTAL SWAPS -->
+
+        <div
+          fxFlex="40"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('swaps')"
+          (click)="paramSelect('swaps', '# of swaps')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.swaps.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Total Swaps</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ +volumesModule.swaps.total | roundedValue: true }}
+          </h1>
+        </div>
+
+        <!-- TOTAL BUYS -->
+
+        <div
+          fxFlex="40"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('buyvolume')"
+          (click)="paramSelect('buyvolume', 'Volume Buys')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.buyvolume.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Total Buys</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ +volumesModule.buyvolume.total | roundedValue }}
+          </h1>
+        </div>
+
+        <!-- TOTAL SELLS -->
+
+        <div
+          fxFlex="40"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('sellvolume')"
+          (click)="paramSelect('sellvolume', 'Volume Sells')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.sellvolume.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Total Sells</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ +volumesModule.sellvolume.total | roundedValue }}
+          </h1>
+        </div>
+
+        <!-- AVG. SWAP SIZE -->
+
+        <div
+          fxFlex="40"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('avgswapsize')"
+          (click)="paramSelect('avgswapsize', 'Avg. swap size')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.avgswapsize.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Avg. Swap Size</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ +volumesModule.avgswapsize.total | roundedValue }}
+          </h1>
+        </div>
+
+        <!-- AVG. SLIP FEE -->
+
+        <div
+          fxFlex="40"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('slipaverage')"
+          (click)="paramSelect('slipaverage', 'Avg. slip fee (%)')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.slipaverage.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            ><span class="style-subtitle">W. Avg. Slip Fee</span>
+          </mat-card-subtitle>
+          <h1 fxLayoutAlign="center start">
+            {{
+              networkValue == "singlechain_chaosnet"
+                ? (volumesModule.slipaverage.total * 100).toFixed(2)
+                : volumesModule.slipaverage.total.toFixed(2)
+            }}
+            %
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" class="decentral-row mobile">
+      <div
+        fxLayout="row wrap"
+        fxFlex="100"
+        fxLayoutAlign="space-between center"
+        class="chart-bottom-data"
+      >
+        <div
+          fxFlex="100"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('volume')"
+          (click)="paramSelect('volume', 'Volumes')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.volume.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Total Volume</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ +volumesModule.volume.total | roundedValue }}
+          </h1>
+        </div>
+
+        <!-- ECHARTS -->
+
+        <div class="chart" fxFlex="100">
+          <div
+            echarts
+            [options]="options"
+            theme="macarons"
+            [loading]="isLoading"
+            class="demo-chart"
+          ></div>
+        </div>
+
+        <div
+          fxFlex="40"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('depth')"
+          (click)="paramSelect('depth', 'Total Depth')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.depth.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Total Depth</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ +volumesModule.depth.total | roundedValue }}
+          </h1>
+        </div>
+
+        <!-- TOTAL SWAP -->
+
+        <div
+          fxFlex="40"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('swaps')"
+          (click)="paramSelect('swaps', '# of swaps')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.swaps.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Total Swaps</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ +volumesModule.swaps.total | roundedValue: true }}
+          </h1>
+        </div>
+
+        <!-- TOTAL BUYS -->
+
+        <div
+          fxFlex="40"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('buyvolume')"
+          (click)="paramSelect('buyvolume', 'Volume Buys')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.buyvolume.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Total Buys</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ +volumesModule.buyvolume.total | roundedValue }}
+          </h1>
+        </div>
+
+        <!-- TOTAL SELLS -->
+
+        <div
+          fxFlex="40"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('sellvolume')"
+          (click)="paramSelect('sellvolume', 'Volume Sells')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.sellvolume.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Total Sells</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ +volumesModule.sellvolume.total | roundedValue }}
+          </h1>
+        </div>
+
+        <!-- AVG SWAP SIZE -->
+
+        <div
+          fxFlex="40"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('avgswapsize')"
+          (click)="paramSelect('avgswapsize', 'Avg. swap size')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.avgswapsize.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >Avg. Swap Size</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{ +volumesModule.avgswapsize.total | roundedValue }}
+          </h1>
+        </div>
+        <div
+          fxFlex="40"
+          fxFlex.gt-md="12"
+          fxFlex.md="12"
+          class="mini-card"
+          matRipple
+          [class]="getMiniCardClass('slipaverage')"
+          (click)="paramSelect('slipaverage', 'Avg. slip fee (%)')"
+        >
+          <mat-card-title fxLayout="row" fxLayoutAlign="end start">
+            <fa-icon
+              [icon]="faQuestionCircle"
+              matTooltip="{{ volumesModule.slipaverage.tooltip }}"
+            ></fa-icon>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center start"
+            >W. Avg. Slip Fee</mat-card-subtitle
+          >
+          <h1 fxLayoutAlign="center start">
+            {{
+              networkValue == "singlechain_chaosnet"
+                ? (volumesModule.slipaverage.total * 100).toFixed(2)
+                : volumesModule.slipaverage.total.toFixed(2)
+            }}
+            %
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div
+      fxLayout="row wrap"
+      class="decentral-row"
+      fxLayoutAlign="space-between center"
+      fxFlex="100"
+    >
+      <div
+        fxLayout="column wrap"
+        class="pools-rank-section-wrapper"
+        fxFlex="100"
+        fxFlex.gt-md="30"
+        fxFlex.md="30"
+      >
+        <div class="table-wrapper" fxFlex="100">
+          <table
+            mat-table
+            [dataSource]="dataSource"
+            matSort
+            (matSortChange)="setOrder($event)"
+            class="pools-rank-table"
+          >
+            <!-- Pool Column -->
+
+            <ng-container matColumnDef="rank">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Rank</th>
+              <td mat-cell *matCellDef="let element">
+                <div fxLayout="column wrap" fxLayoutAlign="center center">
+                  {{ element.rank | number: "2.0-0" }}
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Asset Column -->
+
+            <ng-container matColumnDef="asset">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Asset</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.asset.nameChain | uppercase }}
+              </td>
+            </ng-container>
+
+            <!-- Price Column -->
+
+            <ng-container matColumnDef="value">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ valueLabel }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{
+                  selectedParam == "swaps"
+                    ? roundedPipe.transform(element.value, true)
+                    : selectedParam == "slipaverage"
+                    ? networkValue == "singlechain_chaosnet"
+                      ? (element.value * 100).toFixed(2)
+                      : element.value.toFixed(2) + "%"
+                    : roundedPipe.transform(element.value)
+                }}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+        <mat-paginator
+          showFirstLastButtons
+          hidePageSize
+          [pageSize]="10"
+          (page)="pageEvent()"
+        ></mat-paginator>
+      </div>
+      <div
+        class="pools-rank-graph desktop"
+        flex-order="1"
+        flex-order.gt-md="2"
+        fxFlex="100"
+        fxFlex.gt-md="65"
+        fxFlex.md="65"
+      >
+        <!--<div class="button-groups">
+        <button (click)="isLoading=!isLoading" nz-button nzType="default">Toggle Loading</button>
+      </div>-->
+
+        <div class="chart">
+          <div
+            echarts
+            [options]="options"
+            theme="macarons"
+            [loading]="isLoading"
+            (chartInit)="onChartInit($event)"
+            class="volumes-chart"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

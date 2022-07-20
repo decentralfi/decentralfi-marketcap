@@ -1,0 +1,269 @@
+<div *ngIf="data" class="process-dialog-container">
+  <div class="dialog-header" fxLayout="row" fxLayoutAlign="center center">
+    {{ "operations.confirm_tx.title.add" | translate }}
+  </div>
+  <div class="dialog-loader" fxLayout="row" fxLayoutAlign="center center">
+    <mat-spinner diameter="96" *ngIf="txState === 'SUBMITTING'"></mat-spinner>
+    <mat-icon class="result-icon" *ngIf="txState !== 'SUBMITTING'">{{
+      resultIcon
+    }}</mat-icon>
+  </div>
+  <div class="asset" fxLayout="row" fxLayoutAlign="center center">
+    <img
+      src="{{ data.asset.iconPath }}"
+      alt="TOKEN IN"
+      width="24px"
+      onerror='this.src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/RUNE-B1A/logo.png"'
+      *ngIf="
+        data.poolTypeOption === 'SYM' || data.poolTypeOption === 'ASYM_ASSET'
+      "
+    />
+    <span
+      *ngIf="
+        data.poolTypeOption === 'SYM' || data.poolTypeOption === 'ASYM_ASSET'
+      "
+      >{{ data.asset.ticker }} {{ data.assetAmount | number: "1.0-4" }}</span
+    >
+    <span *ngIf="data.poolTypeOption === 'SYM'">&nbsp;+&nbsp;</span>
+    <img
+      src="{{ data.rune.iconPath }}"
+      alt="TOKEN IN"
+      width="24px"
+      onerror='this.src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/RUNE-B1A/logo.png"'
+      *ngIf="
+        data.poolTypeOption === 'SYM' || data.poolTypeOption === 'ASYM_RUNE'
+      "
+    />
+    <span
+      *ngIf="
+        data.poolTypeOption === 'SYM' || data.poolTypeOption === 'ASYM_RUNE'
+      "
+      >{{ data.rune.ticker }} {{ data.runeAmount | number: "1.0-4" }}</span
+    >
+  </div>
+
+  <div class="asset" fxLayout="row" fxLayoutAlign="center center">
+    <span>{{ "operations.confirm_tx.to" | translate }}</span>
+  </div>
+
+  <div class="asset" fxLayout="row" fxLayoutAlign="center center">
+    <span>{{ "operations.confirm_tx.pool" | translate:data.asset }}</span>
+  </div>
+  <div
+    class="asset"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    *ngIf="estimatedMinutes && txState !== 'ERROR'"
+  >
+    <span>&#126;{{ "operations.confirm_tx.estimated_minutes" | translate:estimatedMinutes }}</span>
+  </div>
+
+  <div
+    class="asset"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    *ngIf="txState === 'ERROR'"
+  >
+    <mat-icon>warning</mat-icon>
+    <span>
+      {{ error }}
+    </span>
+  </div>
+
+  <div
+    class="dialog-footer"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    *ngIf="txState === 'SUCCESS'"
+  >
+    <a
+      target="_blank"
+      *ngIf="hash"
+      [href]="binanceExplorerUrl + hash + '?network=' + environment"
+      >{{ "operations.confirm_tx.explorer_link" | translate }}</a
+    >
+  </div>
+
+  <div
+    class="dialog-actions-row"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    *ngIf="txState !== 'SUBMITTING'"
+  >
+    <button mat-raised-button class="close-button" (click)="closeDialog()">
+      <span class="close-button-label">{{ "operations.confirm_tx.close" | translate }}</span>
+    </button>
+  </div>
+
+  <!--<div *ngIf="txState === 'PENDING_CONFIRMATION'">
+    <div class="confirm-modal-head p-4">
+      <div class="flex justify-between items-center mb-4">
+        <h1 mat-dialog-title class="mb-0">Confirm Supply</h1>
+        <div mat-dialog-actions>
+          <button
+            mat-icon-button
+            aria-label="Close Dialog"
+            (click)="closeDialog()"
+            mat-dialog-close
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div
+        *ngIf="
+          data.poolTypeOption === 'SYM' || data.poolTypeOption === 'ASYM_ASSET'
+        "
+        class="flex justify-between transaction-detail"
+      >
+        <div class="flex items-center">
+          <div class="asset-icon-container flex items-center mr-4">
+            <img
+              *ngIf="data.asset && data.asset.iconPath"
+              [src]="data.asset.iconPath"
+              appImgFallback
+            />
+            <mat-icon *ngIf="!data.asset || !data.asset.iconPath"
+              >help_outline</mat-icon
+            >
+          </div>
+          <span class="text-xl mr-2">{{ data.assetAmount }}</span>
+        </div>
+
+        <span>{{ data.asset.ticker }}</span>
+      </div>
+
+      <div *ngIf="data.poolTypeOption === 'SYM'" class="flex">
+        <mat-icon class="to-btn-icon disabled ml-1 mb-4 text-sm">add</mat-icon>
+      </div>
+
+      <div
+        *ngIf="
+          data.poolTypeOption === 'SYM' || data.poolTypeOption === 'ASYM_RUNE'
+        "
+        class="flex justify-between transaction-detail"
+      >
+        <div class="flex items-center">
+          <div class="asset-icon-container flex items-center mr-4">
+            <img
+              *ngIf="data.rune && data.rune.iconPath"
+              [src]="data.rune.iconPath"
+              appImgFallback
+            />
+            <mat-icon *ngIf="!data.rune || !data.rune.iconPath"
+              >help_outline</mat-icon
+            >
+          </div>
+          <span class="text-xl mr-2">{{ data.runeAmount }}</span>
+        </div>
+
+        <span>{{ data.rune.ticker }}</span>
+      </div>
+
+      <span class="italic text-gray-300 text-xs">Output is estimated.</span>
+    </div>
+
+    <div class="clear-both">
+      <div mat-dialog-content class="confirm-modal-content">
+        <div>
+          <div class="flex justify-between mb-2">
+            <div class="tx-detail-label flex items-end">
+              Estimated Tx Time
+              <mat-icon
+                style="transform: scale(0.6)"
+                matTooltip="Estimated Confirmation Time is the time it will take for THORChain to process your transaction."
+                >info</mat-icon
+              >
+            </div>
+            <div class="flex items-end"><{{ estimatedMinutes }} min</div>
+          </div>
+
+          <div class="flex justify-between mb-2">
+            <span class="tx-detail-label">Rates</span>
+            <span
+              >1 {{ data.rune.ticker }} =
+              {{ data.assetBasePrice | number: "1.2-4" }}
+              {{ data.asset.ticker }}</span
+            >
+          </div>
+
+          <div class="flex justify-between mb-2">
+            <span class="tx-detail-label"></span>
+            <span
+              >1 {{ data.asset.ticker }} =
+              {{ data.runeBasePrice | number: "1.2-4" }}
+              {{ data.rune.ticker }}</span
+            >
+          </div>
+
+          <div
+            *ngIf="
+              (data.poolTypeOption === 'SYM' ||
+                data.poolTypeOption === 'ASYM_ASSET') &&
+              data.estimatedFee
+            "
+            class="flex justify-between mb-2"
+          >
+            <span class="tx-detail-label">Fees</span>
+            <span
+              >{{ data.estimatedFee | number: "0.0-4" }}
+              {{ data.asset.ticker }}</span
+            >
+          </div>
+
+          <div
+            *ngIf="
+              (data.poolTypeOption === 'SYM' ||
+                data.poolTypeOption === 'ASYM_RUNE') &&
+              data.runeFee
+            "
+            class="flex justify-between mb-2"
+          >
+            <span class="tx-detail-label"></span>
+            <span>{{ data.runeFee | number: "0.0-2" }} RUNE</span>
+          </div>
+        </div>
+
+        <div
+          *ngIf="loading"
+          style="height: 56px"
+          class="flex justify-center items-center w-full mt-4"
+        >
+          <mat-progress-spinner
+            mode="indeterminate"
+            diameter="30"
+          ></mat-progress-spinner>
+        </div>
+
+        <button
+          *ngIf="!loading"
+          (click)="submitTransaction()"
+          mat-flat-button
+          color="primary"
+          class="main-action-btn w-full"
+          [disabled]="insufficientChainBalance"
+        >
+          <span *ngIf="!insufficientChainBalance">Confirm Deposit</span>
+          <span *ngIf="insufficientChainBalance"
+            >Insufficient {{ data.asset.chain }}</span
+          >
+        </button>
+      </div>
+    </div>
+  </div>-->
+
+  <!--<div *ngIf="txState == 'PENDING_LEDGER_CONFIRMATION'">{{ txState }}</div>
+
+  <div *ngIf="txState == 'SUBMITTING'">{{ txState }}</div>
+
+  <div *ngIf="txState === 'SUCCESS'">
+    {{ txState }}
+  </div>
+
+
+
+  <div *ngIf="txState === 'RETRY_RUNE_DEPOSIT'">
+    {{ txState }}
+  </div>-->
+</div>

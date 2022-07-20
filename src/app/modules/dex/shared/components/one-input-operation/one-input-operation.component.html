@@ -1,0 +1,192 @@
+<div fxFlex="100" fxLayout="column">
+  <div fxFlex="100" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxFlex="50" fxLayout="column" fxLayoutAlign="start start">
+      <div fxLayout="row">
+        <p class="title_modal">{{ "operations.swap.buttons." + operation | translate }}</p>
+        <span class="text_currency" fxLayoutAlign="center center">
+          {{ inputUsdValue }}
+        </span>
+      </div>
+    </div>
+    <div fxFlex="50" fxLayout="column" fxLayoutAlign="end end">
+      <span class="hint-balance"
+        >{{ operation != "withdraw" ? ("operations.swap.balance" | translate) : ("operations.swap.shared" | translate) }}:
+        {{ balance | number: "0.0-4" }}</span
+      >
+    </div>
+  </div>
+
+  <!-- INPUT -->
+  <div class="select-amount-wrapper">
+    <div class="select-field" fxLayout="column" *ngIf="tokenSelected">
+      <button mat-button class="asset-button" (click)="setAsset()">
+        <img
+          src="{{ tokenSelected.iconPath }}"
+          alt="TOKEN IN"
+          width="32px"
+          onerror='this.src="/assets/icons/tokens/asset-rune.84d6fe9e6b77ef92d048fe7a44c9370d.svg"'
+        />
+        <mat-icon
+          class="expand-icon"
+          *ngIf="name == 'send' && operation != 'withdraw'"
+          >expand_more</mat-icon
+        >
+      </button>
+    </div>
+
+    <!-- In form -->
+    <div class="amount-field" fxFlex fxLayout="column wrap">
+      <form
+        class="content_input-amount"
+        fxLayoutAlign="start center"
+        fxLayoutAlign.md="center center"
+        fxLayoutAlign.gt-md="center center"
+      >
+        <input
+          class="input_assets-amount"
+          type="text"
+          name="{{ name }}"
+          [formControl]="assetUnit"
+          [readonly]="name !== 'send' && type === 'SYM'"
+          currencyMask
+          [options]="inputOptions"
+        />
+
+        <!-- Max Button -->
+        <button
+          mat-raised-button
+          class="max-button"
+          (click)="setMax()"
+          *ngIf="name === 'send' || type !== 'SYM'"
+        >
+          MAX
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- SLIDER -->
+  <div
+    class="switch-slider"
+    fxFlex="100"
+    fxLayout="column"
+    *ngIf="name === 'send' || type !== 'SYM'"
+  >
+    <!-- <mat-slider
+      max="100"
+      min="0"
+      step="1"
+      thumbLabel="true"
+      aria-label="unit(s)"
+      [displayWith]="formatLabel"
+      [(ngModel)]="value"
+      (click)="calculateAssetUnits(value)"
+      fxFlex="100"
+    ></mat-slider> -->
+    <app-slider
+      [valueToBind]="value"
+      (sliderValueChanged)="calculateAssetUnits($event)"
+    ></app-slider>
+    <div class="switch-percent top" fxLayoutAlign="space-between center">
+      <div>0%</div>
+      <div>100%</div>
+    </div>
+  </div>
+
+  <!-- DETAILS -->
+  <div *ngIf="!onlyForm">
+    <mat-divider style="background: aliceblue"></mat-divider>
+
+    <div class="fees" fxLayout="row wrap" fxLayoutAlign="center center">
+      <div fxLayout="row" fxLayoutAlign="end center" fxFlex="100">
+        <div fxLayout="row" (click)="toogleFeeDetails()">
+          <a
+            >{{ this.showFeeDetails == false ? ("operations.swap.fee_toggle.view" | translate) : ("operations.swap.fee_toggle.hide" | translate) }}</a
+          >
+          <mat-icon class="expand-icon">expand_more</mat-icon>
+        </div>
+      </div>
+
+      <!-- SLIP -->
+      <div
+        class="details"
+        fxLayout="column"
+        *ngIf="showFeeDetails == true"
+        fxFlex="100"
+        fxFlex.md="80"
+        fxFlex.gt-md="80"
+      >
+        <div
+          [class]="getFeeClass(slip)"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+          *ngIf="operation != 'withdraw'"
+        >
+          <div>{{ "operations.swap.fee_resume.slip" | translate }}:</div>
+          <div>{{ slip }}</div>
+        </div>
+
+        <!-- POOL SHARED ESTIMATED -->
+        <div
+          class="fee-item"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+          *ngIf="poolShareEst && operation != 'withdraw'"
+        >
+          <div>{{ "operations.swap.fee_resume.share_estimated" | translate }}:</div>
+          <div>{{ poolShareEst }}</div>
+        </div>
+
+        <!-- LP -->
+        <div
+          class="fee-item"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+          *ngIf="LPUnits && operation == 'withdraw'"
+        >
+          <div>{{ "operations.swap.fee_resume.units" | translate }}:</div>
+          <div>{{ +LPUnits / 100000000 | number: "0.0-2" }}</div>
+        </div>
+
+        <!-- POOL SHARED -->
+        <div
+          class="fee-item"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+          *ngIf="poolShare && operation == 'withdraw'"
+        >
+          <div>{{ "operations.swap.fee_resume.shared" | translate }}:</div>
+          <div>{{ poolShare }}</div>
+        </div>
+
+        <!-- FEE -->
+        <div
+          class="fee-item"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+        >
+          <div>
+            {{ "operations.swap.fee_resume.fee" | translate:asset }}:
+          </div>
+          <div>{{ networkFee }}</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <div>{{ "operations.swap.fee_resume.total_fee" | translate }}:</div>
+          <div>{{ feeToUsdValue | currency: "USD":"symbol":"1.0-5" }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <button
+        class="swap-button"
+        mat-raised-button
+        (click)="confirmAdd()"
+        [class]="getSwapBtnClass()"
+      >
+        <span class="swap-label">{{ "operations.swap.buttons." + operation | translate }}</span>
+        <app-operation-icon [type]="operation"></app-operation-icon>
+      </button>
+    </div>
+  </div>
+</div>

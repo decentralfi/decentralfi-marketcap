@@ -1,0 +1,7 @@
+<svg id="MDI_chart-donut" data-name="MDI / chart-donut" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Boundary" fill="#fff" stroke="rgba(0,0,0,0)" stroke-width="1" opacity="0">
+    <rect width="24" height="24" stroke="none"/>
+    <rect x="0.5" y="0.5" width="23" height="23" fill="none"/>
+  </g>
+  <path id="Path_chart-donut" data-name="Path / chart-donut" d="M13,2.05V5.08A7,7,0,0,1,19,12a6.726,6.726,0,0,1-.5,2.54l2.62,1.53A9.876,9.876,0,0,0,22,12a10.006,10.006,0,0,0-9-9.95M12,19A7,7,0,0,1,11,5.08V2.05a10,10,0,1,0,9.05,15.86l-2.6-1.53A6.89,6.89,0,0,1,12,19Z" transform="translate(0 -0.049)" fill="#fff"/>
+</svg>

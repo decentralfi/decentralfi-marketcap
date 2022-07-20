@@ -1,0 +1,58 @@
+// We need to use ::ng-deep to overcome view encapsulation
+::ng-deep {
+  .custom-slider .ngx-slider .ngx-slider-bar {
+    background: #ffffff;
+    height: 6px;
+    border-radius: 5px;
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-selection {
+    background: #00fe8e;
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-pointer {
+    width: 10px;
+    height: 10px;
+    top: -5px;
+    // top: auto; /* to remove the default positioning */
+    // bottom: 0;
+    background-color: #00fe8e;
+    border: 3px solid white;
+    border-radius: 50%;
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-bubble {
+    background-color: #00fe907a;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-pointer:after {
+    display: none;
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-bubble {
+    bottom: 14px;
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-limit {
+    font-weight: bold;
+    color: rgb(255, 34, 0);
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-tick {
+    width: 1px;
+    height: 10px;
+    margin-left: 4px;
+    border-radius: 0;
+    background: #f6ee06;
+    top: -1px;
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-tick.ngx-slider-selected {
+    background: rgb(191, 0, 255);
+  }
+}
