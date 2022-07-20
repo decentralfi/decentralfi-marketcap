@@ -78,7 +78,7 @@
       </mat-select>
     </mat-form-field>
 
-    <button
+    <!-- <button
       mat-raised-button
       class="marketcap-button desktop"
       fxFlex.gt-md="20"
@@ -91,7 +91,7 @@
         alt="marketcap"
       />
       <span class="add-wallet-button-label">{{ "header.dashboard_button" | translate }}</span>
-    </button>
+    </button> -->
     <div
       class="connect-button"
       fxLayoutAlign="center center"
@@ -119,7 +119,6 @@
         appearance="outline"
         color="accent"
       >
-        <!--<mat-select [(value)]="selectedWallet" [panelClass]="getWalletPanelClass()">-->
         <mat-select
           value="1"
           [panelClass]="getWalletPanelClass()"
@@ -149,7 +148,7 @@
 
           <div fxLayout="row wrap" fxLayoutAlign="space-between center">
             <mat-option
-              fxFlex="45"
+              fxFlex="100"
               value="1"
               (click)="addWallet()"
               class="add-option"
@@ -159,7 +158,7 @@
               <mat-icon [inline]="true">add_circle</mat-icon>
             </mat-option>
 
-            <mat-option
+            <!-- <mat-option
               fxFlex="45"
               value="1"
               class="edit-option"
@@ -168,7 +167,7 @@
             >
               <div>{{ "header.connect_wallet.connected.edit" | translate }}&nbsp;</div>
               <mat-icon [inline]="true">border_color</mat-icon>
-            </mat-option>
+            </mat-option> -->
 
             <mat-option
               fxFlex="100"
@@ -317,7 +316,7 @@
     fxFlex="90"
     fxLayoutAlign="space-between center"
   >
-    <mat-form-field
+    <!-- <mat-form-field
       appearance="outline"
       color="accent"
       *ngIf="dcf_network == 'testnet'"
@@ -337,8 +336,8 @@
           {{ network.label }}
         </mat-option>
       </mat-select>
-    </mat-form-field>
-    <button
+    </mat-form-field> -->
+    <!-- <button
       mat-raised-button
       class="marketcap-button"
       fxFlex="0 0 47"
@@ -352,12 +351,12 @@
         alt="marketcap"
       />
       <span class="add-wallet-button-label">Go to Dashboard</span>
-    </button>
+    </button> -->
 
     <mat-form-field
       appearance="outline"
       color="accent"
-      fxFlex="0 0 47"
+      fxFlex="0 0 45"
       fxFlex.gt-md="30"
       fxFlex.md="30"
     >
@@ -385,7 +384,7 @@
     <button
       mat-raised-button
       class="wallet-button"
-      fxFlex="0 0 100"
+      fxFlex="0 0 45"
       fxFlex.gt-md="30"
       fxFlex.md="30"
       (click)="addWallet()"
@@ -399,7 +398,7 @@
       class="wallet-select desktop"
       appearance="outline"
       color="accent"
-      fxFlex="0 0 100"
+      fxFlex="0 0 45"
       fxFlex.gt-md="30"
       fxFlex.md="30"
       *ngIf="addresses && addresses.length > 0"
@@ -412,7 +411,7 @@
               fxLayoutAlign="center center"
               *ngIf="!selectedWalletLabel"
             >
-              Wallets
+              {{ "header.connect_wallet.connected.title" | translate }}
             </div>
             <div
               fxFlex="85"
@@ -428,25 +427,25 @@
         </mat-select-trigger>
         <div fxLayout="row wrap" fxLayoutAlign="space-between center">
           <mat-option
-            fxFlex="45"
+            fxFlex="100"
             value="1"
             (click)="addWallet()"
             class="add-option"
             matRipple
           >
-            <div>Add&nbsp;</div>
+            <div>{{ "header.connect_wallet.connected.add" | translate }}&nbsp;</div>
             <mat-icon [inline]="true">add_circle</mat-icon>
           </mat-option>
-          <mat-option
+          <!-- <mat-option
             fxFlex="45"
             value="1"
             class="edit-option"
             (click)="editWallet()"
             matRipple
           >
-            <div>Edit&nbsp;</div>
+            <div>{{ "header.connect_wallet.connected.edit" | translate }}&nbsp;</div>
             <mat-icon [inline]="true">border_color</mat-icon>
-          </mat-option>
+          </mat-option> -->
           <mat-option
             fxFlex="100"
             value="1"
@@ -454,7 +453,7 @@
             (click)="openPending()"
             matRipple
           >
-            <div>Pending Txs&nbsp;</div>
+            <div>{{ "header.connect_wallet.connected.pending" | translate }}&nbsp;</div>
             <mat-icon [inline]="true">pending</mat-icon>
           </mat-option>
         </div>
@@ -495,7 +494,7 @@
                   *ngIf="address.type == 'walletconnect'"
                   matTooltip="walletconnect"
                 />
-                &nbsp;{{ address.chain }} Address
+                &nbsp;{{ "header.connect_wallet.connected.address" | translate:address }}
               </div>
               <div
                 class="address-label"

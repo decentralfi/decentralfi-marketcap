@@ -21,21 +21,10 @@ import { RoundedValuePipe } from './shared/pipes/rounded-value.pipe';
 
 // MODULES
 import { SharedModule } from './shared/shared.module';
-import { LiquidityModule } from './liquidity/liquidity.module';
 import { MarketcapModule } from './marketcap/marketcap.module';
-import { PoolDetailModule } from './pool-detail/pool-detail.module';
-import { WalletManagerModule } from './wallet-manager/wallet-manager.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    DexRoutingModule,
-    SharedModule,
-    LiquidityModule,
-    MarketcapModule,
-    PoolDetailModule,
-    WalletManagerModule,
-  ],
+  imports: [CommonModule, DexRoutingModule, SharedModule, MarketcapModule],
   providers: [
     LoaderService,
     WalletBalanceService,

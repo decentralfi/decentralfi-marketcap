@@ -8,18 +8,6 @@ const appRoutes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'landing',
-    loadChildren: () =>
-      import('./modules/landing/landing.module').then((m) => m.LandingModule),
-  },
-  {
-    path: 'app',
-    loadChildren: () =>
-      import('./modules/decentral-app/decentral-app.module').then(
-        (m) => m.DecentralAppModule
-      ),
-  },
-  {
     path: '',
     loadChildren: () =>
       import('./modules/dex/dex.module').then((m) => m.DexModule),
